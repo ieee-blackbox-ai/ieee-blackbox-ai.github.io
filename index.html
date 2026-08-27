@@ -296,8 +296,6 @@ footer a:hover{color:var(--amber)}
     <div class="nav-links">
       <a href="#premise">Premise</a>
       <a href="#rounds">Rounds</a>
-      <a href="#schedule">Schedule</a>
-      <a href="#rules">Rules</a>
       <a href="#prizes">Prizes</a>
       <a href="#faq">FAQ</a>
       <a class="nav-cta" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register</a>
@@ -345,12 +343,12 @@ footer a:hover{color:var(--amber)}
 
 <section id="premise">
   <div class="wrap">
-    <span class="lbl">01 — The premise</span>
+    <span class="lbl">The premise</span>
     <div class="split">
       <div>
         <h2>Most ML contests hand you the data. This one hides it.</h2>
-        <p class="lede">A conventional hackathon runs <b>dataset → train model → submit accuracy</b>. BLACKBOX AI runs the other way round. Each team is given access to a private machine learning system running on the college network. You can send it inputs and read its outputs. Nothing else.</p>
-        <p class="lede">You do not know the training data, the preprocessing, the engineered features, the algorithm, the hyperparameters, or the decision thresholds. You have a fixed budget of queries and a limited amount of time, so every question you ask has to be worth asking.</p>
+        <p class="lede">A conventional hackathon runs <b>dataset → train model → submit accuracy</b>. BLACKBOX AI runs the other way round. Your team is given access to a private machine learning system. You can send it inputs and read its outputs. Nothing else.</p>
+        <p class="lede">You do not know the training data, the preprocessing, the engineered features, the algorithm, or the decision thresholds. You have a fixed budget of queries, so every question you ask has to be worth asking.</p>
       </div>
       <div>
         <h3>The loop</h3>
@@ -359,7 +357,7 @@ footer a:hover{color:var(--amber)}
           <li>Query</li><li>Observe</li><li>Hypothesise</li>
           <li>Experiment</li><li>Infer</li><li>Reconstruct</li>
         </ul>
-        <p style="margin-top:1.6rem">This is a test of experimental reasoning under uncertainty — designing the experiment that separates two competing explanations, not memorising which library has which default.</p>
+        <p style="margin-top:1.6rem">A test of experimental reasoning under uncertainty — designing the experiment that separates two competing explanations, not memorising which library has which default.</p>
       </div>
     </div>
   </div>
@@ -367,134 +365,48 @@ footer a:hover{color:var(--amber)}
 
 <section id="rounds">
   <div class="wrap">
-    <span class="lbl">02 — Six stages, two eliminations</span>
+    <span class="lbl">Two days · six stages</span>
     <h2>The competition</h2>
-    <p class="lede" style="margin-bottom:2.2rem">Each round hands you a hidden system and a query budget. Teams are assigned challenge instances individually — <b>your black box is not necessarily your neighbour's</b>, though every instance in a round tests the same competency at the same difficulty.</p>
+    <p class="lede" style="margin-bottom:2.2rem">Each stage hands you a hidden system and a query budget, and each one goes deeper than the last. Full rules and timings are given at the event briefing.</p>
 
     <div class="rounds">
       <div class="round">
         <div class="rn">ROUND 0</div>
         <div class="rt"><h3>Baseline</h3><span class="gate open">No elimination</span></div>
-        <div class="rd2"><p>A short objective round on ML fundamentals, statistics, data interpretation and experiment selection. It measures where everyone is starting from. Everybody proceeds regardless of score.</p></div>
+        <div class="rd2"><p>A short round on ML fundamentals and experiment selection, to see where everyone is starting from. Nobody is cut.</p></div>
       </div>
       <div class="round">
         <div class="rn">ROUND 1</div>
         <div class="rt"><h3>Observe</h3><span class="gate elim">First cut</span></div>
-        <div class="rd2"><p>Your first real black box. Establish basic behaviour — which features matter, where thresholds sit, what is monotone, what is sensitive. Change one thing at a time and prove what you claim. Results are announced on the evening of Day 1, so you know before Day 2 whether to return.</p></div>
+        <div class="rd2"><p>Your first real black box. Work out which features matter, where the thresholds sit, what is stable and what is not. Prove what you claim.</p></div>
       </div>
       <div class="round">
         <div class="rn">ROUND 2</div>
         <div class="rt"><h3>Investigate</h3><span class="gate open">Day 2</span></div>
-        <div class="rd2"><p>Substantially harder. Go past surface behaviour into hidden preprocessing, feature transformations and interactions. By now several hypotheses will fit everything you have seen — the round rewards the experiment that <em>distinguishes</em> them, not the one that confirms your favourite.</p></div>
+        <div class="rd2"><p>Past surface behaviour into hidden preprocessing and feature interactions. By now several explanations fit what you have seen — find the experiment that tells them apart.</p></div>
       </div>
       <div class="round">
         <div class="rn">ROUND 3</div>
         <div class="rt"><h3>Break</h3><span class="gate open">Day 2</span></div>
-        <div class="rd2"><p>Find where the system fails. Edge cases, unstable boundaries, counterfactual behaviour, distribution shift, systematic failure modes. This is a model-robustness challenge — you must produce reproducible evidence for every weakness you claim.</p></div>
+        <div class="rd2"><p>Find where the system fails. Edge cases, unstable boundaries, systematic failure modes — with reproducible evidence for every weakness you claim.</p></div>
       </div>
       <div class="round">
         <div class="rn">ROUND 4</div>
         <div class="rt"><h3>Reconstruct</h3><span class="gate open">Day 2</span></div>
-        <div class="rd2"><p>Build a surrogate model that reproduces the hidden system's behaviour. Your queries become your training set. Your submission is scored against a private test set you never see — so how efficiently you collected data in the earlier rounds starts to matter here.</p></div>
+        <div class="rd2"><p>Build your own model that reproduces the hidden system's behaviour. Your queries are your training set. Scored against data you never see.</p></div>
       </div>
       <div class="round final">
         <div class="rn">FINAL</div>
         <div class="rt"><h3>The Unknown</h3><span class="gate fin">Finalists</span></div>
-        <div class="rd2"><p>A fresh hidden system, identical for every finalist, with a long time window and a fixed budget. Everything at once: investigate, hypothesise, test, break, reconstruct, explain. Submissions freeze at the deadline and are evaluated after the event.</p></div>
-      </div>
-      <div class="round">
-        <div class="rn">DEFENCE</div>
-        <div class="rt"><h3>Technical defence</h3><span class="gate fin">Judging</span></div>
-        <div class="rd2"><p>Shortlisted finalists face the judging panel. Why did you run that experiment? Which hypothesis did you reject, and what killed it? Why this surrogate model? What would falsify your conclusion? A leaderboard position has to be backed by understanding.</p></div>
+        <div class="rd2"><p>A fresh hidden system, identical for every finalist. Everything at once — then you explain your reasoning to the judging panel. Understanding has to back up the leaderboard.</p></div>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="schedule">
-  <div class="wrap">
-    <span class="lbl">03 — 6 &amp; 7 October 2026</span>
-    <h2>Schedule</h2>
-    <p class="lede" style="margin-bottom:2rem">Two days, on campus. Day 1 opens with a technical seminar and ends with the first elimination. Day 2 is the deep competition. <b>Timings are provisional and may shift slightly</b> — the WhatsApp group carries the final version.</p>
-    <div class="days">
-      <div class="day">
-        <h3>Day 1 · Monday 6 October</h3>
-        <div class="slot"><time>09:00</time><span class="ev">Arrival, registration, setup</span></div>
-        <div class="slot"><time>09:30</time><span class="ev">AI / ML technical seminar</span></div>
-        <div class="slot"><time>11:30</time><span class="ev">Event introduction, rules and briefing</span></div>
-        <div class="slot"><time>12:00</time><span class="ev">Lunch</span></div>
-        <div class="slot"><time>12:40</time><span class="ev">Technical setup and login verification</span></div>
-        <div class="slot key"><time>13:00</time><span class="ev">Round 0 — Baseline</span></div>
-        <div class="slot key"><time>13:50</time><span class="ev">Round 1 — Observe</span></div>
-        <div class="slot"><time>14:50</time><span class="ev">Submission lock, close of day</span></div>
-        <div class="slot key"><time>Evening</time><span class="ev">Round 1 results and leaderboard announced</span></div>
-      </div>
-      <div class="day">
-        <h3>Day 2 · Tuesday 7 October</h3>
-        <div class="slot"><time>09:00</time><span class="ev">Arrival and technical verification — sharp</span></div>
-        <div class="slot"><time>09:15</time><span class="ev">Day 2 briefing</span></div>
-        <div class="slot key"><time>09:25</time><span class="ev">Round 2 — Investigate</span></div>
-        <div class="slot key"><time>11:05</time><span class="ev">Round 3 — Break</span></div>
-        <div class="slot"><time>11:55</time><span class="ev">Lunch</span></div>
-        <div class="slot key"><time>13:00</time><span class="ev">Round 4 — Reconstruct</span></div>
-        <div class="slot"><time>13:55</time><span class="ev">Finalists announced, final briefing</span></div>
-        <div class="slot key"><time>14:05</time><span class="ev">FINAL — The Unknown</span></div>
-        <div class="slot"><time>15:15</time><span class="ev">Final submission lock, closure</span></div>
-        <div class="slot"><time>Next day</time><span class="ev">Winners announced after evaluation</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="rules">
-  <div class="wrap">
-    <span class="lbl">04 — Rules</span>
-    <h2>What is allowed, and what is not</h2>
-
-    <div class="tiles" style="margin:1.8rem 0 2rem">
-      <div class="tile">
-        <span class="ic">ALLOWED</span>
-        <h3>AI assistants</h3>
-        <p>ChatGPT, Claude, Gemini, Copilot, any coding assistant. Use them to write code, plot results and suggest hypotheses. They cannot help you with the one thing that matters — none of them know what is inside our black boxes.</p>
-      </div>
-      <div class="tile">
-        <span class="ic">ALLOWED</span>
-        <h3>Scripts and automation</h3>
-        <p>Every challenge is reachable through a documented API as well as a web console. Write clients, run sweeps, automate your experiments. Rate limits apply, and every row you send costs a query.</p>
-      </div>
-      <div class="tile">
-        <span class="ic">ALLOWED</span>
-        <h3>Any library you like</h3>
-        <p>scikit-learn, XGBoost, LightGBM, pandas, whatever you work fastest in. Version 1.0 is a classical machine learning event — deep learning arrives in BLACKBOX AI 2.0.</p>
-      </div>
-    </div>
-
-    <div class="tiles">
-      <div class="tile">
-        <span class="ic" style="color:var(--alert)">NOT ALLOWED</span>
-        <h3>Attacking the infrastructure</h3>
-        <p>The black box is the target; the server hosting it is not. Port scanning, flooding, attempting to reach files, source or credentials is out of scope and disqualifying. Round 3 breaks the <em>model</em>, not the machine.</p>
-      </div>
-      <div class="tile">
-        <span class="ic" style="color:var(--alert)">NOT ALLOWED</span>
-        <h3>Sharing accounts or findings</h3>
-        <p>One account per team, and the query budget is tied to it server-side. Pooling credentials or exchanging observations between teams is disqualifying. All queries are logged.</p>
-      </div>
-      <div class="tile">
-        <span class="ic" style="color:var(--alert)">NOT ALLOWED</span>
-        <h3>Unevidenced claims</h3>
-        <p>Guessing "it's a random forest" earns nothing. Every finding must be supported by the queries that produced it and be reproducible. Confident wrong answers cost more than saying you do not know.</p>
-      </div>
-    </div>
-
-    <h3 style="margin-top:2.5rem">How you are judged</h3>
-    <p class="lede">Scoring combines automatically checked findings, model performance against private test data, how efficiently you spent your query budget, and — for finalists — the judging panel's assessment of your reasoning. Your investigation is documented in a private GitHub repository as you go: issues record hypotheses and experiments, pull requests are your official submissions. Commit counts are not a score.</p>
   </div>
 </section>
 
 <section id="prizes">
   <div class="wrap">
-    <span class="lbl">05 — ₹25,000 prize pool</span>
+    <span class="lbl">₹25,000 prize pool</span>
     <h2>Prizes</h2>
     <div class="prizes">
       <div class="prize first"><span class="p">1st place</span><span class="amt">₹12,000</span></div>
@@ -502,7 +414,7 @@ footer a:hover{color:var(--amber)}
       <div class="prize"><span class="p">3rd place</span><span class="amt">₹4,000</span></div>
       <div class="prize inv"><span class="p">Best ML Investigator</span><span class="amt">₹2,000</span></div>
     </div>
-    <p class="lede">Certificates for all participants. <b>Best ML Investigator</b> recognises the clearest experimental reasoning of the event — the team whose investigation log best shows how they thought, independent of where they finished on the leaderboard.</p>
+    <p class="lede">Certificates for all participants. <b>Best ML Investigator</b> recognises the clearest experimental reasoning of the event — the team whose investigation best shows <em>how they thought</em>, independent of where they finished.</p>
   </div>
 </section>
 
@@ -532,20 +444,8 @@ footer a:hover{color:var(--amber)}
       <p>Two or three students. One account per team, which all members can be logged into at once. The query budget is shared across the team, so coordinate — two people running the same sweep spends it twice.</p>
     </details>
     <details>
-      <summary>What is the query budget?</summary>
-      <p>Each round gives your team a fixed number of queries. There is no timer that refills it and no reset — when it is gone for that round, it is gone. Exact budgets are announced at the start of each round; they are set so that careless querying runs out and deliberate querying does not.</p>
-    </details>
-    <details>
-      <summary>Does every team get the same challenge?</summary>
-      <p>Not necessarily. Rounds draw from a pool of challenge instances that test the same competency at a validated, comparable difficulty, and your instance is assigned when the round starts and fixed from then on. The final round is identical for every finalist so that the ranking is a direct comparison.</p>
-    </details>
-    <details>
       <summary>What do I need to bring?</summary>
       <p>A laptop with Python and your usual ML libraries already installed and working — set this up before you arrive, not on the morning. Bring your charger. Details on connecting to the competition network are given in the Day 1 briefing and in the WhatsApp group.</p>
-    </details>
-    <details>
-      <summary>Do I need a GitHub account?</summary>
-      <p>Yes. Your team investigates in a private repository — issues for hypotheses and experiments, pull requests for submissions. Create an account before the event and give us your username during registration.</p>
     </details>
     <details>
       <summary>What happens if I do not qualify after Round 1?</summary>
@@ -553,7 +453,7 @@ footer a:hover{color:var(--amber)}
     </details>
     <details>
       <summary>Is registration free?</summary>
-      <p>Yes, entirely free. Register through the form, then join the WhatsApp group linked at the end of it — that group carries all official announcements, round updates and instructions.</p>
+      <p>Yes, entirely free. Sign up through the form to reserve your place and join the WhatsApp group — that group carries all official announcements. You create your actual team account at the venue on Day 1, and that is where your team name and login come from.</p>
     </details>
   </div>
 </section>
@@ -593,7 +493,8 @@ footer a:hover{color:var(--amber)}
       <div class="org">Links</div>
       <div>
         <a href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Registration form</a><br>
-        <a href="https://github.com/ieee-blackbox-ai" target="_blank" rel="noopener">github.com/ieee-blackbox-ai</a>
+        <a href="https://github.com/ieee-blackbox-ai" target="_blank" rel="noopener">github.com/ieee-blackbox-ai</a><br>
+        <a href="leaderboard.html">Standings</a>
       </div>
     </div>
   </div>

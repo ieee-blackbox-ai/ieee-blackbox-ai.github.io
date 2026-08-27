@@ -59,32 +59,26 @@ footer{border-top:1px solid var(--edge);margin-top:3rem;padding:1.5rem 0 3rem;fo
 </div></nav>
 
 <header class="wrap">
-  <span class="lbl">Round-wise standings</span>
+  <span class="lbl">Standings</span>
   <h1>Leaderboard</h1>
-  <p>Standings are published after each round has been evaluated and finalised — not live during a round. This is deliberate: it keeps information from leaking between teams while a round is running, and gives judges the time to review submissions properly.</p>
+  <p>During the event, round results are announced in the <strong>official WhatsApp group</strong> — that is the channel to watch, including for the Round 1 result on the evening of Day 1.</p>
+  <p>This page is a placeholder for published standings. It is not live during a round, and it is not where results are announced first.</p>
 </header>
 
 <main class="wrap">
   <div class="state">
     <span class="k">Current status</span>
-    <div class="v" id="status">No rounds published yet</div>
-    <p id="detail">The competition runs 6–7 October 2026. The first standings appear here on the evening of Day 1, after Round 1 is evaluated.</p>
+    <div class="v" id="status">Nothing published yet</div>
+    <p id="detail">The competition runs 6–7 October 2026. Results are announced in the WhatsApp group as each round is evaluated.</p>
   </div>
 
   <div id="tables"></div>
 
-  <h2>How standings are produced</h2>
-  <ol>
-    <li>The round closes and all submissions lock on the server clock.</li>
-    <li>Objective components are scored automatically — checkable findings, and model performance against private test data.</li>
-    <li>Judges review where human assessment applies.</li>
-    <li>Scores are finalised and qualification decided.</li>
-    <li>The standings are published here, and announced in the WhatsApp group.</li>
-  </ol>
-  <p style="margin-top:1.4rem;color:var(--muted);font-size:.92rem">Only rank, team, score and qualification status are shown. Component breakdowns and challenge assignments stay private.</p>
+  <h2>Why this is not live</h2>
+  <p style="color:var(--muted);font-size:.94rem">Standings appear only after a round has closed, been scored and been reviewed. Publishing mid-round would leak information between teams while they are still working, and would not give judges time to review submissions properly.</p>
 </main>
 
-<footer><div class="wrap">BLACKBOX AI 1.0 · IEEE Student Branch, GCET · published from the competition server after each round</div></footer>
+<footer><div class="wrap">BLACKBOX AI 1.0 · IEEE Student Branch, GCET · results are announced in the official WhatsApp group</div></footer>
 
 <script>
 fetch('leaderboard.json', {cache:'no-store'})
@@ -94,7 +88,7 @@ fetch('leaderboard.json', {cache:'no-store'})
     var status = document.getElementById('status');
     var detail = document.getElementById('detail');
     var last = d.rounds[d.rounds.length - 1];
-    status.textContent = last.name + ' — published';
+    status.textContent = last.name + ' \u2014 published';
     detail.textContent = d.generated_at ? 'Last updated ' + d.generated_at + '.' : '';
 
     document.getElementById('tables').innerHTML = d.rounds.slice().reverse().map(function(rd){
