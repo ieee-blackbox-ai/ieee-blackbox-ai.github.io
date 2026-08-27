@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BLACKBOX AI 1.0 — Reverse Engineer the Intelligence</title>
+<meta name="description" content="A two-day machine learning reverse-engineering competition by the IEEE Student Branch at Geethanjali College of Engineering and Technology. 6–7 October 2026. Free entry, teams of 2–3, ₹25,000 prize pool.">
+<meta property="og:title" content="BLACKBOX AI 1.0 — Reverse Engineer the Intelligence">
+<meta property="og:description" content="You are not given a dataset. You are given a system that answers questions. 6–7 October 2026 · IEEE GCET.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0C0F'/><rect x='7' y='7' width='18' height='18' fill='none' stroke='%23F2A93C' stroke-width='2.5'/></svg>">
+<style>
+:root{
+  --void:#0A0C0F;
+  --panel:#131820;
+  --panel-2:#1A2029;
+  --edge:#242C38;
+  --edge-hi:#39434F;
+  --ink:#EDF1F6;
+  --body:#B7C0CC;
+  --muted:#818D9C;
+  --faint:#5A6472;
+  --amber:#F2A93C;
+  --amber-dim:#8A6520;
+  --amber-glow:rgba(242,169,60,.10);
+  --alert:#E5705F;
+  --alert-bg:rgba(229,112,95,.09);
+  --ok:#5FC08C;
+
+  --f-disp:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif;
+  --f-body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --gut:clamp(1.15rem,4.5vw,3rem);
+  --max:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  margin:0;background:var(--void);color:var(--body);
+  font-family:var(--f-body);font-size:16.5px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+a{color:var(--amber);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+h1,h2,h3{color:var(--ink);text-wrap:balance;margin:0}
+p{margin:0 0 1rem;max-width:64ch}
+
+.lbl{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);font-weight:500;margin:0 0 1rem;display:block;
+}
+.lbl.q{color:var(--faint)}
+
+/* ---------------- nav ---------------- */
+nav{
+  position:sticky;top:0;z-index:50;background:rgba(10,12,15,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--edge);
+}
+.nav-in{
+  max-width:var(--max);margin:0 auto;padding:.65rem var(--gut);
+  display:flex;align-items:center;gap:1.4rem;
+}
+.brand{
+  font-family:var(--f-disp);font-weight:700;font-size:1rem;letter-spacing:.01em;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem;flex:none;
+}
+.brand i{width:11px;height:11px;border:2px solid var(--amber);display:block}
+.nav-links{display:flex;gap:1.1rem;margin-left:auto;align-items:center;flex-wrap:wrap}
+.nav-links a{
+  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted);
+  text-decoration:none;text-transform:uppercase;
+}
+.nav-links a:hover{color:var(--amber)}
+.nav-cta{
+  font-family:var(--f-mono);font-size:.72rem!important;letter-spacing:.08em;
+  color:var(--void)!important;background:var(--amber);padding:.42rem .8rem;font-weight:600;
+}
+.nav-cta:hover{background:#FFC163}
+@media(max-width:720px){.nav-links a:not(.nav-cta){display:none}}
+
+/* ---------------- hero ---------------- */
+.hero{
+  border-bottom:1px solid var(--edge);
+  padding:clamp(2.5rem,8vw,5rem) 0 clamp(2.5rem,7vw,4.5rem);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 39px,rgba(255,255,255,.022) 39px 40px),
+    repeating-linear-gradient(90deg,transparent 0 39px,rgba(255,255,255,.022) 39px 40px);
+  mask-image:radial-gradient(ellipse 90% 70% at 25% 30%,#000 0%,transparent 75%);
+}
+.hero-grid{display:grid;gap:clamp(2rem,5vw,3.5rem);position:relative}
+@media(min-width:940px){.hero-grid{grid-template-columns:1.05fr .95fr;align-items:center}}
+.hero h1{
+  font-family:var(--f-disp);font-weight:700;
+  font-size:clamp(2.9rem,9.5vw,5.6rem);line-height:.92;letter-spacing:-.025em;
+  margin:0 0 .1rem;
+}
+.hero h1 .two{display:block;color:var(--amber)}
+.tagline{
+  font-family:var(--f-mono);font-size:clamp(.78rem,2.2vw,.95rem);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  margin:1.1rem 0 1.6rem;
+}
+.hero .pitch{font-size:clamp(1.02rem,2.2vw,1.16rem);color:var(--body);margin-bottom:1.8rem}
+.hero .pitch b{color:var(--ink);font-weight:600}
+.btnrow{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
+.btn{
+  font-family:var(--f-mono);font-size:.8rem;font-weight:600;letter-spacing:.07em;
+  text-transform:uppercase;text-decoration:none;padding:.75rem 1.3rem;display:inline-block;
+  border:1px solid var(--amber);color:var(--void);background:var(--amber);
+}
+.btn:hover{background:#FFC163;border-color:#FFC163}
+.btn.ghost{background:transparent;color:var(--amber)}
+.btn.ghost:hover{background:var(--amber-glow);border-color:var(--amber)}
+.freebadge{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.05em}
+
+/* ---------------- probe widget ---------------- */
+.probe{border:1px solid var(--edge-hi);background:var(--panel);position:relative}
+.probe-top{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.6rem .9rem;border-bottom:1px solid var(--edge);background:var(--panel-2);
+}
+.probe-top .id{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.probe-top .q{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.09em;color:var(--amber);font-variant-numeric:tabular-nums}
+.probe-body{padding:1.1rem .9rem 1rem}
+.probe-note{
+  font-family:var(--f-mono);font-size:.63rem;color:var(--faint);letter-spacing:.05em;
+  margin:0 0 .95rem;line-height:1.6;max-width:none;
+}
+.ctl{display:grid;grid-template-columns:2.2rem 1fr 3rem;align-items:center;gap:.7rem;margin-bottom:.6rem}
+.ctl label{font-family:var(--f-mono);font-size:.74rem;color:var(--body)}
+.ctl output{font-family:var(--f-mono);font-size:.74rem;color:var(--amber);text-align:right;font-variant-numeric:tabular-nums}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:2px;background:var(--edge-hi);
+  outline:none;margin:0;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:14px;height:14px;background:var(--amber);
+  border:none;cursor:pointer;border-radius:0;
+}
+input[type=range]::-moz-range-thumb{
+  width:14px;height:14px;background:var(--amber);border:none;cursor:pointer;border-radius:0;
+}
+input[type=range]:disabled{opacity:.35;cursor:not-allowed}
+.boxgap{
+  margin:1.05rem 0;padding:.75rem;border:1px dashed var(--edge-hi);text-align:center;
+  font-family:var(--f-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+}
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);border:1px solid var(--edge)}
+.rd{background:var(--panel-2);padding:.7rem .8rem}
+.rd .k{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.2rem}
+.rd .v{font-family:var(--f-mono);font-size:1.32rem;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
+.rd .v.dec{font-size:1.08rem;letter-spacing:.02em}
+.rd .v.approve{color:var(--ok)}
+.rd .v.decline{color:var(--alert)}
+.rd .v.spent{color:var(--faint)}
+.probe-foot{
+  display:flex;justify-content:space-between;align-items:center;gap:.8rem;
+  padding:.6rem .9rem;border-top:1px solid var(--edge);
+}
+.probe-foot span{font-family:var(--f-mono);font-size:.63rem;color:var(--faint);letter-spacing:.04em}
+.reset{
+  font-family:var(--f-mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--edge-hi);color:var(--muted);
+  padding:.32rem .7rem;cursor:pointer;
+}
+.reset:hover{color:var(--amber);border-color:var(--amber-dim)}
+
+/* ---------------- sections ---------------- */
+section{padding:clamp(3rem,8vw,5rem) 0;border-bottom:1px solid var(--edge)}
+h2{
+  font-family:var(--f-disp);font-weight:700;
+  font-size:clamp(1.75rem,4.6vw,2.7rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 1.2rem;
+}
+h3{font-family:var(--f-disp);font-weight:600;font-size:1.16rem;letter-spacing:-.005em;margin:0 0 .4rem}
+.lede{font-size:clamp(1.02rem,2.2vw,1.14rem);color:var(--body);max-width:62ch}
+.lede b{color:var(--ink);font-weight:600}
+
+.split{display:grid;gap:clamp(1.6rem,4vw,3rem)}
+@media(min-width:860px){.split{grid-template-columns:1fr 1fr}}
+
+.loop{
+  display:flex;flex-wrap:wrap;gap:.4rem;margin:1.8rem 0 0;padding:0;list-style:none;max-width:none;
+}
+.loop li{
+  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--edge-hi);color:var(--body);padding:.42rem .75rem;margin:0;
+}
+.loop li:nth-child(6){border-color:var(--amber-dim);color:var(--amber)}
+
+/* rounds */
+.rounds{display:flex;flex-direction:column;border-top:1px solid var(--edge)}
+.round{
+  display:grid;grid-template-columns:auto 1fr;gap:1.3rem;
+  padding:1.5rem 0;border-bottom:1px solid var(--edge);
+}
+@media(min-width:800px){.round{grid-template-columns:5.5rem 13rem 1fr;gap:2rem;align-items:start}}
+.round .rn{
+  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;color:var(--faint);
+  padding-top:.28rem;white-space:nowrap;
+}
+.round .rt h3{font-size:1.28rem;margin-bottom:.3rem}
+.round .rt .gate{
+  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  display:inline-block;padding:.16em .5em;border:1px solid currentColor;
+}
+.gate.elim{color:var(--alert)}
+.gate.open{color:var(--ok)}
+.gate.fin{color:var(--amber)}
+.round .rd2 p{margin:0;font-size:.95rem}
+.round.final{background:linear-gradient(90deg,var(--amber-glow),transparent 60%);margin:0 calc(var(--gut)*-1);padding-left:var(--gut);padding-right:var(--gut)}
+
+/* schedule */
+.days{display:grid;gap:2rem}
+@media(min-width:820px){.days{grid-template-columns:1fr 1fr;gap:2.5rem}}
+.day h3{
+  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid var(--edge-hi);
+}
+.slot{
+  display:grid;grid-template-columns:5.8rem 1fr;gap:.9rem;
+  padding:.5rem 0;border-bottom:1px solid var(--edge);font-size:.9rem;
+}
+.slot time{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:.1rem}
+.slot .ev{color:var(--body)}
+.slot.key .ev{color:var(--ink);font-weight:600}
+.slot.key time{color:var(--amber)}
+
+/* prizes */
+.prizes{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin-bottom:1.4rem}
+@media(min-width:700px){.prizes{grid-template-columns:repeat(4,1fr)}}
+.prize{background:var(--panel);padding:1.1rem 1rem}
+.prize .p{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.4rem}
+.prize .amt{font-family:var(--f-disp);font-weight:700;font-size:1.85rem;color:var(--ink);line-height:1;letter-spacing:-.01em}
+.prize.first{background:var(--panel-2)}
+.prize.first .amt{color:var(--amber)}
+.prize.inv .amt{font-size:1.5rem}
+
+/* callout */
+.notice{
+  border:1px solid var(--alert);border-left-width:3px;background:var(--alert-bg);
+  padding:1.15rem 1.3rem;margin:0;
+}
+.notice .lbl{color:var(--alert)}
+.notice p{margin:0;color:var(--ink);max-width:none}
+
+.tiles{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge)}
+@media(min-width:760px){.tiles{grid-template-columns:repeat(3,1fr)}}
+.tile{background:var(--panel);padding:1.2rem 1.15rem}
+.tile h3{font-size:1rem;margin-bottom:.35rem}
+.tile p{font-size:.9rem;margin:0;color:var(--muted)}
+.tile .ic{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.14em;color:var(--amber);display:block;margin-bottom:.6rem}
+
+/* faq */
+details{border-bottom:1px solid var(--edge);padding:.9rem 0}
+details summary{
+  cursor:pointer;font-family:var(--f-disp);font-weight:600;font-size:1.05rem;color:var(--ink);
+  list-style:none;display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
+}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";color:var(--amber);font-family:var(--f-mono);font-weight:400;flex:none}
+details[open] summary::after{content:"−"}
+details p{margin:.7rem 0 0;font-size:.94rem;color:var(--body)}
+details p:last-child{margin-bottom:0}
+
+/* register */
+#register{background:var(--panel);border-bottom:none}
+.reg-grid{display:grid;gap:2rem;align-items:center}
+@media(min-width:860px){.reg-grid{grid-template-columns:1.2fr .8fr}}
+.reg-meta{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge)}
+.rm{background:var(--panel-2);padding:.75rem .9rem;display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.rm dt{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0}
+.rm dd{margin:0;font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size:.98rem;text-align:right}
+
+footer{padding:2.5rem 0 3.5rem;font-size:.85rem;color:var(--muted)}
+.foot-grid{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;justify-content:space-between;align-items:flex-start}
+footer .org{font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size:1rem;margin-bottom:.2rem}
+footer .fine{font-family:var(--f-mono);font-size:.68rem;color:var(--faint);letter-spacing:.03em;margin-top:1.8rem;padding-top:1.1rem;border-top:1px solid var(--edge)}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--amber)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="#top"><i></i>BLACKBOX AI 1.0</a>
+    <div class="nav-links">
+      <a href="#premise">Premise</a>
+      <a href="#rounds">Rounds</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#rules">Rules</a>
+      <a href="#prizes">Prizes</a>
+      <a href="#faq">FAQ</a>
+      <a class="nav-cta" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="lbl">IEEE Student Branch · GCET · 6–7 October 2026</span>
+      <h1>BLACKBOX<span class="two">AI 1.0</span></h1>
+      <p class="tagline">Reverse Engineer the Intelligence</p>
+      <p class="pitch">You are not given a dataset. You are given a <b>system that answers questions</b> — and a limited number of questions to ask it. Everything else about it is hidden: the data, the features, the pipeline, the model, the thresholds. Your job is to work out what is inside.</p>
+      <div class="btnrow">
+        <a class="btn" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
+        <a class="btn ghost" href="#premise">How it works</a>
+        <span class="freebadge">Free entry · teams of 2–3</span>
+      </div>
+    </div>
+
+    <div class="probe" id="probe">
+      <div class="probe-top">
+        <span class="id">Demo instance · DX-00</span>
+        <span class="q"><span id="qleft">24</span> queries left</span>
+      </div>
+      <div class="probe-body">
+        <p class="probe-note">A toy black box. Move the inputs, spend a query, read the output.<br>You are not told what it computes. That is the entire competition.</p>
+        <div class="ctl"><label for="x1">x₁</label><input type="range" id="x1" min="0" max="100" value="50"><output id="o1">0.50</output></div>
+        <div class="ctl"><label for="x2">x₂</label><input type="range" id="x2" min="0" max="100" value="50"><output id="o2">0.50</output></div>
+        <div class="ctl"><label for="x3">x₃</label><input type="range" id="x3" min="0" max="100" value="50"><output id="o3">0.50</output></div>
+        <div class="boxgap">■ hidden pipeline ■</div>
+        <div class="readout">
+          <div class="rd"><span class="k">Score</span><span class="v" id="score">0.401</span></div>
+          <div class="rd"><span class="k">Decision</span><span class="v dec decline" id="decision">DECLINE</span></div>
+        </div>
+      </div>
+      <div class="probe-foot">
+        <span id="hint">Try changing one input at a time.</span>
+        <button class="reset" id="reset" type="button">Reset</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="premise">
+  <div class="wrap">
+    <span class="lbl">01 — The premise</span>
+    <div class="split">
+      <div>
+        <h2>Most ML contests hand you the data. This one hides it.</h2>
+        <p class="lede">A conventional hackathon runs <b>dataset → train model → submit accuracy</b>. BLACKBOX AI runs the other way round. Each team is given access to a private machine learning system running on the college network. You can send it inputs and read its outputs. Nothing else.</p>
+        <p class="lede">You do not know the training data, the preprocessing, the engineered features, the algorithm, the hyperparameters, or the decision thresholds. You have a fixed budget of queries and a limited amount of time, so every question you ask has to be worth asking.</p>
+      </div>
+      <div>
+        <h3>The loop</h3>
+        <p>Six steps, run over and over, under a shrinking budget. The teams that win are the ones whose <em>fifth</em> query is chosen because of what the first four returned.</p>
+        <ul class="loop">
+          <li>Query</li><li>Observe</li><li>Hypothesise</li>
+          <li>Experiment</li><li>Infer</li><li>Reconstruct</li>
+        </ul>
+        <p style="margin-top:1.6rem">This is a test of experimental reasoning under uncertainty — designing the experiment that separates two competing explanations, not memorising which library has which default.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rounds">
+  <div class="wrap">
+    <span class="lbl">02 — Six stages, two eliminations</span>
+    <h2>The competition</h2>
+    <p class="lede" style="margin-bottom:2.2rem">Each round hands you a hidden system and a query budget. Teams are assigned challenge instances individually — <b>your black box is not necessarily your neighbour's</b>, though every instance in a round tests the same competency at the same difficulty.</p>
+
+    <div class="rounds">
+      <div class="round">
+        <div class="rn">ROUND 0</div>
+        <div class="rt"><h3>Baseline</h3><span class="gate open">No elimination</span></div>
+        <div class="rd2"><p>A short objective round on ML fundamentals, statistics, data interpretation and experiment selection. It measures where everyone is starting from. Everybody proceeds regardless of score.</p></div>
+      </div>
+      <div class="round">
+        <div class="rn">ROUND 1</div>
+        <div class="rt"><h3>Observe</h3><span class="gate elim">First cut</span></div>
+        <div class="rd2"><p>Your first real black box. Establish basic behaviour — which features matter, where thresholds sit, what is monotone, what is sensitive. Change one thing at a time and prove what you claim. Results are announced on the evening of Day 1, so you know before Day 2 whether to return.</p></div>
+      </div>
+      <div class="round">
+        <div class="rn">ROUND 2</div>
+        <div class="rt"><h3>Investigate</h3><span class="gate open">Day 2</span></div>
+        <div class="rd2"><p>Substantially harder. Go past surface behaviour into hidden preprocessing, feature transformations and interactions. By now several hypotheses will fit everything you have seen — the round rewards the experiment that <em>distinguishes</em> them, not the one that confirms your favourite.</p></div>
+      </div>
+      <div class="round">
+        <div class="rn">ROUND 3</div>
+        <div class="rt"><h3>Break</h3><span class="gate open">Day 2</span></div>
+        <div class="rd2"><p>Find where the system fails. Edge cases, unstable boundaries, counterfactual behaviour, distribution shift, systematic failure modes. This is a model-robustness challenge — you must produce reproducible evidence for every weakness you claim.</p></div>
+      </div>
+      <div class="round">
+        <div class="rn">ROUND 4</div>
+        <div class="rt"><h3>Reconstruct</h3><span class="gate open">Day 2</span></div>
+        <div class="rd2"><p>Build a surrogate model that reproduces the hidden system's behaviour. Your queries become your training set. Your submission is scored against a private test set you never see — so how efficiently you collected data in the earlier rounds starts to matter here.</p></div>
+      </div>
+      <div class="round final">
+        <div class="rn">FINAL</div>
+        <div class="rt"><h3>The Unknown</h3><span class="gate fin">Finalists</span></div>
+        <div class="rd2"><p>A fresh hidden system, identical for every finalist, with a long time window and a fixed budget. Everything at once: investigate, hypothesise, test, break, reconstruct, explain. Submissions freeze at the deadline and are evaluated after the event.</p></div>
+      </div>
+      <div class="round">
+        <div class="rn">DEFENCE</div>
+        <div class="rt"><h3>Technical defence</h3><span class="gate fin">Judging</span></div>
+        <div class="rd2"><p>Shortlisted finalists face the judging panel. Why did you run that experiment? Which hypothesis did you reject, and what killed it? Why this surrogate model? What would falsify your conclusion? A leaderboard position has to be backed by understanding.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <span class="lbl">03 — 6 &amp; 7 October 2026</span>
+    <h2>Schedule</h2>
+    <p class="lede" style="margin-bottom:2rem">Two days, on campus. Day 1 opens with a technical seminar and ends with the first elimination. Day 2 is the deep competition. <b>Timings are provisional and may shift slightly</b> — the WhatsApp group carries the final version.</p>
+    <div class="days">
+      <div class="day">
+        <h3>Day 1 · Monday 6 October</h3>
+        <div class="slot"><time>09:00</time><span class="ev">Arrival, registration, setup</span></div>
+        <div class="slot"><time>09:30</time><span class="ev">AI / ML technical seminar</span></div>
+        <div class="slot"><time>11:30</time><span class="ev">Event introduction, rules and briefing</span></div>
+        <div class="slot"><time>12:00</time><span class="ev">Lunch</span></div>
+        <div class="slot"><time>12:40</time><span class="ev">Technical setup and login verification</span></div>
+        <div class="slot key"><time>13:00</time><span class="ev">Round 0 — Baseline</span></div>
+        <div class="slot key"><time>13:50</time><span class="ev">Round 1 — Observe</span></div>
+        <div class="slot"><time>14:50</time><span class="ev">Submission lock, close of day</span></div>
+        <div class="slot key"><time>Evening</time><span class="ev">Round 1 results and leaderboard announced</span></div>
+      </div>
+      <div class="day">
+        <h3>Day 2 · Tuesday 7 October</h3>
+        <div class="slot"><time>09:00</time><span class="ev">Arrival and technical verification — sharp</span></div>
+        <div class="slot"><time>09:15</time><span class="ev">Day 2 briefing</span></div>
+        <div class="slot key"><time>09:25</time><span class="ev">Round 2 — Investigate</span></div>
+        <div class="slot key"><time>11:05</time><span class="ev">Round 3 — Break</span></div>
+        <div class="slot"><time>11:55</time><span class="ev">Lunch</span></div>
+        <div class="slot key"><time>13:00</time><span class="ev">Round 4 — Reconstruct</span></div>
+        <div class="slot"><time>13:55</time><span class="ev">Finalists announced, final briefing</span></div>
+        <div class="slot key"><time>14:05</time><span class="ev">FINAL — The Unknown</span></div>
+        <div class="slot"><time>15:15</time><span class="ev">Final submission lock, closure</span></div>
+        <div class="slot"><time>Next day</time><span class="ev">Winners announced after evaluation</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <span class="lbl">04 — Rules</span>
+    <h2>What is allowed, and what is not</h2>
+
+    <div class="tiles" style="margin:1.8rem 0 2rem">
+      <div class="tile">
+        <span class="ic">ALLOWED</span>
+        <h3>AI assistants</h3>
+        <p>ChatGPT, Claude, Gemini, Copilot, any coding assistant. Use them to write code, plot results and suggest hypotheses. They cannot help you with the one thing that matters — none of them know what is inside our black boxes.</p>
+      </div>
+      <div class="tile">
+        <span class="ic">ALLOWED</span>
+        <h3>Scripts and automation</h3>
+        <p>Every challenge is reachable through a documented API as well as a web console. Write clients, run sweeps, automate your experiments. Rate limits apply, and every row you send costs a query.</p>
+      </div>
+      <div class="tile">
+        <span class="ic">ALLOWED</span>
+        <h3>Any library you like</h3>
+        <p>scikit-learn, XGBoost, LightGBM, pandas, whatever you work fastest in. Version 1.0 is a classical machine learning event — deep learning arrives in BLACKBOX AI 2.0.</p>
+      </div>
+    </div>
+
+    <div class="tiles">
+      <div class="tile">
+        <span class="ic" style="color:var(--alert)">NOT ALLOWED</span>
+        <h3>Attacking the infrastructure</h3>
+        <p>The black box is the target; the server hosting it is not. Port scanning, flooding, attempting to reach files, source or credentials is out of scope and disqualifying. Round 3 breaks the <em>model</em>, not the machine.</p>
+      </div>
+      <div class="tile">
+        <span class="ic" style="color:var(--alert)">NOT ALLOWED</span>
+        <h3>Sharing accounts or findings</h3>
+        <p>One account per team, and the query budget is tied to it server-side. Pooling credentials or exchanging observations between teams is disqualifying. All queries are logged.</p>
+      </div>
+      <div class="tile">
+        <span class="ic" style="color:var(--alert)">NOT ALLOWED</span>
+        <h3>Unevidenced claims</h3>
+        <p>Guessing "it's a random forest" earns nothing. Every finding must be supported by the queries that produced it and be reproducible. Confident wrong answers cost more than saying you do not know.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">How you are judged</h3>
+    <p class="lede">Scoring combines automatically checked findings, model performance against private test data, how efficiently you spent your query budget, and — for finalists — the judging panel's assessment of your reasoning. Your investigation is documented in a private GitHub repository as you go: issues record hypotheses and experiments, pull requests are your official submissions. Commit counts are not a score.</p>
+  </div>
+</section>
+
+<section id="prizes">
+  <div class="wrap">
+    <span class="lbl">05 — ₹25,000 prize pool</span>
+    <h2>Prizes</h2>
+    <div class="prizes">
+      <div class="prize first"><span class="p">1st place</span><span class="amt">₹12,000</span></div>
+      <div class="prize"><span class="p">2nd place</span><span class="amt">₹7,000</span></div>
+      <div class="prize"><span class="p">3rd place</span><span class="amt">₹4,000</span></div>
+      <div class="prize inv"><span class="p">Best ML Investigator</span><span class="amt">₹2,000</span></div>
+    </div>
+    <p class="lede">Certificates for all participants. <b>Best ML Investigator</b> recognises the clearest experimental reasoning of the event — the team whose investigation log best shows how they thought, independent of where they finished on the leaderboard.</p>
+  </div>
+</section>
+
+<section id="attendance">
+  <div class="wrap">
+    <div class="notice">
+      <span class="lbl">Important — attendance</span>
+      <p>College policy requires students to obtain prior permission from their HOD before participating in or organising events. <strong>Students who participate without prior HOD permission will not be granted attendance.</strong> Please arrange this before 6 October.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <span class="lbl">06 — Questions</span>
+    <h2>FAQ</h2>
+    <details>
+      <summary>Do I need to be an ML expert to enter?</summary>
+      <p>No, but you should be comfortable with the basics — training a model, reading a scatter plot, reasoning about features. Round 0 is deliberately a baseline round that nobody is eliminated on. The later rounds reward careful thinking more than they reward knowing an exotic algorithm.</p>
+    </details>
+    <details>
+      <summary>Are AI tools really allowed?</summary>
+      <p>Yes, genuinely. We are not trying to run an AI-free competition — that is neither realistic nor useful. The difficulty comes from somewhere an assistant cannot reach: the hidden systems are private, built by us, and never exposed. An AI can help you analyse what the black box told you. It cannot tell you what the black box will say.</p>
+    </details>
+    <details>
+      <summary>How big is a team?</summary>
+      <p>Two or three students. One account per team, which all members can be logged into at once. The query budget is shared across the team, so coordinate — two people running the same sweep spends it twice.</p>
+    </details>
+    <details>
+      <summary>What is the query budget?</summary>
+      <p>Each round gives your team a fixed number of queries. There is no timer that refills it and no reset — when it is gone for that round, it is gone. Exact budgets are announced at the start of each round; they are set so that careless querying runs out and deliberate querying does not.</p>
+    </details>
+    <details>
+      <summary>Does every team get the same challenge?</summary>
+      <p>Not necessarily. Rounds draw from a pool of challenge instances that test the same competency at a validated, comparable difficulty, and your instance is assigned when the round starts and fixed from then on. The final round is identical for every finalist so that the ranking is a direct comparison.</p>
+    </details>
+    <details>
+      <summary>What do I need to bring?</summary>
+      <p>A laptop with Python and your usual ML libraries already installed and working — set this up before you arrive, not on the morning. Bring your charger. Details on connecting to the competition network are given in the Day 1 briefing and in the WhatsApp group.</p>
+    </details>
+    <details>
+      <summary>Do I need a GitHub account?</summary>
+      <p>Yes. Your team investigates in a private repository — issues for hypotheses and experiments, pull requests for submissions. Create an account before the event and give us your username during registration.</p>
+    </details>
+    <details>
+      <summary>What happens if I do not qualify after Round 1?</summary>
+      <p>Round 1 results are published on the evening of Day 1 precisely so that you know before Day 2 begins. If your team does not qualify you are still welcome to attend, and you keep your participation certificate.</p>
+    </details>
+    <details>
+      <summary>Is registration free?</summary>
+      <p>Yes, entirely free. Register through the form, then join the WhatsApp group linked at the end of it — that group carries all official announcements, round updates and instructions.</p>
+    </details>
+  </div>
+</section>
+
+<section id="register">
+  <div class="wrap reg-grid">
+    <div>
+      <span class="lbl">Registration open</span>
+      <h2>Bring a team. Bring a hypothesis.</h2>
+      <p class="lede" style="margin-bottom:1.6rem">Register through the Google Form, then join the WhatsApp group linked at the end of it. All official announcements go through that group.</p>
+      <div class="btnrow">
+        <a class="btn" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
+      </div>
+    </div>
+    <dl class="reg-meta">
+      <div class="rm"><dt>Dates</dt><dd>6–7 Oct 2026</dd></div>
+      <div class="rm"><dt>Entry</dt><dd>Free</dd></div>
+      <div class="rm"><dt>Team size</dt><dd>2–3 students</dd></div>
+      <div class="rm"><dt>Prize pool</dt><dd>₹25,000</dd></div>
+      <div class="rm"><dt>Track</dt><dd>Classical ML</dd></div>
+      <div class="rm"><dt>Venue</dt><dd>GCET campus</dd></div>
+    </dl>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="org">IEEE Student Branch</div>
+      <div>Geethanjali College of Engineering and Technology<br>Cheeryala, Keesara, Telangana</div>
+    </div>
+    <div>
+      <div class="org">Under the guidance of</div>
+      <div>Dr. Neha Nandal<br>Advisor, IEEE-CS, GCET</div>
+    </div>
+    <div>
+      <div class="org">Links</div>
+      <div>
+        <a href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Registration form</a><br>
+        <a href="https://github.com/ieee-blackbox-ai" target="_blank" rel="noopener">github.com/ieee-blackbox-ai</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><p class="fine">BLACKBOX AI 1.0 — Reverse Engineer the Intelligence · A future edition, BLACKBOX AI 2.0, will introduce deep learning. Schedule and round details are provisional and may be updated before the event.</p></div>
+</footer>
+
+<script>
+(function(){
+  var BUDGET = 24;
+  var left = BUDGET;
+  var ids = ['x1','x2','x3'];
+  var qleft = document.getElementById('qleft');
+  var scoreEl = document.getElementById('score');
+  var decEl = document.getElementById('decision');
+  var hintEl = document.getElementById('hint');
+  var hinted = false;
+
+  // The hidden pipeline. Deliberately not documented on the page — that is the joke.
+  function blackbox(a, b, c){
+    var raw = 0.9*a - 0.6*b + 1.4*(a*c) - 0.3*(c*c) - 0.55;
+    return 1 / (1 + Math.exp(-3.2*raw));
+  }
+
+  function readInputs(){
+    return ids.map(function(id){
+      return document.getElementById(id).valueAsNumber / 100;
+    });
+  }
+
+  function paintInputs(){
+    readInputs().forEach(function(v, i){
+      document.getElementById('o' + (i+1)).textContent = v.toFixed(2);
+    });
+  }
+
+  function setDisabled(state){
+    ids.forEach(function(id){ document.getElementById(id).disabled = state; });
+  }
+
+  function spend(){
+    if (left <= 0) return;
+    left -= 1;
+    qleft.textContent = left;
+
+    var v = readInputs();
+    var s = blackbox(v[0], v[1], v[2]);
+    scoreEl.textContent = s.toFixed(3);
+
+    var approve = s > 0.62;
+    decEl.textContent = approve ? 'APPROVE' : 'DECLINE';
+    decEl.className = 'v dec ' + (approve ? 'approve' : 'decline');
+
+    if (left === 0){
+      setDisabled(true);
+      scoreEl.textContent = '—';
+      scoreEl.className = 'v spent';
+      decEl.textContent = 'QUOTA SPENT';
+      decEl.className = 'v dec spent';
+      hintEl.textContent = 'Out of queries. In the real event, that is the round over.';
+    } else if (!hinted && left <= BUDGET - 4){
+      hinted = true;
+      hintEl.textContent = 'Notice x₁ and x₃ are not independent.';
+    }
+  }
+
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    el.addEventListener('input', paintInputs);
+    el.addEventListener('change', spend);
+  });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    left = BUDGET; hinted = false;
+    qleft.textContent = left;
+    setDisabled(false);
+    ids.forEach(function(id){ document.getElementById(id).value = 50; });
+    paintInputs();
+    scoreEl.className = 'v';
+    scoreEl.textContent = '0.401';
+    decEl.textContent = 'DECLINE';
+    decEl.className = 'v dec decline';
+    hintEl.textContent = 'Try changing one input at a time.';
+  });
+
+  paintInputs();
+})();
+</script>
+</body>
+</html>
