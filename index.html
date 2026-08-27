@@ -286,10 +286,55 @@ footer .org{font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size
 footer .fine{font-family:var(--f-mono);font-size:.68rem;color:var(--faint);letter-spacing:.03em;margin-top:1.8rem;padding-top:1.1rem;border-top:1px solid var(--edge)}
 footer a{color:var(--muted)}
 footer a:hover{color:var(--amber)}
+
+/* ---------------------------------------------- polish pass ---------------- */
+.skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--amber);
+  color:var(--void);padding:.6rem 1rem;font-family:var(--f-mono);font-size:.8rem}
+.skip:focus{left:.5rem;top:.5rem}
+
+/* countdown to the event */
+.cdown{display:flex;gap:1.6rem;margin:0 0 1.6rem}
+.cdown div{display:flex;flex-direction:column}
+.cdown .n{font-family:var(--f-disp);font-weight:700;font-size:clamp(1.6rem,4vw,2.1rem);
+  color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cdown .u{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint);margin-top:.3rem}
+.cdown.live .n{color:var(--amber)}
+.cdown.done{display:none}
+
+/* scroll reveal - one orchestrated moment, not scattered effects */
+.reveal{opacity:0;transform:translateY(10px);
+  transition:opacity .5s ease-out,transform .5s ease-out}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* the probe reads as an instrument you can touch */
+.probe{transition:border-color .25s}
+.probe:hover{border-color:var(--amber-dim)}
+.ctl input[type=range]:focus-visible{outline-offset:6px}
+.rd .v{transition:color .2s}
+
+/* nav shows where you are */
+.nav-links a[aria-current="true"]{color:var(--amber)}
+
+/* wide screens: the hero should not stretch to absurd measures */
+@media(min-width:1400px){:root{--max:1240px}}
+
+/* phones */
+@media(max-width:560px){
+  .cdown{gap:1.1rem}
+  .btnrow{width:100%} .btnrow .btn{flex:1 1 auto;text-align:center}
+  .round{padding:1.1rem 0}
+  .round.final{margin:0;padding-left:1rem;padding-right:1rem}
+  .prizes .amt{font-size:1.6rem}
+  .probe-body{padding:.9rem .7rem}
+  .readout{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
+<a class="skip" href="#premise">Skip to content</a>
 <nav>
   <div class="nav-in">
     <a class="brand" href="#top"><i></i>BLACKBOX AI 1.0</a>
@@ -309,6 +354,11 @@ footer a:hover{color:var(--amber)}
       <span class="lbl">IEEE Student Branch · GCET · 6–7 October 2026</span>
       <h1>BLACKBOX<span class="two">AI 1.0</span></h1>
       <p class="tagline">Reverse Engineer the Intelligence</p>
+      <div class="cdown" id="cdown" data-start="2026-10-06T09:00:00+05:30">
+        <div><span class="n">--</span><span class="u">days</span></div>
+        <div><span class="n">--</span><span class="u">hrs</span></div>
+        <div><span class="n">--</span><span class="u">min</span></div>
+      </div>
       <p class="pitch">You are not given a dataset. You are given a <b>system that answers questions</b> — and a limited number of questions to ask it. Everything else about it is hidden: the data, the features, the pipeline, the model, the thresholds. Your job is to work out what is inside.</p>
       <div class="btnrow">
         <a class="btn" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
@@ -323,7 +373,7 @@ footer a:hover{color:var(--amber)}
         <span class="q"><span id="qleft">24</span> queries left</span>
       </div>
       <div class="probe-body">
-        <p class="probe-note">A toy black box. Move the inputs, spend a query, read the output.<br>You are not told what it computes. That is the entire competition.</p>
+        <p class="probe-note">A toy black box. Move an input, spend a query, read the output.<br>You are not told what it computes. Working that out is the entire competition.</p>
         <div class="ctl"><label for="x1">x₁</label><input type="range" id="x1" min="0" max="100" value="50"><output id="o1">0.50</output></div>
         <div class="ctl"><label for="x2">x₂</label><input type="range" id="x2" min="0" max="100" value="50"><output id="o2">0.50</output></div>
         <div class="ctl"><label for="x3">x₃</label><input type="range" id="x3" min="0" max="100" value="50"><output id="o3">0.50</output></div>
@@ -370,32 +420,32 @@ footer a:hover{color:var(--amber)}
     <p class="lede" style="margin-bottom:2.2rem">Each stage hands you a hidden system and a query budget, and each one goes deeper than the last. Full rules and timings are given at the event briefing.</p>
 
     <div class="rounds">
-      <div class="round">
+      <div class="round reveal">
         <div class="rn">ROUND 0</div>
         <div class="rt"><h3>Baseline</h3><span class="gate open">No elimination</span></div>
         <div class="rd2"><p>A short round on ML fundamentals and experiment selection, to see where everyone is starting from. Nobody is cut.</p></div>
       </div>
-      <div class="round">
+      <div class="round reveal">
         <div class="rn">ROUND 1</div>
         <div class="rt"><h3>Observe</h3><span class="gate elim">First cut</span></div>
         <div class="rd2"><p>Your first real black box. Work out which features matter, where the thresholds sit, what is stable and what is not. Prove what you claim.</p></div>
       </div>
-      <div class="round">
+      <div class="round reveal">
         <div class="rn">ROUND 2</div>
         <div class="rt"><h3>Investigate</h3><span class="gate open">Day 2</span></div>
         <div class="rd2"><p>Past surface behaviour into hidden preprocessing and feature interactions. By now several explanations fit what you have seen — find the experiment that tells them apart.</p></div>
       </div>
-      <div class="round">
+      <div class="round reveal">
         <div class="rn">ROUND 3</div>
         <div class="rt"><h3>Break</h3><span class="gate open">Day 2</span></div>
         <div class="rd2"><p>Find where the system fails. Edge cases, unstable boundaries, systematic failure modes — with reproducible evidence for every weakness you claim.</p></div>
       </div>
-      <div class="round">
+      <div class="round reveal">
         <div class="rn">ROUND 4</div>
         <div class="rt"><h3>Reconstruct</h3><span class="gate open">Day 2</span></div>
         <div class="rd2"><p>Build your own model that reproduces the hidden system's behaviour. Your queries are your training set. Scored against data you never see.</p></div>
       </div>
-      <div class="round final">
+      <div class="round final reveal">
         <div class="rn">FINAL</div>
         <div class="rt"><h3>The Unknown</h3><span class="gate fin">Finalists</span></div>
         <div class="rd2"><p>A fresh hidden system, identical for every finalist. Everything at once — then you explain your reasoning to the judging panel. Understanding has to back up the leaderboard.</p></div>
@@ -580,6 +630,59 @@ footer a:hover{color:var(--amber)}
   });
 
   paintInputs();
+})();
+</script>
+<script>
+(function () {
+  /* ---- countdown to the first morning ---- */
+  var box = document.getElementById('cdown');
+  if (box) {
+    var start = new Date(box.dataset.start).getTime();
+    var parts = box.querySelectorAll('.n');
+    (function tick() {
+      var left = start - Date.now();
+      if (left <= 0) { box.classList.add('done'); return; }
+      var m = Math.floor(left / 60000), h = Math.floor(m / 60), d = Math.floor(h / 24);
+      parts[0].textContent = d;
+      parts[1].textContent = h % 24;
+      parts[2].textContent = m % 60;
+      if (d < 7) box.classList.add('live');
+      setTimeout(tick, 30000);
+    })();
+  }
+
+  /* ---- reveal the rounds as they come into view ---- */
+  var items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach(function (n) { n.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e, i) {
+        if (!e.isIntersecting) return;
+        setTimeout(function () { e.target.classList.add('in'); }, i * 60);
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    items.forEach(function (n) { io.observe(n); });
+  }
+
+  /* ---- mark the section you are reading in the nav ---- */
+  var links = {};
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (a) {
+    links[a.getAttribute('href').slice(1)] = a;
+  });
+  var secs = Object.keys(links).map(function (id) { return document.getElementById(id); })
+                   .filter(Boolean);
+  if (secs.length && 'IntersectionObserver' in window) {
+    var nav = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var a = links[e.target.id];
+        if (a) a.setAttribute('aria-current', e.isIntersecting ? 'true' : 'false');
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    secs.forEach(function (s) { nav.observe(s); });
+  }
 })();
 </script>
 </body>
