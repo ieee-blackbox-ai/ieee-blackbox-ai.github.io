@@ -337,21 +337,25 @@ footer a:hover{color:var(--amber)}
 }
 
 /* ------------------------------------------------- institutional marks ---- */
-/* Both crests are dark ink on transparency - GCET's navy measures about 1.4:1
-   against this background, which is invisible. Recolouring the IEEE mark would
-   breach their brand guidelines, so each sits on a light plate instead: brand
-   colours untouched, contrast solved. */
+/* Reversed (white) marks, not the colour originals on white plates.
+   Measured first: the GCET navy renders at 1.00:1 against this background - the
+   same luminance, so literally invisible - and IEEE's blue at 2.22:1, well under
+   the 4.5:1 threshold. A white plate solved that but put two bright boxes on a
+   dark page.
+   Reversing is only safe because neither file paints any detail in white: the
+   arrow inside the IEEE diamond and the figure inside the GCET crest are knocked
+   out to transparency, so turning the ink white leaves both shapes intact. That
+   was checked before doing it, not assumed. A reversed mark on dark is also what
+   IEEE's own brand guidance asks for. */
 .presented{padding:clamp(2.5rem,6vw,3.5rem) 0;text-align:center}
-.crests{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;align-items:center;
+.crests{display:flex;flex-wrap:wrap;gap:2.6rem;justify-content:center;align-items:center;
   margin:1.4rem 0 1.6rem}
 /* one fixed plate height so the two marks sit on a shared baseline - a square
    crest and a wide wordmark otherwise produce plates of different sizes, which
    reads as carelessness rather than as two logos */
-.crest{background:#fff;border-radius:2px;padding:0 1.5rem;display:flex;align-items:center;
-  justify-content:center;height:84px;text-decoration:none;
-  transition:transform .2s ease, box-shadow .2s ease;
-  box-shadow:0 0 0 1px rgba(255,255,255,.10)}
-a.crest:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.45)}
+.crest{display:flex;align-items:center;justify-content:center;height:84px;
+  text-decoration:none;opacity:.88;transition:opacity .2s ease}
+a.crest:hover{opacity:1}
 a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .crest img{display:block;height:42px;width:auto;max-width:min(240px,60vw)}
 /* the square crest needs more height than the wordmark to read at the same weight */
@@ -359,8 +363,8 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .byline{color:var(--body);max-width:52ch;margin:0 auto}
 .byline .fine{color:var(--faint)}
 @media(max-width:520px){
-  .crests{gap:1rem}
-  .crest{padding:0 1.1rem;height:68px}
+  .crests{gap:1.6rem}
+  .crest{height:68px}
   .crest img{height:32px}
   .crest img[alt^="Geethanjali"]{height:46px}
 }
@@ -597,10 +601,10 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
     <span class="lbl">Presented by</span>
     <div class="crests">
       <a class="crest" href="https://www.ieee.org" target="_blank" rel="noopener">
-        <img src="assets/ieee.png" alt="IEEE" loading="lazy" width="867" height="288">
+        <img src="assets/ieee-white.png" alt="IEEE" loading="lazy" width="867" height="288">
       </a>
       <div class="crest">
-        <img src="assets/gctc.png" alt="Geethanjali College of Engineering and Technology"
+        <img src="assets/gctc-white.png" alt="Geethanjali College of Engineering and Technology"
              loading="lazy" width="200" height="200">
       </div>
     </div>
