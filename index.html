@@ -402,6 +402,14 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
   body, a, button, summary { cursor: auto; }
   a, button, summary, .btn { cursor: pointer; }
 }
+
+/* the society mark sits with the advisor it belongs to, rather than floating in a
+   row of institutional crests where it would read as a fourth organiser */
+.advisor{display:flex;align-items:center;gap:.8rem}
+.advisor img{height:34px;width:auto;flex:none;opacity:.9}
+@media(max-width:520px){
+  .advisor img{height:28px}
+}
 </style>
 </head>
 <body>
@@ -618,8 +626,7 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
              loading="lazy" width="200" height="200">
       </div>
     </div>
-    <p class="byline">IEEE Student Branch · Geethanjali College of Engineering and Technology<br>
-       <span class="fine">Under the guidance of Dr. Neha Nandal, Advisor, IEEE-CS</span></p>
+    <p class="byline">IEEE Student Branch · Geethanjali College of Engineering and Technology</p>
   </div>
 </section>
 
@@ -631,7 +638,11 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
     </div>
     <div>
       <div class="org">Under the guidance of</div>
-      <div>Dr. Neha Nandal<br>Advisor, IEEE-CS, GCET</div>
+        <div class="advisor">
+          <img src="assets/cs-white.png" alt="IEEE Computer Society" loading="lazy"
+               width="559" height="431">
+          <span>Dr. Neha Nandal<br>Advisor, IEEE Computer Society, GCET</span>
+        </div>
     </div>
     <div>
       <div class="org">Links</div>
