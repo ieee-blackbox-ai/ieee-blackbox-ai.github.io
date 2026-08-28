@@ -74,7 +74,7 @@ nav{
   font-family:var(--f-disp);font-weight:700;font-size:1rem;letter-spacing:.01em;
   color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem;flex:none;
 }
-.brand img{width:22px;height:22px;display:block;flex:none}
+.brand img{width:26px;height:26px;display:block;flex:none}
 .nav-links{display:flex;gap:1.1rem;margin-left:auto;align-items:center;flex-wrap:wrap}
 .nav-links a{
   font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted);
@@ -103,6 +103,8 @@ nav{
 }
 .hero-grid{display:grid;gap:clamp(2rem,5vw,3.5rem);position:relative}
 @media(min-width:940px){.hero-grid{grid-template-columns:1.05fr .95fr;align-items:center}}
+.heromark{display:block;width:clamp(64px,9vw,92px);height:auto;margin:0 0 1.4rem;
+  filter:drop-shadow(0 4px 18px rgba(242,169,60,.18))}
 .hero h1{
   font-family:var(--f-disp);font-weight:700;
   font-size:clamp(2.9rem,9.5vw,5.6rem);line-height:.92;letter-spacing:-.025em;
@@ -353,6 +355,8 @@ footer a:hover{color:var(--amber)}
    was checked before doing it, not assumed. A reversed mark on dark is also what
    IEEE's own brand guidance asks for. */
 .presented{padding:clamp(2.5rem,6vw,3.5rem) 0;text-align:center}
+/* capped inside its native 707px so the wordmark stays sharp */
+.signoff{display:block;width:100%;max-width:340px;height:auto;margin:0 auto 2.2rem}
 .crests{display:flex;flex-wrap:wrap;gap:2.6rem;justify-content:center;align-items:center;
   margin:1.4rem 0 1.6rem}
 /* one fixed plate height so the two marks sit on a shared baseline - a square
@@ -421,6 +425,7 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 <header class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
+      <img class="heromark" src="assets/mark.png" alt="" width="500" height="500">
       <span class="lbl">IEEE Student Branch · GCET · 6–7 October 2026</span>
       <h1>BLACKBOX<span class="two">AI 1.0</span></h1>
       <p class="tagline">Reverse Engineer the Intelligence</p>
@@ -603,6 +608,9 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 
 <section id="presented" class="presented">
   <div class="wrap">
+    <img class="signoff" src="assets/lockup.png"
+         alt="BLACKBOX AI 1.0 — Reverse Engineer the Intelligence"
+         width="707" height="353" loading="lazy">
     <span class="lbl">Presented by</span>
     <div class="crests">
       <a class="crest" href="https://www.ieee.org" target="_blank" rel="noopener">
