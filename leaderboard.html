@@ -52,30 +52,6 @@ td.score{text-align:right}
 .q.yes{color:var(--ok)} .q.no{color:var(--faint)}
 footer{border-top:1px solid var(--edge);margin-top:3rem;padding:1.5rem 0 3rem;font-family:var(--f-mono);font-size:.68rem;color:var(--faint);letter-spacing:.03em}
 
-/* ------------------------------------------------------- pointer ---------- */
-/* A targeting reticle: the event is about probing a hidden system, so the pointer
-   being an instrument sight is the rare custom cursor that carries meaning rather
-   than just decorating.
-
-   Native `cursor: url()`, never a JS div chasing the mouse - a scripted cursor
-   trails a frame behind the real one, which feels broken on exactly the modest
-   machines a college lab runs. The compositor draws this one, so it cannot lag.
-
-   Deliberately NOT applied to text fields, and switched off entirely on touch
-   devices and for anyone who has asked for reduced motion. */
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2228%22%20height%3D%2228%22%20viewBox%3D%220%200%2028%2028%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F2A93C%22%20stroke-width%3D%221.4%22%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%226.5%22%20opacity%3D%22.85%22%2F%3E%3Cpath%20d%3D%22M14%201.5v5M14%2021.5v5M1.5%2014h5M21.5%2014h5%22%20opacity%3D%22.9%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%221.3%22%20fill%3D%22%23F2A93C%22%2F%3E%3C%2Fsvg%3E") 14 14, crosshair; }
-  a, button, summary, label.opt, input[type=range], .btn, .reset,
-  .nav-links a, details summary {
-    cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2228%22%20height%3D%2228%22%20viewBox%3D%220%200%2028%2028%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F2A93C%22%20stroke-width%3D%221.7%22%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M14%200.5v5M14%2022.5v5M0.5%2014h5M22.5%2014h5%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%222.4%22%20fill%3D%22%23F2A93C%22%2F%3E%3C%2Fsvg%3E") 14 14, pointer;
-  }
-  input[type=text], input[type=password], input[type=number], textarea, select {
-    cursor: text;
-  }
-  select { cursor: default; }
-}
-@media (prefers-reduced-motion: reduce) {
-  body, a, button, summary { cursor: auto; }
   a, button, summary, .btn { cursor: pointer; }
 }
 
@@ -86,6 +62,49 @@ footer{border-top:1px solid var(--edge);margin-top:3rem;padding:1.5rem 0 3rem;fo
 a.crest:hover{opacity:1}
 .crest img{display:block;height:28px;width:auto;max-width:160px}
 .crest img[alt^="Geethanjali"]{height:38px}
+/* ------------------------------------------------------- the pointer ------ */
+/* A scope that locks on.
+   The event is about probing a hidden system, so the pointer is an instrument:
+   a probe dot that tracks exactly, and a ring that settles a beat behind it.
+   The lag on the ring is deliberate and is the only lag here - the dot is
+   pinned to the real coordinates every frame, because a pointer that trails
+   your hand feels broken rather than smooth.
+   Everything moves on transform only, so it stays on the compositor and never
+   touches layout. */
+.cur{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+  will-change:transform;opacity:0;transition:opacity .25s ease}
+.cur.on{opacity:1}
+.cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--amber);
+  border-radius:50%;transition:width .18s ease,height .18s ease,margin .18s ease,
+  background .18s ease}
+.cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid var(--amber);
+  border-radius:50%;opacity:.55;
+  transition:width .22s cubic-bezier(.2,.8,.2,1),height .22s cubic-bezier(.2,.8,.2,1),
+             margin .22s cubic-bezier(.2,.8,.2,1),opacity .22s ease,border-color .22s ease}
+/* four ticks that fold in when the scope has something to lock onto */
+.cur-ring::before,.cur-ring::after{content:"";position:absolute;background:var(--amber);
+  opacity:0;transition:opacity .2s ease,transform .22s cubic-bezier(.2,.8,.2,1)}
+.cur-ring::before{left:50%;top:-7px;width:1px;height:5px;margin-left:-.5px;
+  box-shadow:0 43px 0 var(--amber)}
+.cur-ring::after{top:50%;left:-7px;height:1px;width:5px;margin-top:-.5px;
+  box-shadow:43px 0 0 var(--amber)}
+
+/* locked: the ring tightens and the ticks appear */
+.cur-ring.lock{width:44px;height:44px;margin:-22px 0 0 -22px;opacity:.95;border-width:1px}
+.cur-ring.lock::before{opacity:.9;top:-9px;box-shadow:0 57px 0 var(--amber)}
+.cur-ring.lock::after{opacity:.9;left:-9px;box-shadow:57px 0 0 var(--amber)}
+.cur-dot.lock{width:4px;height:4px;margin:-2px 0 0 -2px}
+
+/* pressed */
+.cur-ring.press{width:26px;height:26px;margin:-13px 0 0 -13px;opacity:1}
+.cur-dot.press{width:10px;height:10px;margin:-5px 0 0 -5px}
+
+/* over the demo box the scope reads as live rather than idle */
+.cur-ring.probe{border-color:var(--ok);opacity:.9}
+.cur-dot.probe{background:var(--ok)}
+
+@media (hover: none), (pointer: coarse) { .cur{display:none} }
+@media (prefers-reduced-motion: reduce) { .cur{display:none} }
 </style>
 </head>
 <body>
@@ -149,6 +168,74 @@ fetch('leaderboard.json', {cache:'no-store'})
     }).join('');
   })
   .catch(function(){ /* placeholder state stands */ });
+</script>
+<script>
+(function () {
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine || still) return;               // touch and reduced-motion keep the native cursor
+
+  var dot = document.createElement('div');  dot.className = 'cur cur-dot';
+  var ring = document.createElement('div'); ring.className = 'cur cur-ring';
+  document.body.appendChild(ring); document.body.appendChild(dot);
+
+  // Only hide the native cursor once ours exists. Doing it in CSS would leave
+  // anyone whose JS failed with no pointer at all.
+  var style = document.createElement('style');
+  style.textContent =
+    'body,a,button,summary,label,.btn,input[type=range]{cursor:none}' +
+    'input[type=text],input[type=password],input[type=number],textarea,select{cursor:auto}';
+  document.head.appendChild(style);
+
+  var mx = -100, my = -100;      // true pointer
+  var rx = -100, ry = -100;      // ring, easing toward it
+  var shown = false;
+
+  var LOCK = 'a,button,summary,.btn,.nav-cta,label.opt,details summary';
+
+  window.addEventListener('mousemove', function (e) {
+    mx = e.clientX; my = e.clientY;
+    if (!shown) { shown = true; rx = mx; ry = my; dot.classList.add('on'); ring.classList.add('on'); }
+
+    var el = e.target;
+    var lock = el.closest && el.closest(LOCK);
+    var probe = el.closest && el.closest('.probe, input[type=range]');
+    ring.classList.toggle('lock', !!lock);
+    dot.classList.toggle('lock', !!lock);
+    ring.classList.toggle('probe', !!probe);
+    dot.classList.toggle('probe', !!probe);
+  }, { passive: true });
+
+  window.addEventListener('mousedown', function () {
+    ring.classList.add('press'); dot.classList.add('press');
+  }, { passive: true });
+  window.addEventListener('mouseup', function () {
+    ring.classList.remove('press'); dot.classList.remove('press');
+  }, { passive: true });
+
+  // leaving the window should take the scope with it, not park it at the edge
+  document.addEventListener('mouseleave', function () {
+    dot.classList.remove('on'); ring.classList.remove('on'); shown = false;
+  });
+  document.addEventListener('mouseenter', function (e) { mx = e.clientX; my = e.clientY; });
+
+  // rAF is paused while the tab is hidden, so rx/ry are stale on return and the
+  // ring would sling across the screen catching up. Snap it instead.
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) { rx = mx; ry = my; }
+  });
+
+  var spin = 0;
+  (function frame() {
+    // the dot is pinned to the real coordinates; only the ring eases
+    dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    spin += ring.classList.contains('lock') ? 1.1 : 0.25;
+    ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) rotate(' + spin + 'deg)';
+    requestAnimationFrame(frame);
+  })();
+})();
 </script>
 </body>
 </html>
