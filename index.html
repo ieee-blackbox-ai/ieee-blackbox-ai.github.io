@@ -335,6 +335,62 @@ footer a:hover{color:var(--amber)}
   .probe-body{padding:.9rem .7rem}
   .readout{grid-template-columns:1fr}
 }
+
+/* ------------------------------------------------- institutional marks ---- */
+/* Both crests are dark ink on transparency - GCET's navy measures about 1.4:1
+   against this background, which is invisible. Recolouring the IEEE mark would
+   breach their brand guidelines, so each sits on a light plate instead: brand
+   colours untouched, contrast solved. */
+.presented{padding:clamp(2.5rem,6vw,3.5rem) 0;text-align:center}
+.crests{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;align-items:center;
+  margin:1.4rem 0 1.6rem}
+/* one fixed plate height so the two marks sit on a shared baseline - a square
+   crest and a wide wordmark otherwise produce plates of different sizes, which
+   reads as carelessness rather than as two logos */
+.crest{background:#fff;border-radius:2px;padding:0 1.5rem;display:flex;align-items:center;
+  justify-content:center;height:84px;text-decoration:none;
+  transition:transform .2s ease, box-shadow .2s ease;
+  box-shadow:0 0 0 1px rgba(255,255,255,.10)}
+a.crest:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.45)}
+a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.crest img{display:block;height:42px;width:auto;max-width:min(240px,60vw)}
+/* the square crest needs more height than the wordmark to read at the same weight */
+.crest img[alt^="Geethanjali"]{height:58px}
+.byline{color:var(--body);max-width:52ch;margin:0 auto}
+.byline .fine{color:var(--faint)}
+@media(max-width:520px){
+  .crests{gap:1rem}
+  .crest{padding:0 1.1rem;height:68px}
+  .crest img{height:32px}
+  .crest img[alt^="Geethanjali"]{height:46px}
+}
+
+/* ------------------------------------------------------- pointer ---------- */
+/* A targeting reticle: the event is about probing a hidden system, so the pointer
+   being an instrument sight is the rare custom cursor that carries meaning rather
+   than just decorating.
+
+   Native `cursor: url()`, never a JS div chasing the mouse - a scripted cursor
+   trails a frame behind the real one, which feels broken on exactly the modest
+   machines a college lab runs. The compositor draws this one, so it cannot lag.
+
+   Deliberately NOT applied to text fields, and switched off entirely on touch
+   devices and for anyone who has asked for reduced motion. */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2228%22%20height%3D%2228%22%20viewBox%3D%220%200%2028%2028%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F2A93C%22%20stroke-width%3D%221.4%22%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%226.5%22%20opacity%3D%22.85%22%2F%3E%3Cpath%20d%3D%22M14%201.5v5M14%2021.5v5M1.5%2014h5M21.5%2014h5%22%20opacity%3D%22.9%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%221.3%22%20fill%3D%22%23F2A93C%22%2F%3E%3C%2Fsvg%3E") 14 14, crosshair; }
+  a, button, summary, label.opt, input[type=range], .btn, .reset,
+  .nav-links a, details summary {
+    cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2228%22%20height%3D%2228%22%20viewBox%3D%220%200%2028%2028%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F2A93C%22%20stroke-width%3D%221.7%22%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M14%200.5v5M14%2022.5v5M0.5%2014h5M22.5%2014h5%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%222.4%22%20fill%3D%22%23F2A93C%22%2F%3E%3C%2Fsvg%3E") 14 14, pointer;
+  }
+  input[type=text], input[type=password], input[type=number], textarea, select {
+    cursor: text;
+  }
+  select { cursor: default; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body, a, button, summary { cursor: auto; }
+  a, button, summary, .btn { cursor: pointer; }
+}
 </style>
 </head>
 <body>
@@ -535,10 +591,28 @@ footer a:hover{color:var(--amber)}
   </div>
 </section>
 
+
+<section id="presented" class="presented">
+  <div class="wrap">
+    <span class="lbl">Presented by</span>
+    <div class="crests">
+      <a class="crest" href="https://www.ieee.org" target="_blank" rel="noopener">
+        <img src="assets/ieee.png" alt="IEEE" loading="lazy" width="867" height="288">
+      </a>
+      <div class="crest">
+        <img src="assets/gctc.png" alt="Geethanjali College of Engineering and Technology"
+             loading="lazy" width="200" height="200">
+      </div>
+    </div>
+    <p class="byline">IEEE Student Branch · Geethanjali College of Engineering and Technology<br>
+       <span class="fine">Under the guidance of Dr. Neha Nandal, Advisor, IEEE-CS</span></p>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <div class="org">IEEE Student Branch</div>
+      <div class="org">Venue</div>
       <div>Geethanjali College of Engineering and Technology<br>Cheeryala, Keesara, Telangana</div>
     </div>
     <div>
