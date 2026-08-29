@@ -381,10 +381,15 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 
 /* the society mark sits with the advisor it belongs to, rather than floating in a
    row of institutional crests where it would read as a fourth organiser */
-.advisor{display:flex;align-items:center;gap:1rem}
-.advisor img{height:50px;width:auto;flex:none;opacity:.95}
+/* Stacked, not a row. The footer column is narrow, so a 50px mark beside a
+   two-line name pushed the second line to wrap back underneath it - the name and
+   the role ended up on different left edges. Stacking puts everything on one
+   margin and reads correctly at any column width. */
+.advisor{display:flex;flex-direction:column;align-items:flex-start;gap:.55rem}
+.advisor img{height:44px;width:auto;opacity:.95}
+.advisor span{line-height:1.5}
 @media(max-width:520px){
-  .advisor img{height:40px}
+  .advisor img{height:38px}
 }
 
 /* ------------------------------------------------------- the pointer ------ */
@@ -487,6 +492,47 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .myth .no{display:block;font-family:var(--f-disp);font-weight:600;font-size:.95rem;
   color:var(--alert);margin-bottom:.4rem}
 .myth p{font-size:.89rem;color:var(--muted);margin:0;max-width:none}
+
+/* ------------------------------------------------ touch tuning ------------ */
+/* Measured at 375px: fifteen interactive elements were under 40px tall, including
+   the FAQ rows at 28px and the demo sliders whose track is 2px. A finger is about
+   9mm; anything under roughly 44px is a coin flip on a phone. These rules only
+   apply where the pointer is coarse, so nothing changes for a mouse. */
+@media (pointer: coarse) {
+  details summary{min-height:46px;display:flex;align-items:center}
+  .nav-cta{padding:.7rem 1rem}
+  .brand{min-height:44px;display:flex;align-items:center}
+  .nav-links a{min-height:40px;display:flex;align-items:center}
+  .reset{min-height:40px;padding:.5rem .9rem}
+  .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center}
+
+  /* the demo probe is the one thing people will actually poke on a phone, and a
+     2px track with a 14px thumb is not something you can drag accurately */
+  .ctl input[type=range]{height:34px;background:transparent;padding:16px 0;margin:-16px 0}
+  .ctl input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--edge-hi)}
+  .ctl input[type=range]::-moz-range-track{height:3px;background:var(--edge-hi)}
+  .ctl input[type=range]::-webkit-slider-thumb{width:22px;height:22px;margin-top:-10px}
+  .ctl input[type=range]::-moz-range-thumb{width:22px;height:22px}
+  .ctl{grid-template-columns:2.4rem 1fr 3.4rem}
+}
+
+@media (max-width:560px) {
+  /* nothing under 13px in running text - it is a strain on a phone held at arm's
+     length, and this page is read on the way to class */
+  /* .82rem is 13.1px at the default root size - .78rem computed to 12.5px and
+     was under the floor this rule exists to enforce */
+  .fine, .probe-note, footer .fine{font-size:.82rem;line-height:1.7}
+  .ben p, .myth p, .round .rd2 p{font-size:.92rem}
+  .stditem{padding:.75rem .9rem}
+  /* the standards row reads better as two columns than four squeezed ones */
+  .std{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{gap:1.6rem}
+  /* inline links in running text cannot be 44px without breaking the line, so give
+     them room vertically instead - the standard exception, handled rather than ignored */
+  footer a, .lede a, .fine a{padding:.25rem 0;display:inline-block;line-height:1.5}
+  .daytag{font-size:.82rem}
+  h2{font-size:1.5rem}
+}
 </style>
 </head>
 <body>
