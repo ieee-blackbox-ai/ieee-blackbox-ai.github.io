@@ -17,6 +17,37 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<!-- The event moves through three phases and the page has to follow it without
+     anyone editing HTML on the morning. This runs BEFORE the stylesheet and
+     before first paint, so the page never renders an open Register button and
+     then swaps it for a closed one a frame later.
+
+     THE TWO INSTANTS BELOW ARE THE ONLY PLACE THESE DATES ARE DECLARED.
+     Move the event by editing these two lines and nothing else.
+
+     Phase depends on the visitor's own clock - a static site has no server to
+     ask. A device with a badly wrong clock sees the wrong phase; that is the
+     accepted trade for having no backend. The admin platform, which does have a
+     server, is the authority during the event itself. -->
+<script>
+(function () {
+  var START = '2026-10-06T09:00:00+05:30';  /* Day 1, opening briefing */
+  var END   = '2026-10-07T18:00:00+05:30';  /* Day 2, after the prize giving */
+
+  var r = document.documentElement;
+  r.setAttribute('data-event-start', START);
+  r.setAttribute('data-event-end', END);
+
+  window.__phase = function () {
+    var now = Date.now(),
+        s = new Date(START).getTime(),
+        e = new Date(END).getTime();
+    return now < s ? 'before' : (now < e ? 'live' : 'ended');
+  };
+  r.setAttribute('data-phase', window.__phase());
+})();
+</script>
 <style>
 :root{
   --void:#0A0C0F;
@@ -127,6 +158,56 @@ nav{
 .btn.ghost:hover{background:var(--amber-glow);border-color:var(--amber)}
 .freebadge{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.05em}
 
+/* -------------------------------------------------- event lifecycle ------- */
+/* Three phases - before / live / ended - set on <html> by the head script.
+
+   Deliberately written so the OPEN state is the default and the two later
+   phases override it. If the script ever fails to run, the page degrades to a
+   working registration page rather than to a dead one that turns everybody away.
+
+   --phase-display lets each element opt into the display mode it actually needs,
+   because unhiding a .btn as `block` would break the button row. */
+/* All three variants hide by default and the phase on <html> shows exactly one.
+   The `html` prefix is not decoration: it lifts these to (0,1,1) so they beat
+   component rules that also set display - .btn is inline-block - instead of the
+   two tying on specificity and being decided by source order, which is the kind
+   of thing that breaks silently the next time this file is reorganised.
+
+   html:not([data-phase]) is the safety net. If the head script never runs there
+   is no phase attribute at all, and the page falls back to the OPEN state rather
+   than to one where every call to action has vanished. */
+html .when-before,html .when-live,html .when-ended{display:none}
+html:not([data-phase]) .when-before,
+html[data-phase="before"] .when-before,
+html[data-phase="live"]   .when-live,
+html[data-phase="ended"]  .when-ended{display:var(--phase-display,block)}
+.btn.when-live,.btn.when-ended,
+.nav-cta.when-live,.nav-cta.when-ended{--phase-display:inline-block}
+.freebadge.when-live,.freebadge.when-ended,
+.lbl.when-live,.lbl.when-ended{--phase-display:block}
+.foot-links .when-before,.foot-links .when-live,.foot-links .when-ended,
+.reg-meta .when-before,.reg-meta .when-live,.reg-meta .when-ended{--phase-display:inline}
+
+/* A closed control keeps the button's footprint so the layout does not jump
+   between phases - it simply stops being a link. */
+.btn.closed{
+  background:transparent;border:1px solid var(--edge-hi);color:var(--faint);
+  cursor:default;pointer-events:none}
+.btn.closed:hover{background:transparent;border-color:var(--edge-hi)}
+.nav-cta.closed{
+  background:transparent!important;border:1px solid var(--edge-hi);
+  color:var(--faint)!important;cursor:default;pointer-events:none}
+
+/* Stands in for the countdown once the countdown has nothing left to count. */
+.livepill{align-items:center;gap:.6rem;margin:0 0 1.6rem;
+  font-family:var(--f-mono);font-size:.78rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--amber);--phase-display:flex}
+.livepill.over{color:var(--faint)}
+.livepill .dot{width:9px;height:9px;flex:none;background:var(--amber);border-radius:50%;
+  animation:livepulse 1.9s ease-in-out infinite}
+.livepill.over .dot{background:var(--faint);animation:none}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.2}}
+
 /* ---------------- probe widget ---------------- */
 .probe{border:1px solid var(--edge-hi);background:var(--panel);position:relative}
 .probe-top{
@@ -192,14 +273,35 @@ h3{font-family:var(--f-disp);font-weight:600;font-size:1.16rem;letter-spacing:-.
 .split{display:grid;gap:clamp(1.6rem,4vw,3rem)}
 @media(min-width:860px){.split{grid-template-columns:1fr 1fr}}
 
-.loop{
-  display:flex;flex-wrap:wrap;gap:.4rem;margin:1.8rem 0 0;padding:0;list-style:none;max-width:none;
-}
+/* The loop is six steps that genuinely repeat, so it is drawn as a numbered
+   sequence rather than as a bag of chips. The previous version was a wrapping
+   flex row: at most column widths it broke 5 + 1 and stranded RECONSTRUCT alone
+   on a second line, which read as a layout accident rather than as the emphasis
+   it was meant to carry. One column per row cannot wrap wrongly at any width.
+
+   The number column is fixed rather than auto so all six glosses start on the
+   same left edge - with auto, "01" and "06" measure the same but a proportional
+   fallback font would not guarantee it. */
+.loop{list-style:none;margin:1.5rem 0 0;padding:0;max-width:none;
+  border-top:1px solid var(--edge)}
 .loop li{
-  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
-  border:1px solid var(--edge-hi);color:var(--body);padding:.42rem .75rem;margin:0;
-}
-.loop li:nth-child(6){border-color:var(--amber-dim);color:var(--amber)}
+  display:grid;grid-template-columns:2.1rem 1fr;column-gap:.9rem;
+  align-items:baseline;padding:.72rem 0;margin:0;
+  border-bottom:1px solid var(--edge)}
+.loop .ln{font-family:var(--f-mono);font-size:.78rem;font-weight:500;
+  letter-spacing:.06em;color:var(--amber-dim);font-variant-numeric:tabular-nums}
+.loop .lt{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink)}
+.loop .ld{grid-column:2;font-size:.84rem;color:var(--muted);line-height:1.5;
+  margin-top:.2rem}
+.loop li:last-child .ln,.loop li:last-child .lt{color:var(--amber)}
+
+/* The sixth step does not end the process, it restarts it. Saying so out loud is
+   the entire reason this is called a loop and not a checklist. */
+.loop-back{display:flex;align-items:center;gap:.55rem;margin:.9rem 0 0;
+  font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);max-width:none}
+.loop-back svg{flex:none;color:var(--amber-dim)}
 
 /* rounds */
 .rounds{display:flex;flex-direction:column;border-top:1px solid var(--edge)}
@@ -288,6 +390,12 @@ details p:last-child{margin-bottom:0}
 footer{padding:2.5rem 0 3.5rem;font-size:.85rem;color:var(--muted)}
 .foot-grid{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;justify-content:space-between;align-items:flex-start}
 footer .org{font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size:1rem;margin-bottom:.2rem}
+/* The <br> separators went when the registration link became phase-dependent:
+   a <br> cannot be conditionally removed. Each link is its own row div instead
+   of a display:block on the links themselves - a `.foot-links a` rule would be
+   (0,1,1) and would out-specify the .when-* hide, showing all three variants
+   at once. Structure solves it where a specificity fight would not. */
+.foot-links > div{line-height:1.9}
 footer .fine{font-family:var(--f-mono);font-size:.68rem;color:var(--faint);letter-spacing:.03em;margin-top:1.8rem;padding-top:1.1rem;border-top:1px solid var(--edge)}
 footer a{color:var(--muted)}
 footer a:hover{color:var(--amber)}
@@ -376,20 +484,28 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
   .crest img[alt^="Geethanjali"]{height:46px}
 }
 
-  a, button, summary, .btn { cursor: pointer; }
-}
+/* Orphan from the reticle cursor that 84b28a3 replaced: the
+   `@media (prefers-reduced-motion: reduce){` opener went with it and this one
+   declaration plus its closing brace stayed behind. A stray } at the top level
+   makes the CSS parser discard the NEXT rule during error recovery, which is
+   what silently ate the .advisor layout below. Keep the intent, drop the brace. */
+a, button, summary, .btn { cursor: pointer; }
 
-/* the society mark sits with the advisor it belongs to, rather than floating in a
-   row of institutional crests where it would read as a fourth organiser */
-/* Stacked, not a row. The footer column is narrow, so a 50px mark beside a
-   two-line name pushed the second line to wrap back underneath it - the name and
-   the role ended up on different left edges. Stacking puts everything on one
-   margin and reads correctly at any column width. */
-.advisor{display:flex;flex-direction:column;align-items:flex-start;gap:.55rem}
-.advisor img{height:44px;width:auto;opacity:.95}
-.advisor span{line-height:1.5}
+/* The society mark sits with the advisor it belongs to, rather than floating in
+   the row of institutional crests where it would read as a fourth organiser.
+
+   The name and role are their own flex column, NOT one <span> with a <br>. As
+   inline text they flowed around the image: the name started beside the mark and
+   the role wrapped back underneath it, leaving the two lines on different left
+   edges. As a single flex item the block keeps one left edge however the role
+   wraps. text-align is pinned so no inherited centring can reach it. */
+.advisor{display:flex;align-items:center;gap:.75rem;margin-top:.45rem;text-align:left}
+.advisor-mark{height:36px;width:auto;flex:none;opacity:.95}
+.advisor-who{display:flex;flex-direction:column;gap:.12rem;min-width:0}
+.advisor-who strong{color:var(--ink);font-weight:600;line-height:1.35}
+.advisor-who span{color:var(--muted);line-height:1.45}
 @media(max-width:520px){
-  .advisor img{height:38px}
+  .advisor-mark{height:32px}
 }
 
 /* ------------------------------------------------------- the pointer ------ */
@@ -548,7 +664,9 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
       <a href="#prizes">Prizes</a>
       <a href="#faq">FAQ</a>
       <a href="#about-ieee">IEEE</a>
-      <a class="nav-cta" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register</a>
+      <a class="nav-cta when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register</a>
+      <span class="nav-cta closed when-live">Live now</span>
+      <span class="nav-cta closed when-ended">Ended</span>
     </div>
   </div>
 </nav>
@@ -559,17 +677,23 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
       <span class="lbl">IEEE Student Branch · GCET · 6–7 October 2026</span>
       <h1>BLACKBOX<span class="two">AI 1.0</span></h1>
       <p class="tagline">Reverse Engineer the Intelligence</p>
-      <div class="cdown" id="cdown" data-start="2026-10-06T09:00:00+05:30">
+      <div class="cdown when-before" id="cdown">
         <div><span class="n">--</span><span class="u">days</span></div>
         <div><span class="n">--</span><span class="u">hrs</span></div>
         <div><span class="n">--</span><span class="u">min</span></div>
         <div class="secs"><span class="n">--</span><span class="u">sec</span></div>
       </div>
+      <div class="livepill when-live"><span class="dot"></span>Competition in progress</div>
+      <div class="livepill over when-ended"><span class="dot"></span>Concluded · 6–7 October 2026</div>
       <p class="pitch">You are not given a dataset. You are given a <b>system that answers questions</b> — and a limited number of questions to ask it. Everything else about it is hidden: the data, the features, the pipeline, the model, the thresholds. Your job is to work out what is inside.</p>
       <div class="btnrow">
-        <a class="btn" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
+        <a class="btn when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
+        <span class="btn closed when-live">Registration closed</span>
+        <span class="btn closed when-ended">Registration closed</span>
         <a class="btn ghost" href="#premise">How it works</a>
-        <span class="freebadge">Free entry · teams of 2–3</span>
+        <span class="freebadge when-before">Free entry · teams of 2–3</span>
+        <span class="freebadge when-live">Under way at GCET · follow the WhatsApp group</span>
+        <span class="freebadge when-ended">Final standings are on the Standings page</span>
       </div>
     </div>
 
@@ -609,10 +733,21 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
       <div>
         <h3>The loop</h3>
         <p>Six steps, run over and over, under a shrinking budget. The teams that win are the ones whose <em>fifth</em> query is chosen because of what the first four returned.</p>
-        <ul class="loop">
-          <li>Query</li><li>Observe</li><li>Hypothesise</li>
-          <li>Experiment</li><li>Infer</li><li>Reconstruct</li>
-        </ul>
+        <ol class="loop">
+          <li><span class="ln">01</span><span class="lt">Query</span>
+              <span class="ld">Spend one from a budget that never refills.</span></li>
+          <li><span class="ln">02</span><span class="lt">Observe</span>
+              <span class="ld">Record what actually came back, not what you expected.</span></li>
+          <li><span class="ln">03</span><span class="lt">Hypothesise</span>
+              <span class="ld">Name a mechanism inside the box that would explain it.</span></li>
+          <li><span class="ln">04</span><span class="lt">Experiment</span>
+              <span class="ld">Design the one query that separates two rival explanations.</span></li>
+          <li><span class="ln">05</span><span class="lt">Infer</span>
+              <span class="ld">Keep whichever explanation survives the evidence.</span></li>
+          <li><span class="ln">06</span><span class="lt">Reconstruct</span>
+              <span class="ld">Rebuild the hidden system from everything that survived.</span></li>
+        </ol>
+        <p class="loop-back"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.7 8a5.7 5.7 0 1 1-1.7-4.05" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M12.5 1.4v3.2H9.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to 01, with fewer queries left</p>
         <p style="margin-top:1.6rem">A test of experimental reasoning under uncertainty — designing the experiment that separates two competing explanations, not memorising which library has which default.</p>
       </div>
     </div>
@@ -898,15 +1033,27 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 <section id="register">
   <div class="wrap reg-grid">
     <div>
-      <span class="lbl">Registration open</span>
-      <h2>Bring a team. Bring a hypothesis.</h2>
-      <p class="lede" style="margin-bottom:1.6rem">Register through the Google Form, then join the WhatsApp group linked at the end of it. All official announcements go through that group.</p>
+      <span class="lbl when-before">Registration open</span>
+      <span class="lbl when-live">Registration closed</span>
+      <span class="lbl when-ended">Event concluded</span>
+
+      <h2 class="when-before">Bring a team. Bring a hypothesis.</h2>
+      <h2 class="when-live">The boxes are open.</h2>
+      <h2 class="when-ended">That is a wrap on 1.0.</h2>
+
+      <p class="lede when-before" style="margin-bottom:1.6rem">Register through the Google Form, then join the WhatsApp group linked at the end of it. All official announcements go through that group.</p>
+      <p class="lede when-live" style="margin-bottom:1.6rem">Registration has closed and the competition is under way at GCET. Announcements, round timings and results go out through the WhatsApp group. Live standings are on the Standings page.</p>
+      <p class="lede when-ended" style="margin-bottom:1.6rem">BLACKBOX AI 1.0 ran on 6–7 October 2026. Thank you to everyone who competed, and to the judges who sat through the technical defences. Final standings are on the Standings page. A future edition, BLACKBOX AI 2.0, will introduce deep learning.</p>
+
       <div class="btnrow">
-        <a class="btn" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
+        <a class="btn when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
+        <a class="btn when-live" href="leaderboard.html">Live standings</a>
+        <a class="btn when-ended" href="leaderboard.html">Final standings</a>
       </div>
     </div>
     <dl class="reg-meta">
       <div class="rm"><dt>Dates</dt><dd>6–7 Oct 2026</dd></div>
+      <div class="rm"><dt>Status</dt><dd><span class="when-before">Registration open</span><span class="when-live">In progress</span><span class="when-ended">Concluded</span></dd></div>
       <div class="rm"><dt>Entry</dt><dd>Free</dd></div>
       <div class="rm"><dt>Team size</dt><dd>2–3 students</dd></div>
       <div class="rm"><dt>Prize pool</dt><dd>₹25,000</dd></div>
@@ -944,18 +1091,25 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
     </div>
     <div>
       <div class="org">Under the guidance of</div>
-        <div class="advisor">
-          <img src="assets/cs-white.png" alt="IEEE Computer Society" loading="lazy"
-               width="559" height="431">
-          <span>Dr. Neha Nandal<br>Advisor, IEEE Computer Society, GCET</span>
+      <div class="advisor">
+        <img class="advisor-mark" src="assets/cs-white.png" alt="IEEE Computer Society"
+             loading="lazy" width="559" height="431">
+        <div class="advisor-who">
+          <strong>Dr. Neha Nandal</strong>
+          <span>Advisor, IEEE Computer Society, GCET</span>
         </div>
+      </div>
     </div>
     <div>
       <div class="org">Links</div>
-      <div>
-        <a href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Registration form</a><br>
-        <a href="https://github.com/ieee-blackbox-ai" target="_blank" rel="noopener">github.com/ieee-blackbox-ai</a><br>
-        <a href="leaderboard.html">Standings</a>
+      <div class="foot-links">
+        <div>
+          <a class="when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Registration form</a>
+          <span class="when-live">Registration closed</span>
+          <span class="when-ended">Registration closed</span>
+        </div>
+        <div><a href="https://github.com/ieee-blackbox-ai" target="_blank" rel="noopener">github.com/ieee-blackbox-ai</a></div>
+        <div><a href="leaderboard.html">Standings</a></div>
       </div>
     </div>
   </div>
@@ -1045,39 +1199,48 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 </script>
 <script>
 (function () {
-  /* ---- countdown to the first morning ---- */
-  var box = document.getElementById('cdown');
-  if (box) {
-    var start = new Date(box.dataset.start).getTime();
-    var parts = box.querySelectorAll('.n');
-    var pad = function (n) { return n < 10 ? '0' + n : String(n); };
+  /* ---- countdown to the first morning, and the phase it belongs to ---- */
+  /* The head script resolved the phase once, before paint. This keeps it honest
+     afterwards: a page left open on a projector or on somebody's second monitor
+     has to close registration by itself when 09:00 passes, without anyone
+     remembering to reload it. Same for the end of Day 2.
 
-    /* Purely local - no request is made on a tick, so the cadence costs the server
-       nothing. Paused while the tab is hidden, because a backgrounded tab has no
-       business burning a wakeup a second. */
-    var timer = null;
-    function tick() {
-      var left = start - Date.now();
-      if (left <= 0) { box.classList.add('done'); return; }
-      var s = Math.floor(left / 1000), m = Math.floor(s / 60),
-          h = Math.floor(m / 60), d = Math.floor(h / 24);
-      parts[0].textContent = d;
-      parts[1].textContent = pad(h % 24);
-      parts[2].textContent = pad(m % 60);
-      parts[3].textContent = pad(s % 60);
-      if (d < 7) box.classList.add('live');
-    }
-    function run() {
-      stop(); tick();
-      timer = setInterval(tick, 1000);
-    }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+     Purely local - no request is made on a tick, so the cadence costs the server
+     nothing. Paused while the tab is hidden, because a backgrounded tab has no
+     business burning a wakeup a second. */
+  var root  = document.documentElement;
+  var start = new Date(root.getAttribute('data-event-start')).getTime();
+  var box   = document.getElementById('cdown');
+  var parts = box ? box.querySelectorAll('.n') : null;
+  var pad   = function (n) { return n < 10 ? '0' + n : String(n); };
+  var timer = null;
 
-    document.addEventListener('visibilitychange', function () {
-      document.hidden ? stop() : run();
-    });
-    run();
+  function tick() {
+    var phase = window.__phase();
+    if (root.getAttribute('data-phase') !== phase) {
+      root.setAttribute('data-phase', phase);
+    }
+    /* nothing left to count once the event has started - stop the interval
+       rather than leave it spinning on a number nobody can see */
+    if (phase !== 'before') { stop(); return; }
+    if (!box) return;
+
+    var left = start - Date.now();
+    var s = Math.floor(left / 1000), m = Math.floor(s / 60),
+        h = Math.floor(m / 60), d = Math.floor(h / 24);
+    parts[0].textContent = d;
+    parts[1].textContent = pad(h % 24);
+    parts[2].textContent = pad(m % 60);
+    parts[3].textContent = pad(s % 60);
+    if (d < 7) box.classList.add('live');
   }
+  function run()  { stop(); tick(); if (window.__phase() === 'before') timer = setInterval(tick, 1000); }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+  document.addEventListener('visibilitychange', function () {
+    document.hidden ? stop() : run();
+  });
+  run();
 
   /* ---- reveal the rounds as they come into view ---- */
   var items = document.querySelectorAll('.reveal');
