@@ -458,6 +458,30 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
   .dayrow{text-align:center}
   .daytag{border-left:none;padding-left:0}
 }
+
+/* --------------------------------------------------- about IEEE ----------- */
+#about-ieee{border-bottom:1px solid var(--edge)}
+#about-ieee h3{font-family:var(--f-disp);font-weight:600;font-size:1.2rem;color:var(--ink);
+  margin:2.4rem 0 .7rem;letter-spacing:-.005em}
+.std{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:1.4rem 0 .8rem}
+@media(min-width:700px){.std{grid-template-columns:repeat(4,1fr)}}
+.stditem{background:var(--panel);padding:.85rem 1rem}
+.stditem .k{display:block;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;
+  color:var(--amber);margin-bottom:.25rem}
+.stditem .v{font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size:1rem}
+.bens{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:1.3rem 0}
+@media(min-width:720px){.bens{grid-template-columns:repeat(3,1fr)}}
+.ben{background:var(--panel);padding:1.1rem 1.15rem}
+.ben h4{font-family:var(--f-disp);font-weight:600;font-size:.98rem;color:var(--ink);margin:0 0 .4rem}
+.ben p{font-size:.9rem;color:var(--muted);margin:0;max-width:none}
+.ben em{color:var(--body);font-style:italic}
+
+.myths{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:1.3rem 0}
+@media(min-width:760px){.myths{grid-template-columns:repeat(2,1fr)}}
+.myth{background:var(--panel);padding:1rem 1.15rem}
+.myth .no{display:block;font-family:var(--f-disp);font-weight:600;font-size:.95rem;
+  color:var(--alert);margin-bottom:.4rem}
+.myth p{font-size:.89rem;color:var(--muted);margin:0;max-width:none}
 </style>
 </head>
 <body>
@@ -471,6 +495,7 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
       <a href="#rounds">Rounds</a>
       <a href="#ieee-day">IEEE Day</a>
       <a href="#prizes">Prizes</a>
+      <a href="#about-ieee">IEEE</a>
       <a href="#faq">FAQ</a>
       <a class="nav-cta" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register</a>
     </div>
@@ -597,8 +622,12 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
       <p class="lede">IEEE Day marks the first time engineers worldwide gathered to
          share their ideas, in 1884. It falls on the first Tuesday of October — which
          in 2026 is <strong>6 October</strong>, the opening morning of BLACKBOX AI 1.0.</p>
-      <p class="lede">The IEEE Student Branch at GCET is marking the day alongside the
-         competition, so Day 1 carries both: the IEEE Day celebration and the first
+      <p class="lede">It is marked every year by student branches and sections around
+         the world — talks, competitions, outreach, whatever each branch chooses to run.
+         The point is the same everywhere: engineers doing something together rather
+         than separately.</p>
+      <p class="lede">The IEEE Student Branch at GCET is marking it alongside the
+         competition, so Day 1 carries both — the IEEE Day celebration and the opening
          rounds of the event.</p>
       <p class="daytag">“Leveraging Technology for a Better Tomorrow”</p>
     </div>
@@ -656,6 +685,107 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
       <summary>Is registration free?</summary>
       <p>Yes, entirely free. Sign up through the form to reserve your place and join the WhatsApp group — that group carries all official announcements. You create your actual team account at the venue on Day 1, and that is where your team name and login come from.</p>
     </details>
+  </div>
+</section>
+
+
+<section id="about-ieee">
+  <div class="wrap">
+    <span class="lbl">About IEEE</span>
+    <h2>You already use IEEE's work every day</h2>
+    <p class="lede">IEEE — the Institute of Electrical and Electronics Engineers — is the
+       world's largest technical professional organisation, with hundreds of thousands of
+       members across more than 160 countries. Its roots go back to 1884; the modern
+       body formed in 1963.</p>
+
+    <p class="lede">Most engineers meet IEEE long before they join it, usually without
+       noticing:</p>
+
+    <div class="std">
+      <div class="stditem"><span class="k">IEEE 802.11</span><span class="v">Wi-Fi</span></div>
+      <div class="stditem"><span class="k">IEEE 802.3</span><span class="v">Ethernet</span></div>
+      <div class="stditem"><span class="k">IEEE 754</span><span class="v">Floating-point arithmetic</span></div>
+      <div class="stditem"><span class="k">IEEE 1284</span><span class="v">Parallel interface</span></div>
+    </div>
+    <p class="fine">Every float your model trains on follows IEEE 754. Every packet in
+       this room follows 802.11 or 802.3.</p>
+
+    <h3>It is not only for computer science</h3>
+    <p class="lede">IEEE's societies span power and energy, communications, robotics and
+       automation, signal processing, biomedical engineering, aerospace, control systems,
+       photonics and more — around forty of them. Whatever you end up building, there is
+       almost certainly a society, a conference and a body of literature for it.</p>
+    <p class="lede">Our student branch sits with the <strong>IEEE Computer Society</strong>,
+       which is where this event comes from — but membership is not limited to that.</p>
+
+    <h3>What a student actually gets</h3>
+    <div class="bens">
+      <div class="ben">
+        <h4>Access to the literature</h4>
+        <p>IEEE <em>Xplore</em> holds several million technical documents — papers,
+           standards, conference proceedings. Being able to read the current work in your
+           area, rather than a summary of it, changes how you approach a problem.</p>
+      </div>
+      <div class="ben">
+        <h4>Conferences and publishing</h4>
+        <p>Student rates for conferences, and a real route to presenting or publishing
+           your own work while still an undergraduate.</p>
+      </div>
+      <div class="ben">
+        <h4>A society in your field</h4>
+        <p>Join the societies that match what you care about. Each brings its own
+           publications, competitions and community — and they are not restricted to
+           your degree title.</p>
+      </div>
+      <div class="ben">
+        <h4>Things to run, not just attend</h4>
+        <p>Student branches are run by students. Organising an event like this one is
+           itself the benefit — it is experience you cannot get from coursework, and it
+           is visible on a CV in a way attendance is not.</p>
+      </div>
+      <div class="ben">
+        <h4>People outside your college</h4>
+        <p>Local sections, regional events and a global membership. The useful part of a
+           professional body is usually the person it puts you next to.</p>
+      </div>
+      <div class="ben">
+        <h4>Scholarships and competitions</h4>
+        <p>Funding, awards and student competitions run at branch, section and regional
+           level throughout the year.</p>
+      </div>
+    </div>
+
+    <h3>What people get wrong about it</h3>
+    <div class="myths">
+      <div class="myth">
+        <span class="no">“It's only for ECE and EEE.”</span>
+        <p>The Computer Society is one of its largest, and its societies cover robotics,
+           biomedical, aerospace, power, signal processing and more. Your branch is what
+           you make of it, not what your degree is called.</p>
+      </div>
+      <div class="myth">
+        <span class="no">“It's only useful if you want to publish papers.”</span>
+        <p>Publishing is one route. Reading the current work in your area, joining a
+           society, running events, and meeting people outside your college are the parts
+           most students actually use.</p>
+      </div>
+      <div class="myth">
+        <span class="no">“It's just a line on a CV.”</span>
+        <p>It is, if you only pay the fee. What is worth something is what you did with
+           it — organised, presented, competed, built. That is visible; membership alone
+           is not.</p>
+      </div>
+      <div class="myth">
+        <span class="no">“You have to be a final-year topper.”</span>
+        <p>No. First years can join, and branches usually need the people who show up
+           more than they need the people with the highest marks.</p>
+      </div>
+    </div>
+
+    <p class="fine">Student membership is discounted, and joining runs through
+       <a href="https://www.ieee.org/membership/join" target="_blank" rel="noopener">ieee.org</a>.
+       If you want to know what it is like in practice, ask any of the organisers on the
+       day — they are all student members, and this event is what a branch does.</p>
   </div>
 </section>
 
