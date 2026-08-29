@@ -430,6 +430,34 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 
 @media (hover: none), (pointer: coarse) { .cur{display:none} }
 @media (prefers-reduced-motion: reduce) { .cur{display:none} }
+
+/* ---------------------------------------------------- IEEE Day ------------ */
+/* The only full-colour mark here, so it cannot be reversed the way the mono crests
+   were - the colours ARE the logo. Its "IEEE DAY" lettering is knocked out rather
+   than painted white, so on this background the text dropped into the globe and
+   vanished.
+   A white plate fixed that and looked like a sticker. Instead the enclosed
+   transparent areas - the lettering, the tagline, the gaps inside the globe - are
+   backed with white in the file itself, found by flood-filling inward from the
+   border so only genuinely enclosed holes are filled. The gaps BETWEEN the outer
+   icons stay transparent and keep showing the page through, which is the difference
+   between a logo and a cut-out. */
+#ieee-day{border-bottom:1px solid var(--edge)}
+.dayrow{display:grid;gap:clamp(1.6rem,4vw,3rem);align-items:center}
+@media(min-width:820px){.dayrow{grid-template-columns:auto 1fr}}
+.daymark{justify-self:start;width:clamp(150px,20vw,200px);
+  display:flex;align-items:center;justify-content:center;
+  filter:drop-shadow(0 8px 26px rgba(0,0,0,.45))}
+.daymark img{width:100%;height:auto;display:block}
+.daytext h2{margin-bottom:.9rem}
+.daytag{font-family:var(--f-mono);font-size:.86rem;color:var(--amber);
+  letter-spacing:.02em;margin:1.2rem 0 0;padding-left:.9rem;
+  border-left:2px solid var(--amber-dim)}
+@media(max-width:520px){
+  .daymark{width:140px;margin:0 auto;justify-self:center}
+  .dayrow{text-align:center}
+  .daytag{border-left:none;padding-left:0}
+}
 </style>
 </head>
 <body>
@@ -441,6 +469,7 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
     <div class="nav-links">
       <a href="#premise">Premise</a>
       <a href="#rounds">Rounds</a>
+      <a href="#ieee-day">IEEE Day</a>
       <a href="#prizes">Prizes</a>
       <a href="#faq">FAQ</a>
       <a class="nav-cta" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register</a>
@@ -551,6 +580,27 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
         <div class="rt"><h3>The Unknown</h3><span class="gate fin">Finalists</span></div>
         <div class="rd2"><p>A fresh hidden system, identical for every finalist. Everything at once — then you explain your reasoning to the judging panel. Understanding has to back up the leaderboard.</p></div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="ieee-day">
+  <div class="wrap dayrow">
+    <div class="daymark">
+      <img src="assets/ieee-day.png" alt="IEEE Day 2026" loading="lazy"
+           width="500" height="500">
+    </div>
+    <div class="daytext">
+      <span class="lbl">IEEE Day 2026 · Tuesday 6 October</span>
+      <h2>The event opens on IEEE Day</h2>
+      <p class="lede">IEEE Day marks the first time engineers worldwide gathered to
+         share their ideas, in 1884. It falls on the first Tuesday of October — which
+         in 2026 is <strong>6 October</strong>, the opening morning of BLACKBOX AI 1.0.</p>
+      <p class="lede">The IEEE Student Branch at GCET is marking the day alongside the
+         competition, so Day 1 carries both: the IEEE Day celebration and the first
+         rounds of the event.</p>
+      <p class="daytag">“Leveraging Technology for a Better Tomorrow”</p>
     </div>
   </div>
 </section>
