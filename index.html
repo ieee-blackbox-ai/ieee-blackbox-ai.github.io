@@ -159,34 +159,34 @@ nav{
 .freebadge{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.05em}
 
 /* -------------------------------------------------- event lifecycle ------- */
-/* Three phases - before / live / ended - set on <html> by the head script.
+/* Three phases - before / live / ended - set on <html> by the head script. Mark
+   an element .when-before / .when-live / .when-ended and it appears only in that
+   phase. Style it normally; nothing below touches it while it is visible.
 
-   Deliberately written so the OPEN state is the default and the two later
-   phases override it. If the script ever fails to run, the page degrades to a
-   working registration page rather than to a dead one that turns everybody away.
+   HIDE ONLY. Never set display on the element being shown. The first version of
+   this did, through a --phase-display variable, and it forced every visible
+   variant to `block` unless it had declared otherwise - which silently flattened
+   the countdown: .cdown is display:flex, the phase rule out-specified it, and
+   37 / 18 / 25 / 54 stacked down the page instead of sitting in a row. Every
+   future element tagged .when-* would have hit the same trap. Leaving the shown
+   element alone means it keeps the display its own rule gives it, with nothing
+   to remember.
 
-   --phase-display lets each element opt into the display mode it actually needs,
-   because unhiding a .btn as `block` would break the button row. */
-/* All three variants hide by default and the phase on <html> shows exactly one.
-   The `html` prefix is not decoration: it lifts these to (0,1,1) so they beat
-   component rules that also set display - .btn is inline-block - instead of the
-   two tying on specificity and being decided by source order, which is the kind
-   of thing that breaks silently the next time this file is reorganised.
+   !important because this is a single-purpose "does not exist in this phase"
+   switch that nothing may override - which is also why it needs no specificity
+   games to beat .btn or .cdown.
 
-   html:not([data-phase]) is the safety net. If the head script never runs there
+   html:not([data-phase]) is the safety net: if the head script never runs there
    is no phase attribute at all, and the page falls back to the OPEN state rather
    than to one where every call to action has vanished. */
-html .when-before,html .when-live,html .when-ended{display:none}
-html:not([data-phase]) .when-before,
-html[data-phase="before"] .when-before,
-html[data-phase="live"]   .when-live,
-html[data-phase="ended"]  .when-ended{display:var(--phase-display,block)}
-.btn.when-live,.btn.when-ended,
-.nav-cta.when-live,.nav-cta.when-ended{--phase-display:inline-block}
-.freebadge.when-live,.freebadge.when-ended,
-.lbl.when-live,.lbl.when-ended{--phase-display:block}
-.foot-links .when-before,.foot-links .when-live,.foot-links .when-ended,
-.reg-meta .when-before,.reg-meta .when-live,.reg-meta .when-ended{--phase-display:inline}
+html:not([data-phase]) .when-live,
+html:not([data-phase]) .when-ended,
+html[data-phase="before"] .when-live,
+html[data-phase="before"] .when-ended,
+html[data-phase="live"]   .when-before,
+html[data-phase="live"]   .when-ended,
+html[data-phase="ended"]  .when-before,
+html[data-phase="ended"]  .when-live{display:none!important}
 
 /* A closed control keeps the button's footprint so the layout does not jump
    between phases - it simply stops being a link. */
@@ -199,9 +199,9 @@ html[data-phase="ended"]  .when-ended{display:var(--phase-display,block)}
   color:var(--faint)!important;cursor:default;pointer-events:none}
 
 /* Stands in for the countdown once the countdown has nothing left to count. */
-.livepill{align-items:center;gap:.6rem;margin:0 0 1.6rem;
+.livepill{display:flex;align-items:center;gap:.6rem;margin:0 0 1.6rem;
   font-family:var(--f-mono);font-size:.78rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--amber);--phase-display:flex}
+  text-transform:uppercase;color:var(--amber)}
 .livepill.over{color:var(--faint)}
 .livepill .dot{width:9px;height:9px;flex:none;background:var(--amber);border-radius:50%;
   animation:livepulse 1.9s ease-in-out infinite}
@@ -621,6 +621,11 @@ a, button, summary, .btn { cursor: pointer; }
   .nav-links a{min-height:40px;display:flex;align-items:center}
   .reset{min-height:40px;padding:.5rem .9rem}
   .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center}
+
+  /* the footer links were the last set outside the tuned areas above - at 28px
+     they were the smallest touch target left on the page. The phase switch hides
+     with !important, so it still wins over this display. */
+  .foot-links a,.foot-links span{min-height:40px;display:inline-flex;align-items:center}
 
   /* the demo probe is the one thing people will actually poke on a phone, and a
      2px track with a 14px thumb is not something you can drag accurately */
