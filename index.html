@@ -231,10 +231,11 @@ nav{
   margin:0 0 .1rem;
 }
 .hero h1 .two{display:block;color:var(--amber)}
-/* a terminal caret after the version number - it blinks four times, under five
-   seconds, then holds, so it never becomes motion that needs a pause control */
+/* a terminal caret after the version number, blinking for as long as the page is
+   open. Visitors who ask their system to reduce motion get a steady caret - the
+   reduced-motion rule at the top switches every animation off. */
 .hero h1 .two::after{content:"";display:inline-block;width:.085em;height:.7em;margin-left:.1em;
-  background:var(--amber);vertical-align:baseline;animation:caret 1.15s steps(1) 4}
+  background:var(--amber);vertical-align:baseline;animation:caret 1.15s steps(1) infinite}
 @keyframes caret{50%{opacity:0}}
 .tagline{
   font-family:var(--f-mono);font-size:clamp(.78rem,2.2vw,.95rem);
@@ -415,16 +416,35 @@ input[type=range]:disabled{opacity:.35;cursor:not-allowed}
 .rd .d{display:block;font-family:var(--f-mono);font-size:.62rem;color:var(--faint);letter-spacing:.04em;
   margin-top:.3rem;min-height:1.1em;font-variant-numeric:tabular-nums}
 .rd .d.up{color:var(--ok)} .rd .d.down{color:var(--alert)}
-/* the budget, drawn: one slot per query, filled with what that query returned */
+/* The query log is a small plot: one dot per query at the score it returned,
+   green or red for the decision, joined in order. The newest dot is the larger
+   one. Underneath, 24 ticks are the budget - one lights per query spent. */
 .qlog{margin-top:.95rem}
 .qlog-h{display:flex;justify-content:space-between;gap:1rem;font-family:var(--f-mono);font-size:.6rem;
   letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}
-.qbars{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;height:42px;align-items:end;
-  padding:4px;border:1px solid var(--edge);background:var(--panel-2)}
-.qbars i{display:block;height:3px;background:var(--edge-hi);
-  transition:height .4s var(--ease),background .2s}
-.qbars i.ok{background:var(--ok)} .qbars i.no{background:var(--alert)}
-.qbars i.last{outline:1px solid var(--amber);outline-offset:1px}
+.qplot{position:relative;height:60px;border:1px solid var(--edge);background:var(--panel-2)}
+/* a dashed rule at 0.5 - a reference level, not the decision threshold */
+.qplot::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;
+  background:repeating-linear-gradient(90deg,var(--edge-hi) 0 3px,transparent 3px 7px)}
+.qplot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.qplot .ln{fill:none;stroke:var(--amber);stroke-opacity:.6;stroke-width:1.25;
+  stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.qplot .ar{fill:url(#qfill)}
+.qplot i{position:absolute;width:6px;height:6px;margin:0 0 -3px -3px;border-radius:50%;
+  background:var(--ok);transition:width .2s,height .2s,margin .2s,box-shadow .2s;
+  animation:dotin .35s var(--ease)}
+.qplot i.no{background:var(--alert)}
+.qplot i.last{width:9px;height:9px;margin:0 0 -4.5px -4.5px;box-shadow:0 0 0 4px rgba(95,192,140,.18)}
+.qplot i.no.last{box-shadow:0 0 0 4px rgba(229,112,95,.18)}
+@keyframes dotin{from{transform:scale(0)}to{transform:none}}
+.qplot .empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.qplot .empty span{background:var(--panel-2);padding:0 .55rem}
+.qplot.has .empty{display:none}
+.qticks{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;margin-top:5px}
+.qticks i{height:2px;background:var(--edge);transition:background .25s}
+.qticks i.used{background:var(--amber-dim)}
+.qticks i.cur{background:var(--amber)}
 .probe-foot{
   display:flex;justify-content:space-between;align-items:center;gap:.8rem;
   padding:.6rem .9rem;border-top:1px solid var(--edge);
@@ -782,9 +802,6 @@ a, button, summary, .btn { cursor: pointer; }
 .cur-dot.lock{width:4px;height:4px;margin:-2px 0 0 -2px}
 .cur-ring.press{width:26px;height:26px;margin:-13px 0 0 -13px;opacity:1}
 .cur-dot.press{width:10px;height:10px;margin:-5px 0 0 -5px}
-/* over the demo box the scope reads as live rather than idle */
-.cur-ring.probe{border-color:var(--ok);opacity:.9}
-.cur-dot.probe{background:var(--ok)}
 @media (hover: none), (pointer: coarse) { .cur{display:none} }
 @media (prefers-reduced-motion: reduce) { .cur{display:none} }
 
@@ -930,7 +947,18 @@ a, button, summary, .btn { cursor: pointer; }
         <p class="sr" id="announce" aria-live="polite"></p>
         <div class="qlog">
           <div class="qlog-h"><span>Query log</span><span id="qcount">0 / 24 spent</span></div>
-          <div class="qbars" id="qbars" aria-hidden="true"></div>
+          <div class="qplot" id="qplot" aria-hidden="true">
+            <span class="empty"><span>Spend a query to plot it</span></span>
+            <svg viewBox="0 0 240 100" preserveAspectRatio="none" focusable="false">
+              <defs><linearGradient id="qfill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F2A93C" stop-opacity=".16"/>
+                <stop offset="1" stop-color="#F2A93C" stop-opacity="0"/>
+              </linearGradient></defs>
+              <polygon class="ar" points=""/>
+              <polyline class="ln" points=""/>
+            </svg>
+          </div>
+          <div class="qticks" id="qticks" aria-hidden="true"></div>
         </div>
       </div>
       <div class="probe-foot">
@@ -1397,7 +1425,9 @@ a, button, summary, .btn { cursor: pointer; }
   var deltaEl = document.getElementById('delta');
   var decEl = document.getElementById('decision');
   var hintEl = document.getElementById('hint');
-  var barsEl = document.getElementById('qbars');
+  var plot = document.getElementById('qplot');
+  var lineEl = plot.querySelector('.ln'), areaEl = plot.querySelector('.ar');
+  var ticksEl = document.getElementById('qticks');
   var sayEl = document.getElementById('announce');
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hinted = false, prev = null, tweenId = 0, busyTimer = null;
@@ -1408,8 +1438,41 @@ a, button, summary, .btn { cursor: pointer; }
     return 1 / (1 + Math.exp(-3.2*raw));
   }
 
-  for (var i = 0; i < BUDGET; i++) barsEl.appendChild(document.createElement('i'));
-  var bars = barsEl.children;
+  for (var i = 0; i < BUDGET; i++) ticksEl.appendChild(document.createElement('i'));
+  var ticks = ticksEl.children;
+
+  /* plot geometry: the svg is 240 x 100 user units stretched over the box, so x
+     is 10 units per query slot; scores sit between 8% and 92% of the height so a
+     dot at 0 or 1 is never clipped. Dots are HTML so they stay round. */
+  var pts = [];
+  function yPct(s) { return 8 + s * 84; }
+  function plotQuery(n, s, approve, v) {
+    var x = (n - 0.5) * (240 / BUDGET);
+    pts.push(x.toFixed(2) + ',' + (100 - yPct(s)).toFixed(2));
+    lineEl.setAttribute('points', pts.join(' '));
+    areaEl.setAttribute('points', pts.length > 1
+      ? ((0.5 * 240 / BUDGET).toFixed(2) + ',100 ' + pts.join(' ') + ' ' + x.toFixed(2) + ',100') : '');
+    var last = plot.querySelector('i.last');
+    if (last) last.classList.remove('last');
+    var dot = document.createElement('i');
+    dot.className = (approve ? 'ok' : 'no') + ' last';
+    dot.style.left = ((n - 0.5) / BUDGET * 100) + '%';
+    dot.style.bottom = yPct(s) + '%';
+    dot.title = '#' + n + '  x₁ ' + v[0].toFixed(2) + '  x₂ ' + v[1].toFixed(2) +
+                '  x₃ ' + v[2].toFixed(2) + '  →  ' + s.toFixed(3);
+    plot.appendChild(dot);
+    plot.classList.add('has');
+    if (n > 1) ticks[n - 2].className = 'used';
+    ticks[n - 1].className = 'cur';
+  }
+  function clearPlot() {
+    pts = [];
+    lineEl.setAttribute('points', '');
+    areaEl.setAttribute('points', '');
+    [].slice.call(plot.querySelectorAll('i')).forEach(function (d) { d.remove(); });
+    plot.classList.remove('has');
+    for (var j = 0; j < ticks.length; j++) ticks[j].className = '';
+  }
 
   function readInputs(){
     return ids.map(function(id){
@@ -1461,12 +1524,7 @@ a, button, summary, .btn { cursor: pointer; }
     var approve = s > 0.62;
     pulse();
 
-    var bar = bars[n - 1];
-    for (var j = 0; j < bars.length; j++) bars[j].classList.remove('last');
-    bar.className = (approve ? 'ok' : 'no') + ' last';
-    bar.style.height = Math.max(8, Math.round(s * 100)) + '%';
-    bar.title = '#' + n + '  x₁ ' + v[0].toFixed(2) + '  x₂ ' + v[1].toFixed(2) +
-                '  x₃ ' + v[2].toFixed(2) + '  →  ' + s.toFixed(3);
+    plotQuery(n, s, approve, v);
 
     if (left === 0){
       tweenId++;
@@ -1516,7 +1574,7 @@ a, button, summary, .btn { cursor: pointer; }
     probe.classList.remove('spent');
     ids.forEach(function(id){ document.getElementById(id).value = 50; });
     paintInputs();
-    for (var j = 0; j < bars.length; j++) { bars[j].className = ''; bars[j].style.height = ''; bars[j].title = ''; }
+    clearPlot();
     scoreEl.className = 'v';
     scoreEl.textContent = '0.401';
     deltaEl.textContent = ''; deltaEl.className = 'd';
@@ -1737,11 +1795,8 @@ a, button, summary, .btn { cursor: pointer; }
 
     var el = e.target;
     var lock = el.closest && el.closest(LOCK);
-    var probe = el.closest && el.closest('.probe, input[type=range]');
     ring.classList.toggle('lock', !!lock);
     dot.classList.toggle('lock', !!lock);
-    ring.classList.toggle('probe', !!probe);
-    dot.classList.toggle('probe', !!probe);
     kick();
   }, { passive: true });
 
