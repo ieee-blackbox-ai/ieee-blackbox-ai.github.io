@@ -5,18 +5,67 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BLACKBOX AI 1.0 — Reverse Engineer the Intelligence</title>
 <meta name="description" content="A two-day machine learning reverse-engineering competition by the IEEE Student Branch at Geethanjali College of Engineering and Technology. 6–7 October 2026. Free entry, teams of 2–3, ₹25,000 prize pool.">
+<meta name="theme-color" content="#0A0C0F">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://ieee-blackbox-ai.github.io/">
+<meta property="og:site_name" content="BLACKBOX AI 1.0">
 <meta property="og:title" content="BLACKBOX AI 1.0 — Reverse Engineer the Intelligence">
 <meta property="og:description" content="You are not given a dataset. You are given a system that answers questions. 6–7 October 2026 · IEEE GCET.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://ieee-blackbox-ai.github.io/assets/lockup.png">
+<meta property="og:image:width" content="707">
+<meta property="og:image:height" content="353">
+<meta property="og:image:alt" content="BLACKBOX AI 1.0 — Reverse Engineer the Intelligence">
 <meta property="og:url" content="https://ieee-blackbox-ai.github.io/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BLACKBOX AI 1.0 — Reverse Engineer the Intelligence">
+<meta name="twitter:description" content="You are not given a dataset. You are given a system that answers questions. 6–7 October 2026 · IEEE GCET.">
 <meta name="twitter:image" content="https://ieee-blackbox-ai.github.io/assets/lockup.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<!-- Search engines read this to show the event as an event - dates, venue, free
+     entry - rather than as a plain link. Dates only: round times are the
+     organisers' call on the day and are never published. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "BLACKBOX AI 1.0 — Reverse Engineer the Intelligence",
+  "description": "A two-day machine learning reverse-engineering competition. You are not given a dataset: you are given a hidden system that answers questions, and a limited number of questions to ask it.",
+  "startDate": "2026-10-06",
+  "endDate": "2026-10-07",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "isAccessibleForFree": true,
+  "image": "https://ieee-blackbox-ai.github.io/assets/lockup.png",
+  "url": "https://ieee-blackbox-ai.github.io/",
+  "location": {
+    "@type": "Place",
+    "name": "Geethanjali College of Engineering and Technology",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Cheeryala, Keesara",
+      "addressRegion": "Telangana",
+      "addressCountry": "IN"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "IEEE Student Branch, Geethanjali College of Engineering and Technology",
+    "url": "https://ieee-blackbox-ai.github.io/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR",
+    "url": "https://forms.gle/jHEKp6DjR2aQTuyM7"
+  }
+}
+</script>
 
 <!-- The event moves through three phases and the page has to follow it without
      anyone editing HTML on the morning. This runs BEFORE the stylesheet and
@@ -60,8 +109,10 @@
   --muted:#818D9C;
   --faint:#5A6472;
   --amber:#F2A93C;
+  --amber-hi:#FFC163;
   --amber-dim:#8A6520;
   --amber-glow:rgba(242,169,60,.10);
+  --amber-line:rgba(242,169,60,.38);
   --alert:#E5705F;
   --alert-bg:rgba(229,112,95,.09);
   --ok:#5FC08C;
@@ -71,31 +122,39 @@
   --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
   --gut:clamp(1.15rem,4.5vw,3rem);
   --max:1120px;
+  --navh:64px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  color-scheme:dark;
+  interpolate-size:allow-keywords;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scrollbar-color:var(--edge-hi) var(--void)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 body{
   margin:0;background:var(--void);color:var(--body);
   font-family:var(--f-body);font-size:16.5px;line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
+::selection{background:var(--amber);color:var(--void)}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
 a{color:var(--amber);text-underline-offset:3px}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 h1,h2,h3{color:var(--ink);text-wrap:balance;margin:0}
-p{margin:0 0 1rem;max-width:64ch}
+p{margin:0 0 1rem;max-width:64ch;text-wrap:pretty}
+section[id],header[id]{scroll-margin-top:var(--navh)}
 
 .lbl{
   font-family:var(--f-mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
   color:var(--amber);font-weight:500;margin:0 0 1rem;display:block;
 }
-.lbl.q{color:var(--faint)}
+/* section index - the page reads as a numbered document, like the rounds do */
+.lbl .idx{color:var(--faint);margin-right:.75rem;padding-right:.75rem;border-right:1px solid var(--edge-hi)}
 
-/* ---------------- nav ---------------- */
+/* ---------------------------------------------------------------- nav ---- */
 nav{
-  position:sticky;top:0;z-index:50;background:rgba(10,12,15,.9);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--edge);
+  position:sticky;top:0;z-index:50;background:rgba(10,12,15,.78);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--edge);
 }
 .nav-in{
   max-width:var(--max);margin:0 auto;padding:.65rem var(--gut);
@@ -106,23 +165,49 @@ nav{
   color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem;flex:none;
 }
 .brand img{width:26px;height:26px;display:block;flex:none}
-.nav-links{display:flex;gap:1.1rem;margin-left:auto;align-items:center;flex-wrap:wrap}
+.nav-links{display:flex;gap:1.35rem;margin-left:auto;align-items:center}
 .nav-links a{
   font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted);
-  text-decoration:none;text-transform:uppercase;
+  text-decoration:none;text-transform:uppercase;position:relative;padding:.3rem 0;
+  transition:color .2s;
 }
-.nav-links a:hover{color:var(--amber)}
+.nav-links a::after{
+  content:"";position:absolute;left:0;right:0;bottom:-.05rem;height:1px;background:var(--amber);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+/* nav shows where you are */
+.nav-links a[aria-current="true"]{color:var(--amber)}
+.nav-links a[aria-current="true"]::after{transform:scaleX(1)}
+.nav-act{flex:none;display:flex}
 .nav-cta{
-  font-family:var(--f-mono);font-size:.72rem!important;letter-spacing:.08em;
-  color:var(--void)!important;background:var(--amber);padding:.42rem .8rem;font-weight:600;
+  font-family:var(--f-mono);font-size:.72rem!important;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;color:var(--void)!important;background:var(--amber);padding:.42rem .8rem;font-weight:600;
+  border:1px solid var(--amber);transition:background .2s,box-shadow .2s;
 }
-.nav-cta:hover{background:#FFC163}
-@media(max-width:720px){.nav-links a:not(.nav-cta){display:none}}
+.nav-cta:hover{background:var(--amber-hi);box-shadow:0 0 0 4px var(--amber-glow)}
+/* reading progress, drawn on the nav's bottom rule */
+.nav-prog{position:absolute;left:0;bottom:-1px;width:100%;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,var(--amber-dim),var(--amber));
+  transform-origin:0 50%;transform:scaleX(var(--p,0))}
 
-/* ---------------- hero ---------------- */
+/* Phones used to lose every section link and keep only Register. They now keep
+   all of them on a second row that scrolls sideways, faded at the edge so it
+   reads as "there is more" rather than as clipped. */
+@media(max-width:840px){
+  :root{--navh:104px}
+  .nav-in{flex-wrap:wrap;row-gap:.2rem;padding-bottom:.1rem}
+  .nav-act{margin-left:auto}
+  .nav-links{order:3;width:100%;margin:0;gap:1.25rem;overflow-x:auto;flex-wrap:nowrap;
+    scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);
+    mask-image:linear-gradient(90deg,#000 82%,transparent)}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{white-space:nowrap;flex:none}
+}
+
+/* --------------------------------------------------------------- hero ---- */
 .hero{
   border-bottom:1px solid var(--edge);
-  padding:clamp(2.5rem,8vw,5rem) 0 clamp(2.5rem,7vw,4.5rem);
+  padding:clamp(2.5rem,8vw,5rem) 0 0;
   position:relative;overflow:hidden;
 }
 .hero::before{
@@ -132,7 +217,13 @@ nav{
     repeating-linear-gradient(90deg,transparent 0 39px,rgba(255,255,255,.022) 39px 40px);
   mask-image:radial-gradient(ellipse 90% 70% at 25% 30%,#000 0%,transparent 75%);
 }
-.hero-grid{display:grid;gap:clamp(2rem,5vw,3.5rem);position:relative}
+/* a low amber bloom behind the instrument, so the eye lands on it second */
+.hero::after{
+  content:"";position:absolute;pointer-events:none;width:820px;height:820px;
+  right:-260px;top:-160px;background:radial-gradient(closest-side,rgba(242,169,60,.09),transparent);
+}
+.hero-grid{display:grid;gap:clamp(2rem,5vw,3.5rem);position:relative;z-index:1;
+  padding-bottom:clamp(2.5rem,6vw,4rem)}
 @media(min-width:940px){.hero-grid{grid-template-columns:1.05fr .95fr;align-items:center}}
 .hero h1{
   font-family:var(--f-disp);font-weight:700;
@@ -140,6 +231,11 @@ nav{
   margin:0 0 .1rem;
 }
 .hero h1 .two{display:block;color:var(--amber)}
+/* a terminal caret after the version number - it blinks four times, under five
+   seconds, then holds, so it never becomes motion that needs a pause control */
+.hero h1 .two::after{content:"";display:inline-block;width:.085em;height:.7em;margin-left:.1em;
+  background:var(--amber);vertical-align:baseline;animation:caret 1.15s steps(1) 4}
+@keyframes caret{50%{opacity:0}}
 .tagline{
   font-family:var(--f-mono);font-size:clamp(.78rem,2.2vw,.95rem);
   letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
@@ -152,11 +248,32 @@ nav{
   font-family:var(--f-mono);font-size:.8rem;font-weight:600;letter-spacing:.07em;
   text-transform:uppercase;text-decoration:none;padding:.75rem 1.3rem;display:inline-block;
   border:1px solid var(--amber);color:var(--void);background:var(--amber);
+  transition:background .2s,border-color .2s,box-shadow .25s,color .2s;
 }
-.btn:hover{background:#FFC163;border-color:#FFC163}
+.btn:hover{background:var(--amber-hi);border-color:var(--amber-hi);
+  box-shadow:0 10px 30px -12px rgba(242,169,60,.6)}
+.btn .arr{display:inline-block;margin-left:.55rem;transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
 .btn.ghost{background:transparent;color:var(--amber)}
-.btn.ghost:hover{background:var(--amber-glow);border-color:var(--amber)}
+.btn.ghost:hover{background:var(--amber-glow);border-color:var(--amber);box-shadow:none}
 .freebadge{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.05em}
+
+/* the facts, in one row, for anyone who reads nothing else */
+.facts{position:relative;z-index:1;border-top:1px solid var(--edge);background:rgba(10,12,15,.55)}
+.facts-grid{display:grid;grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.facts-grid{grid-template-columns:repeat(4,1fr)}}
+.fact{padding:1.05rem 0 1.1rem 1.2rem;border-left:1px solid var(--edge)}
+.fact:nth-child(2n+1){padding-left:0;border-left:none}
+@media(max-width:759px){.fact:nth-child(-n+2){border-bottom:1px solid var(--edge)}}
+@media(min-width:760px){
+  .fact{padding:1.2rem 0 1.25rem 1.5rem}
+  .fact:nth-child(2n+1){padding-left:1.5rem;border-left:1px solid var(--edge)}
+  .fact:first-child{padding-left:0;border-left:none}
+}
+.fact .v{display:block;font-family:var(--f-disp);font-weight:700;font-size:clamp(1.3rem,3vw,1.65rem);
+  color:var(--ink);line-height:1.1;letter-spacing:-.01em}
+.fact .k{display:block;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin-top:.3rem}
 
 /* -------------------------------------------------- event lifecycle ------- */
 /* Three phases - before / live / ended - set on <html> by the head script. Mark
@@ -176,6 +293,9 @@ nav{
    switch that nothing may override - which is also why it needs no specificity
    games to beat .btn or .cdown.
 
+   One phase per element: an element marked both .when-live and .when-ended is
+   hidden in both, because each phase hides the other's class. Two elements.
+
    html:not([data-phase]) is the safety net: if the head script never runs there
    is no phase attribute at all, and the page falls back to the OPEN state rather
    than to one where every call to action has vanished. */
@@ -192,11 +312,11 @@ html[data-phase="ended"]  .when-live{display:none!important}
    between phases - it simply stops being a link. */
 .btn.closed{
   background:transparent;border:1px solid var(--edge-hi);color:var(--faint);
-  cursor:default;pointer-events:none}
+  cursor:default;pointer-events:none;box-shadow:none}
 .btn.closed:hover{background:transparent;border-color:var(--edge-hi)}
 .nav-cta.closed{
   background:transparent!important;border:1px solid var(--edge-hi);
-  color:var(--faint)!important;cursor:default;pointer-events:none}
+  color:var(--faint)!important;cursor:default;pointer-events:none;box-shadow:none}
 
 /* Stands in for the countdown once the countdown has nothing left to count. */
 .livepill{display:flex;align-items:center;gap:.6rem;margin:0 0 1.6rem;
@@ -208,13 +328,48 @@ html[data-phase="ended"]  .when-live{display:none!important}
 .livepill.over .dot{background:var(--faint);animation:none}
 @keyframes livepulse{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* ---------------- probe widget ---------------- */
-.probe{border:1px solid var(--edge-hi);background:var(--panel);position:relative}
+/* countdown to the event - each unit in its own cell, like a readout */
+.cdown{display:flex;gap:.5rem;margin:0 0 1.7rem}
+.cdown > div{display:flex;flex-direction:column;min-width:4.3rem;padding:.6rem .75rem .5rem;
+  border:1px solid var(--edge);background:rgba(19,24,32,.6)}
+.cdown .n{font-family:var(--f-disp);font-weight:700;font-size:clamp(1.6rem,4vw,2.1rem);
+  color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+  min-width:1.9ch}
+/* the seconds tick every second, so they sit quieter than the rest - the eye should
+   read "39 days", not be dragged to the fastest-moving number */
+.cdown .secs{justify-content:flex-end;border-style:dashed}
+.cdown .secs .n{color:var(--muted);font-size:clamp(1.1rem,2.6vw,1.4rem)}
+.cdown .u{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint);margin-top:.35rem}
+.cdown.live > div{border-color:var(--amber-line)}
+.cdown.live .n{color:var(--amber)}
+.cdown.live .secs .n{color:var(--muted)}
+
+/* ------------------------------------------------------- probe widget ---- */
+.probe{border:1px solid var(--edge-hi);background:var(--panel);position:relative;
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.9);transition:border-color .25s}
+.probe:hover{border-color:var(--amber-dim)}
+/* registration marks at the corners - it is an instrument, so it is framed like one */
+.probe::before{content:"";position:absolute;inset:-8px;pointer-events:none;opacity:.8;
+  background:
+    linear-gradient(var(--amber),var(--amber)) left top/14px 1px no-repeat,
+    linear-gradient(var(--amber),var(--amber)) left top/1px 14px no-repeat,
+    linear-gradient(var(--amber),var(--amber)) right top/14px 1px no-repeat,
+    linear-gradient(var(--amber),var(--amber)) right top/1px 14px no-repeat,
+    linear-gradient(var(--amber),var(--amber)) left bottom/14px 1px no-repeat,
+    linear-gradient(var(--amber),var(--amber)) left bottom/1px 14px no-repeat,
+    linear-gradient(var(--amber),var(--amber)) right bottom/14px 1px no-repeat,
+    linear-gradient(var(--amber),var(--amber)) right bottom/1px 14px no-repeat}
 .probe-top{
   display:flex;justify-content:space-between;align-items:center;gap:1rem;
   padding:.6rem .9rem;border-bottom:1px solid var(--edge);background:var(--panel-2);
 }
-.probe-top .id{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.probe-top .id{display:flex;align-items:center;gap:.55rem;font-family:var(--f-mono);font-size:.66rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.led{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none;
+  box-shadow:0 0 0 3px rgba(95,192,140,.14);transition:background .15s,box-shadow .15s}
+.probe.busy .led{background:var(--amber);box-shadow:0 0 0 3px rgba(242,169,60,.2),0 0 10px rgba(242,169,60,.7)}
+.probe.spent .led{background:var(--faint);box-shadow:none}
 .probe-top .q{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.09em;color:var(--amber);font-variant-numeric:tabular-nums}
 .probe-body{padding:1.1rem .9rem 1rem}
 .probe-note{
@@ -230,24 +385,46 @@ input[type=range]{
 }
 input[type=range]::-webkit-slider-thumb{
   -webkit-appearance:none;appearance:none;width:14px;height:14px;background:var(--amber);
-  border:none;cursor:pointer;border-radius:0;
+  border:none;cursor:pointer;border-radius:0;transition:box-shadow .2s;
 }
 input[type=range]::-moz-range-thumb{
   width:14px;height:14px;background:var(--amber);border:none;cursor:pointer;border-radius:0;
 }
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 5px var(--amber-glow)}
 input[type=range]:disabled{opacity:.35;cursor:not-allowed}
+.ctl input[type=range]:focus-visible{outline-offset:6px}
+/* the hidden pipeline visibly does something when you spend a query */
 .boxgap{
-  margin:1.05rem 0;padding:.75rem;border:1px dashed var(--edge-hi);text-align:center;
+  margin:1.05rem 0;padding:.75rem;border:1px dashed var(--edge-hi);text-align:center;position:relative;overflow:hidden;
   font-family:var(--f-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+  transition:color .2s,border-color .2s;
 }
+.boxgap::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(242,169,60,.22),transparent);transform:translateX(-110%)}
+.probe.busy .boxgap{color:var(--amber);border-color:var(--amber-dim)}
+.probe.busy .boxgap::after{animation:sweep .5s ease-out}
+@keyframes sweep{to{transform:translateX(330%)}}
 .readout{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);border:1px solid var(--edge)}
 .rd{background:var(--panel-2);padding:.7rem .8rem}
 .rd .k{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.2rem}
-.rd .v{font-family:var(--f-mono);font-size:1.32rem;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
+.rd .v{font-family:var(--f-mono);font-size:1.32rem;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2;transition:color .2s}
 .rd .v.dec{font-size:1.08rem;letter-spacing:.02em}
 .rd .v.approve{color:var(--ok)}
 .rd .v.decline{color:var(--alert)}
 .rd .v.spent{color:var(--faint)}
+.rd .d{display:block;font-family:var(--f-mono);font-size:.62rem;color:var(--faint);letter-spacing:.04em;
+  margin-top:.3rem;min-height:1.1em;font-variant-numeric:tabular-nums}
+.rd .d.up{color:var(--ok)} .rd .d.down{color:var(--alert)}
+/* the budget, drawn: one slot per query, filled with what that query returned */
+.qlog{margin-top:.95rem}
+.qlog-h{display:flex;justify-content:space-between;gap:1rem;font-family:var(--f-mono);font-size:.6rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}
+.qbars{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;height:42px;align-items:end;
+  padding:4px;border:1px solid var(--edge);background:var(--panel-2)}
+.qbars i{display:block;height:3px;background:var(--edge-hi);
+  transition:height .4s var(--ease),background .2s}
+.qbars i.ok{background:var(--ok)} .qbars i.no{background:var(--alert)}
+.qbars i.last{outline:1px solid var(--amber);outline-offset:1px}
 .probe-foot{
   display:flex;justify-content:space-between;align-items:center;gap:.8rem;
   padding:.6rem .9rem;border-top:1px solid var(--edge);
@@ -256,12 +433,12 @@ input[type=range]:disabled{opacity:.35;cursor:not-allowed}
 .reset{
   font-family:var(--f-mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;
   background:transparent;border:1px solid var(--edge-hi);color:var(--muted);
-  padding:.32rem .7rem;cursor:pointer;
+  padding:.32rem .7rem;cursor:pointer;transition:color .2s,border-color .2s;
 }
 .reset:hover{color:var(--amber);border-color:var(--amber-dim)}
 
-/* ---------------- sections ---------------- */
-section{padding:clamp(3rem,8vw,5rem) 0;border-bottom:1px solid var(--edge)}
+/* ----------------------------------------------------------- sections ---- */
+section{padding:clamp(3.5rem,9vw,6rem) 0;border-bottom:1px solid var(--edge);position:relative}
 h2{
   font-family:var(--f-disp);font-weight:700;
   font-size:clamp(1.75rem,4.6vw,2.7rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 1.2rem;
@@ -273,48 +450,86 @@ h3{font-family:var(--f-disp);font-weight:600;font-size:1.16rem;letter-spacing:-.
 .split{display:grid;gap:clamp(1.6rem,4vw,3rem)}
 @media(min-width:860px){.split{grid-template-columns:1fr 1fr}}
 
-/* The loop is six steps that genuinely repeat, so it is drawn as a numbered
-   sequence rather than as a bag of chips. The previous version was a wrapping
-   flex row: at most column widths it broke 5 + 1 and stranded RECONSTRUCT alone
-   on a second line, which read as a layout accident rather than as the emphasis
-   it was meant to carry. One column per row cannot wrap wrongly at any width.
+/* Cards light up under the pointer - a soft amber spot that follows it, the same
+   instrument language as the cursor. Painted under the content, over the card. */
+.spot{position:relative;isolation:isolate}
+.spot::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;
+  transition:opacity .3s;
+  background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(242,169,60,.075),transparent 70%)}
+.spot:hover::after{opacity:1}
 
-   The number column is fixed rather than auto so all six glosses start on the
-   same left edge - with auto, "01" and "06" measure the same but a proportional
-   fallback font would not guarantee it. */
+/* The loop is six steps that genuinely repeat, so it is drawn as a numbered
+   sequence rather than as a bag of chips. One column per row cannot wrap wrongly
+   at any width. While it is on screen a marker walks the six steps and comes back
+   to 01 - the diagram does what it describes. */
 .loop{list-style:none;margin:1.5rem 0 0;padding:0;max-width:none;
   border-top:1px solid var(--edge)}
 .loop li{
-  display:grid;grid-template-columns:2.1rem 1fr;column-gap:.9rem;
-  align-items:baseline;padding:.72rem 0;margin:0;
-  border-bottom:1px solid var(--edge)}
+  position:relative;display:grid;grid-template-columns:2.1rem 1fr;column-gap:.9rem;
+  align-items:baseline;padding:.72rem .9rem;margin:0;
+  border-bottom:1px solid var(--edge);transition:background .35s}
+.loop li::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;background:var(--amber);
+  transform:scaleY(0);transition:transform .35s var(--ease)}
 .loop .ln{font-family:var(--f-mono);font-size:.78rem;font-weight:500;
-  letter-spacing:.06em;color:var(--amber-dim);font-variant-numeric:tabular-nums}
+  letter-spacing:.06em;color:var(--amber-dim);font-variant-numeric:tabular-nums;transition:color .35s}
 .loop .lt{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--ink)}
+  text-transform:uppercase;color:var(--ink);transition:color .35s}
 .loop .ld{grid-column:2;font-size:.84rem;color:var(--muted);line-height:1.5;
   margin-top:.2rem}
 .loop li:last-child .ln,.loop li:last-child .lt{color:var(--amber)}
-
-/* The sixth step does not end the process, it restarts it. Saying so out loud is
-   the entire reason this is called a loop and not a checklist. */
+.loop.running li:last-child .ln{color:var(--amber-dim)}
+.loop.running li:last-child .lt{color:var(--ink)}
+.loop li.on{background:linear-gradient(90deg,var(--amber-glow),transparent 75%)}
+.loop li.on::before{transform:scaleY(1)}
+.loop li.on .ln,.loop.running li.on .ln,.loop li.on .lt,.loop.running li.on .lt{color:var(--amber)}
+/* The sixth step does not end the process, it restarts it. */
 .loop-back{display:flex;align-items:center;gap:.55rem;margin:.9rem 0 0;
   font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--faint);max-width:none}
+  text-transform:uppercase;color:var(--faint);max-width:none;transition:color .3s}
 .loop-back svg{flex:none;color:var(--amber-dim)}
+.loop-back.spin{color:var(--amber)}
+.loop-back.spin svg{animation:turn .8s var(--ease)}
+@keyframes turn{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
 
-/* rounds */
-.rounds{display:flex;flex-direction:column;border-top:1px solid var(--edge)}
+/* ------------------------------------------------------ rounds timeline -- */
+/* A rail with the two days on it. The rail fills amber as you read down it and
+   each round's node lights when the fill reaches it. */
+.timeline{position:relative;padding-left:2.6rem;margin-top:.4rem}
+.timeline::before,.timeline::after{content:"";position:absolute;left:.62rem;top:.55rem;width:1px}
+/* --len is measured by the script: top of the rail to the Final's node, so the rail
+   ends on the last round rather than trailing past it */
+.timeline::before{height:var(--len,calc(100% - 1.1rem));background:var(--edge-hi)}
+.timeline::after{height:calc(var(--len,calc(100% - 1.1rem)) * var(--fill,0));
+  background:linear-gradient(var(--amber-dim),var(--amber));box-shadow:0 0 10px rgba(242,169,60,.45)}
+.tl-day{position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem .9rem;margin:0 0 .85rem}
+.tl-day:not(:first-child){margin-top:2.3rem}
+.tl-day::before{content:"";position:absolute;left:calc(-2.6rem + .62rem - 6px);top:.3rem;
+  width:13px;height:13px;background:var(--void);border:1px solid var(--edge-hi);transition:background .3s,border-color .3s,box-shadow .3s}
+.tl-day.lit::before{border-color:var(--amber);background:var(--amber);box-shadow:0 0 12px rgba(242,169,60,.55)}
+.tl-day .dn{font-family:var(--f-mono);font-size:.74rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.tl-day .dd{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.05em;color:var(--muted)}
 .round{
-  display:grid;grid-template-columns:auto 1fr;gap:1.3rem;
-  padding:1.5rem 0;border-bottom:1px solid var(--edge);
+  position:relative;display:grid;grid-template-columns:1fr;gap:.35rem;
+  padding:1.3rem 1.4rem;margin-bottom:.65rem;border:1px solid var(--edge);background:var(--panel);
+  transition:border-color .25s,background .25s;
 }
+.round:hover{border-color:var(--edge-hi)}
+/* node on the rail, and the tick that joins it to the card */
+.round::before{content:"";position:absolute;left:calc(-2.6rem + .62rem - 6px);top:1.62rem;
+  width:9px;height:9px;background:var(--void);border:1px solid var(--edge-hi);transform:rotate(45deg);
+  transition:background .3s,border-color .3s,box-shadow .3s}
+.round.lit::before{background:var(--amber);border-color:var(--amber);box-shadow:0 0 10px rgba(242,169,60,.6)}
+.round .tick{position:absolute;left:calc(-2.6rem + .62rem + 5px);top:calc(1.62rem + 4px);
+  width:calc(2.6rem - .62rem - 6px);height:1px;background:var(--edge)}
+.round.lit .tick{background:var(--amber-dim)}
 @media(min-width:800px){.round{grid-template-columns:5.5rem 13rem 1fr;gap:2rem;align-items:start}}
 .round .rn{
   font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;color:var(--faint);
-  padding-top:.28rem;white-space:nowrap;
+  white-space:nowrap;transition:color .3s;
 }
-.round .rt h3{font-size:1.28rem;margin-bottom:.3rem}
+@media(min-width:800px){.round .rn{padding-top:.28rem}}
+.round.lit .rn{color:var(--amber-dim)}
+.round .rt h3{font-size:1.28rem;margin-bottom:.35rem}
 .round .rt .gate{
   font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
   display:inline-block;padding:.16em .5em;border:1px solid currentColor;
@@ -322,152 +537,194 @@ h3{font-family:var(--f-disp);font-weight:600;font-size:1.16rem;letter-spacing:-.
 .gate.elim{color:var(--alert)}
 .gate.open{color:var(--ok)}
 .gate.fin{color:var(--amber)}
-.round .rd2 p{margin:0;font-size:.95rem}
-.round.final{background:linear-gradient(90deg,var(--amber-glow),transparent 60%);margin:0 calc(var(--gut)*-1);padding-left:var(--gut);padding-right:var(--gut)}
+.round .rd2 p{margin:.35rem 0 0;font-size:.95rem}
+@media(min-width:800px){.round .rd2 p{margin:0}}
+.round.final{border-color:var(--amber-line);
+  background:linear-gradient(100deg,rgba(242,169,60,.10),transparent 58%),var(--panel);
+  box-shadow:0 24px 60px -34px rgba(242,169,60,.45)}
+.round.final::before{border-color:var(--amber)}
+.round.final .rn{color:var(--amber)}
 
-/* schedule */
-.days{display:grid;gap:2rem}
-@media(min-width:820px){.days{grid-template-columns:1fr 1fr;gap:2.5rem}}
-.day h3{
-  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--amber);margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid var(--edge-hi);
-}
-.slot{
-  display:grid;grid-template-columns:5.8rem 1fr;gap:.9rem;
-  padding:.5rem 0;border-bottom:1px solid var(--edge);font-size:.9rem;
-}
-.slot time{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:.1rem}
-.slot .ev{color:var(--body)}
-.slot.key .ev{color:var(--ink);font-weight:600}
-.slot.key time{color:var(--amber)}
+/* ------------------------------------------------------------ IEEE Day --- */
+/* The only full-colour mark here, so it cannot be reversed the way the mono crests
+   were - the colours ARE the logo. Its enclosed transparent areas are backed with
+   white in the file itself, so the lettering does not drop into the page. */
+#ieee-day{border-bottom:1px solid var(--edge)}
+.dayrow{display:grid;gap:clamp(1.6rem,4vw,3rem);align-items:center}
+@media(min-width:820px){.dayrow{grid-template-columns:auto 1fr}}
+.daymark{position:relative;justify-self:start;width:clamp(150px,20vw,200px);
+  display:flex;align-items:center;justify-content:center;
+  filter:drop-shadow(0 8px 26px rgba(0,0,0,.45))}
+.daymark::before{content:"";position:absolute;inset:-22%;z-index:-1;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(242,169,60,.12),transparent)}
+.daymark picture{display:block;width:100%}
+.daymark img{width:100%;height:auto;display:block}
+.daytext h2{margin-bottom:.9rem}
+.daytag{font-family:var(--f-mono);font-size:.86rem;color:var(--amber);
+  letter-spacing:.02em;margin:1.2rem 0 0;padding-left:.9rem;
+  border-left:2px solid var(--amber-dim)}
 
-/* prizes */
-.prizes{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin-bottom:1.4rem}
-@media(min-width:700px){.prizes{grid-template-columns:repeat(4,1fr)}}
-.prize{background:var(--panel);padding:1.1rem 1rem}
+/* -------------------------------------------------------------- prizes --- */
+/* below 900px: first place across the top, second and third side by side, the
+   special award across the bottom - a podium rather than a stack of four */
+.prizes{display:grid;gap:.65rem;margin-bottom:1.6rem;grid-template-columns:repeat(2,minmax(0,1fr))}
+.prize.first,.prize.inv{grid-column:1 / -1}
+@media(min-width:900px){
+  .prizes{grid-template-columns:1.35fr 1fr 1fr 1fr}
+  .prize.first,.prize.inv{grid-column:auto}
+}
+.prize{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--edge);
+  padding:1.25rem 1.2rem 1.15rem;transition:border-color .25s}
+.prize:hover{border-color:var(--edge-hi)}
+.prize .rk{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.7rem;
+  letter-spacing:.1em;color:var(--faint);margin-bottom:1.1rem}
+.prize .rk svg{color:var(--amber-dim)}
 .prize .p{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.4rem}
-.prize .amt{font-family:var(--f-disp);font-weight:700;font-size:1.85rem;color:var(--ink);line-height:1;letter-spacing:-.01em}
-.prize.first{background:var(--panel-2)}
-.prize.first .amt{color:var(--amber)}
-.prize.inv .amt{font-size:1.5rem}
+.prize .amt{font-family:var(--f-disp);font-weight:700;font-size:2rem;color:var(--ink);line-height:1;letter-spacing:-.01em}
+/* each prize's share of the pool, so the ₹25,000 is visible rather than stated */
+.share{margin-top:auto;padding-top:1.2rem}
+.share .bar{height:3px;background:var(--edge)}
+.share .bar i{display:block;height:100%;width:0;background:var(--amber-dim);transition:width 1.1s var(--ease) .15s}
+.prize.in .share .bar i{width:var(--w)}
+.share .pc{display:block;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.08em;color:var(--faint);margin-top:.45rem}
+.prize.first{border-color:var(--amber-line);
+  background:radial-gradient(130% 100% at 0% 0%,rgba(242,169,60,.14),transparent 60%),var(--panel-2)}
+.prize.first .rk{color:var(--amber)}
+.prize.first .amt{color:var(--amber);font-size:clamp(2.2rem,5vw,2.8rem)}
+.prize.first .share .bar i{background:var(--amber)}
+.prize.inv .amt{font-size:1.7rem}
 
-/* callout */
+/* ------------------------------------------------------------- callout --- */
 .notice{
+  display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;
   border:1px solid var(--alert);border-left-width:3px;background:var(--alert-bg);
   padding:1.15rem 1.3rem;margin:0;
 }
-.notice .lbl{color:var(--alert)}
+.notice .ic{color:var(--alert);margin-top:.05rem}
+.notice .lbl{color:var(--alert);margin-bottom:.55rem}
 .notice p{margin:0;color:var(--ink);max-width:none}
 
-.tiles{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge)}
-@media(min-width:760px){.tiles{grid-template-columns:repeat(3,1fr)}}
-.tile{background:var(--panel);padding:1.2rem 1.15rem}
-.tile h3{font-size:1rem;margin-bottom:.35rem}
-.tile p{font-size:.9rem;margin:0;color:var(--muted)}
-.tile .ic{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.14em;color:var(--amber);display:block;margin-bottom:.6rem}
-
-/* faq */
-details{border-bottom:1px solid var(--edge);padding:.9rem 0}
-details summary{
-  cursor:pointer;font-family:var(--f-disp);font-weight:600;font-size:1.05rem;color:var(--ink);
-  list-style:none;display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
+/* ----------------------------------------------------------------- faq --- */
+.faq-grid{display:grid;gap:1.4rem}
+@media(min-width:900px){
+  .faq-grid{grid-template-columns:.75fr 1.6fr;gap:3.5rem;align-items:start}
+  .faq-side{position:sticky;top:calc(var(--navh) + 1.5rem)}
 }
+.faq-side .fine{font-family:var(--f-mono);font-size:.74rem;color:var(--muted);letter-spacing:.02em;max-width:34ch}
+details{border-bottom:1px solid var(--edge)}
+.faq-list details:first-child{border-top:1px solid var(--edge)}
+details summary{
+  cursor:pointer;font-family:var(--f-disp);font-weight:600;font-size:1.08rem;color:var(--ink);
+  list-style:none;display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
+  padding:1rem 0;transition:color .2s;
+}
+details summary:hover{color:var(--amber)}
 details summary::-webkit-details-marker{display:none}
-details summary::after{content:"+";color:var(--amber);font-family:var(--f-mono);font-weight:400;flex:none}
-details[open] summary::after{content:"−"}
-details p{margin:.7rem 0 0;font-size:.94rem;color:var(--body)}
-details p:last-child{margin-bottom:0}
+/* one glyph that turns into a cross, rather than two glyphs swapped */
+details summary::after{content:"+";color:var(--amber);font-family:var(--f-mono);font-weight:400;
+  font-size:1.2rem;line-height:1;flex:none;transition:transform .3s var(--ease)}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 1.15rem;font-size:.95rem;color:var(--body)}
+/* where the browser can animate to auto height, answers slide open; elsewhere they
+   simply appear, as before */
+details::details-content{block-size:0;overflow:clip;
+  transition:block-size .35s var(--ease),content-visibility .35s allow-discrete}
+details[open]::details-content{block-size:auto}
 
-/* register */
-#register{background:var(--panel);border-bottom:none}
-.reg-grid{display:grid;gap:2rem;align-items:center}
+/* ------------------------------------------------------------ register --- */
+#register{background:var(--panel);border-bottom:none;overflow:hidden}
+#register::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 39px,rgba(255,255,255,.02) 39px 40px),
+    repeating-linear-gradient(90deg,transparent 0 39px,rgba(255,255,255,.02) 39px 40px);
+  mask-image:radial-gradient(ellipse 60% 90% at 85% 50%,#000 0%,transparent 70%);
+}
+#register::after{content:"";position:absolute;pointer-events:none;width:700px;height:700px;
+  left:-240px;bottom:-380px;background:radial-gradient(closest-side,rgba(242,169,60,.08),transparent)}
+.reg-grid{position:relative;z-index:1;display:grid;gap:2rem;align-items:center}
 @media(min-width:860px){.reg-grid{grid-template-columns:1.2fr .8fr}}
-.reg-meta{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge)}
+.reg-meta{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:0;
+  box-shadow:0 30px 70px -40px rgba(0,0,0,.9)}
 .rm{background:var(--panel-2);padding:.75rem .9rem;display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
 .rm dt{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0}
 .rm dd{margin:0;font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size:.98rem;text-align:right}
+.rm .st{display:inline-flex;align-items:center;gap:.5rem}
+.rm .st .led{width:6px;height:6px}
+.rm .st.closed .led{background:var(--faint);box-shadow:none}
 
+/* ------------------------------------------------------------- footer ---- */
 footer{padding:2.5rem 0 3.5rem;font-size:.85rem;color:var(--muted)}
 .foot-grid{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;justify-content:space-between;align-items:flex-start}
 footer .org{font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size:1rem;margin-bottom:.2rem}
-/* The <br> separators went when the registration link became phase-dependent:
-   a <br> cannot be conditionally removed. Each link is its own row div instead
-   of a display:block on the links themselves - a `.foot-links a` rule would be
-   (0,1,1) and would out-specify the .when-* hide, showing all three variants
-   at once. Structure solves it where a specificity fight would not. */
+/* Each link is its own row div rather than a display:block on the links - a
+   `.foot-links a` rule would out-specify the .when-* hide and show every phase's
+   variant at once. Structure solves it where a specificity fight would not. */
 .foot-links > div{line-height:1.9}
 footer .fine{font-family:var(--f-mono);font-size:.68rem;color:var(--faint);letter-spacing:.03em;margin-top:1.8rem;padding-top:1.1rem;border-top:1px solid var(--edge)}
-footer a{color:var(--muted)}
+footer a{color:var(--muted);transition:color .2s}
 footer a:hover{color:var(--amber)}
 
-/* ---------------------------------------------- polish pass ---------------- */
+/* back to top, once the top is a long way up */
+.totop{position:fixed;right:clamp(.9rem,3vw,1.6rem);bottom:clamp(.9rem,3vw,1.6rem);z-index:40;
+  display:flex;align-items:center;justify-content:center;width:42px;height:42px;
+  background:rgba(19,24,32,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid var(--edge-hi);color:var(--amber);text-decoration:none;
+  opacity:0;visibility:hidden;transform:translateY(10px);pointer-events:none;
+  transition:opacity .3s,transform .3s var(--ease),border-color .2s,visibility 0s linear .3s}
+/* visibility, not just opacity: an invisible link must not take keyboard focus */
+.totop.show{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:0s}
+.totop:hover{border-color:var(--amber)}
+
+/* ------------------------------------------------------- polish pass ---- */
+/* for screen readers only */
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--amber);
   color:var(--void);padding:.6rem 1rem;font-family:var(--f-mono);font-size:.8rem}
 .skip:focus{left:.5rem;top:.5rem}
 
-/* countdown to the event */
-.cdown{display:flex;gap:1.6rem;margin:0 0 1.6rem}
-.cdown div{display:flex;flex-direction:column}
-.cdown .n{font-family:var(--f-disp);font-weight:700;font-size:clamp(1.6rem,4vw,2.1rem);
-  color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em;
-  min-width:1.9ch}
-/* the seconds tick every second, so it sits quieter than the rest - the eye should
-   read "39 days", not be dragged to the fastest-moving number */
-.cdown .secs .n{color:var(--muted);font-size:clamp(1.1rem,2.6vw,1.4rem);align-self:flex-end}
-.cdown .secs{justify-content:flex-end}
-.cdown .u{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--faint);margin-top:.3rem}
-.cdown.live .n{color:var(--amber)}
-.cdown.done{display:none}
-
 /* scroll reveal - one orchestrated moment, not scattered effects */
-.reveal{opacity:0;transform:translateY(10px);
-  transition:opacity .5s ease-out,transform .5s ease-out}
+.reveal{opacity:0;transform:translateY(12px);
+  transition:opacity .6s ease-out,transform .6s var(--ease),border-color .25s,background .25s}
 .reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
-/* the probe reads as an instrument you can touch */
-.probe{transition:border-color .25s}
-.probe:hover{border-color:var(--amber-dim)}
-.ctl input[type=range]:focus-visible{outline-offset:6px}
-.rd .v{transition:color .2s}
-
-/* nav shows where you are */
-.nav-links a[aria-current="true"]{color:var(--amber)}
 
 /* wide screens: the hero should not stretch to absurd measures */
 @media(min-width:1400px){:root{--max:1240px}}
 
 /* phones */
 @media(max-width:560px){
-  .cdown{gap:1.1rem}
+  .cdown{gap:.4rem}
+  .cdown > div{min-width:0;flex:1;padding:.5rem .55rem .45rem}
   .btnrow{width:100%} .btnrow .btn{flex:1 1 auto;text-align:center}
-  .round{padding:1.1rem 0}
-  .round.final{margin:0;padding-left:1rem;padding-right:1rem}
-  .prizes .amt{font-size:1.6rem}
+  .timeline{padding-left:1.9rem}
+  .timeline::before,.timeline::after{left:.4rem}
+  .tl-day::before{left:calc(-1.9rem + .4rem - 6px)}
+  .round::before{left:calc(-1.9rem + .4rem - 6px)}
+  .round .tick{left:calc(-1.9rem + .4rem + 5px);width:calc(1.9rem - .4rem - 6px)}
+  .round{padding:1.1rem 1rem}
+  .prize{padding:1.05rem 1rem 1rem}
+  .prize .rk{margin-bottom:.7rem}
+  .prize .amt{font-size:1.6rem}
+  .share{padding-top:.9rem}
   .probe-body{padding:.9rem .7rem}
   .readout{grid-template-columns:1fr}
 }
 
 /* ------------------------------------------------- institutional marks ---- */
-/* Reversed (white) marks, not the colour originals on white plates.
-   Measured first: the GCET navy renders at 1.00:1 against this background - the
-   same luminance, so literally invisible - and IEEE's blue at 2.22:1, well under
-   the 4.5:1 threshold. A white plate solved that but put two bright boxes on a
-   dark page.
-   Reversing is only safe because neither file paints any detail in white: the
-   arrow inside the IEEE diamond and the figure inside the GCET crest are knocked
-   out to transparency, so turning the ink white leaves both shapes intact. That
-   was checked before doing it, not assumed. A reversed mark on dark is also what
-   IEEE's own brand guidance asks for. */
+/* Reversed (white) marks, not the colour originals on white plates. The GCET navy
+   measured 1.00:1 against this background and IEEE's blue 2.22:1; reversing is
+   only safe because neither file paints detail in white - the arrow in the IEEE
+   diamond and the figure in the GCET crest are knocked out to transparency. A
+   reversed mark on dark is also what IEEE's own brand guidance asks for. */
 .presented{padding:clamp(2.5rem,6vw,3.5rem) 0;text-align:center}
 /* capped inside its native 707px so the wordmark stays sharp */
 .signoff{display:block;width:100%;max-width:380px;height:auto;margin:0 auto 2.4rem;opacity:.95}
+.signoff img{display:block;width:100%;height:auto}
 .crests{display:flex;flex-wrap:wrap;gap:2.6rem;justify-content:center;align-items:center;
   margin:1.4rem 0 1.6rem}
-/* one fixed plate height so the two marks sit on a shared baseline - a square
-   crest and a wide wordmark otherwise produce plates of different sizes, which
-   reads as carelessness rather than as two logos */
+/* one fixed plate height so the two marks sit on a shared baseline */
 .crest{display:flex;align-items:center;justify-content:center;height:84px;
   text-decoration:none;opacity:.88;transition:opacity .2s ease}
 a.crest:hover{opacity:1}
@@ -476,7 +733,6 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 /* the square crest needs more height than the wordmark to read at the same weight */
 .crest img[alt^="Geethanjali"]{height:58px}
 .byline{color:var(--body);max-width:52ch;margin:0 auto}
-.byline .fine{color:var(--faint)}
 @media(max-width:520px){
   .crests{gap:1.6rem}
   .crest{height:68px}
@@ -484,21 +740,12 @@ a.crest:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
   .crest img[alt^="Geethanjali"]{height:46px}
 }
 
-/* Orphan from the reticle cursor that 84b28a3 replaced: the
-   `@media (prefers-reduced-motion: reduce){` opener went with it and this one
-   declaration plus its closing brace stayed behind. A stray } at the top level
-   makes the CSS parser discard the NEXT rule during error recovery, which is
-   what silently ate the .advisor layout below. Keep the intent, drop the brace. */
 a, button, summary, .btn { cursor: pointer; }
 
 /* The society mark sits with the advisor it belongs to, rather than floating in
    the row of institutional crests where it would read as a fourth organiser.
-
-   The name and role are their own flex column, NOT one <span> with a <br>. As
-   inline text they flowed around the image: the name started beside the mark and
-   the role wrapped back underneath it, leaving the two lines on different left
-   edges. As a single flex item the block keeps one left edge however the role
-   wraps. text-align is pinned so no inherited centring can reach it. */
+   Name and role are their own flex column so they share one left edge however
+   the role wraps. */
 .advisor{display:flex;align-items:center;gap:.75rem;margin-top:.45rem;text-align:left}
 .advisor-mark{height:36px;width:auto;flex:none;opacity:.95}
 .advisor-who{display:flex;flex-direction:column;gap:.12rem;min-width:0}
@@ -509,14 +756,9 @@ a, button, summary, .btn { cursor: pointer; }
 }
 
 /* ------------------------------------------------------- the pointer ------ */
-/* A scope that locks on.
-   The event is about probing a hidden system, so the pointer is an instrument:
-   a probe dot that tracks exactly, and a ring that settles a beat behind it.
-   The lag on the ring is deliberate and is the only lag here - the dot is
-   pinned to the real coordinates every frame, because a pointer that trails
-   your hand feels broken rather than smooth.
-   Everything moves on transform only, so it stays on the compositor and never
-   touches layout. */
+/* A scope that locks on. The dot is pinned to the real coordinates every frame;
+   only the ring eases behind it, because a pointer that trails your hand feels
+   broken rather than smooth. Transform only, so it never touches layout. */
 .cur{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
   will-change:transform;opacity:0;transition:opacity .25s ease}
 .cur.on{opacity:1}
@@ -534,74 +776,40 @@ a, button, summary, .btn { cursor: pointer; }
   box-shadow:0 43px 0 var(--amber)}
 .cur-ring::after{top:50%;left:-7px;height:1px;width:5px;margin-top:-.5px;
   box-shadow:43px 0 0 var(--amber)}
-
-/* locked: the ring tightens and the ticks appear */
 .cur-ring.lock{width:44px;height:44px;margin:-22px 0 0 -22px;opacity:.95;border-width:1px}
 .cur-ring.lock::before{opacity:.9;top:-9px;box-shadow:0 57px 0 var(--amber)}
 .cur-ring.lock::after{opacity:.9;left:-9px;box-shadow:57px 0 0 var(--amber)}
 .cur-dot.lock{width:4px;height:4px;margin:-2px 0 0 -2px}
-
-/* pressed */
 .cur-ring.press{width:26px;height:26px;margin:-13px 0 0 -13px;opacity:1}
 .cur-dot.press{width:10px;height:10px;margin:-5px 0 0 -5px}
-
 /* over the demo box the scope reads as live rather than idle */
 .cur-ring.probe{border-color:var(--ok);opacity:.9}
 .cur-dot.probe{background:var(--ok)}
-
 @media (hover: none), (pointer: coarse) { .cur{display:none} }
 @media (prefers-reduced-motion: reduce) { .cur{display:none} }
-
-/* ---------------------------------------------------- IEEE Day ------------ */
-/* The only full-colour mark here, so it cannot be reversed the way the mono crests
-   were - the colours ARE the logo. Its "IEEE DAY" lettering is knocked out rather
-   than painted white, so on this background the text dropped into the globe and
-   vanished.
-   A white plate fixed that and looked like a sticker. Instead the enclosed
-   transparent areas - the lettering, the tagline, the gaps inside the globe - are
-   backed with white in the file itself, found by flood-filling inward from the
-   border so only genuinely enclosed holes are filled. The gaps BETWEEN the outer
-   icons stay transparent and keep showing the page through, which is the difference
-   between a logo and a cut-out. */
-#ieee-day{border-bottom:1px solid var(--edge)}
-.dayrow{display:grid;gap:clamp(1.6rem,4vw,3rem);align-items:center}
-@media(min-width:820px){.dayrow{grid-template-columns:auto 1fr}}
-.daymark{justify-self:start;width:clamp(150px,20vw,200px);
-  display:flex;align-items:center;justify-content:center;
-  filter:drop-shadow(0 8px 26px rgba(0,0,0,.45))}
-.daymark img{width:100%;height:auto;display:block}
-.daytext h2{margin-bottom:.9rem}
-.daytag{font-family:var(--f-mono);font-size:.86rem;color:var(--amber);
-  letter-spacing:.02em;margin:1.2rem 0 0;padding-left:.9rem;
-  border-left:2px solid var(--amber-dim)}
-@media(max-width:520px){
-  .daymark{width:140px;margin:0 auto;justify-self:center}
-  .dayrow{text-align:center}
-  .daytag{border-left:none;padding-left:0}
-}
 
 /* --------------------------------------------------- about IEEE ----------- */
 #about-ieee{border-bottom:1px solid var(--edge)}
 #about-ieee h3{font-family:var(--f-disp);font-weight:600;font-size:1.2rem;color:var(--ink);
-  margin:2.4rem 0 .7rem;letter-spacing:-.005em}
+  margin:2.6rem 0 .7rem;letter-spacing:-.005em;display:flex;align-items:center;gap:.8rem}
+#about-ieee h3::before{content:"";width:18px;height:1px;background:var(--amber);flex:none}
 .std{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:1.4rem 0 .8rem}
 @media(min-width:700px){.std{grid-template-columns:repeat(4,1fr)}}
-.stditem{background:var(--panel);padding:.85rem 1rem}
+.stditem{background:var(--panel);padding:.95rem 1rem}
 .stditem .k{display:block;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;
   color:var(--amber);margin-bottom:.25rem}
 .stditem .v{font-family:var(--f-disp);font-weight:600;color:var(--ink);font-size:1rem}
 .bens{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:1.3rem 0}
 @media(min-width:720px){.bens{grid-template-columns:repeat(3,1fr)}}
-.ben{background:var(--panel);padding:1.1rem 1.15rem}
+.ben{background:var(--panel);padding:1.15rem 1.2rem}
 .ben h4{font-family:var(--f-disp);font-weight:600;font-size:.98rem;color:var(--ink);margin:0 0 .4rem}
 .ben p{font-size:.9rem;color:var(--muted);margin:0;max-width:none}
 .ben em{color:var(--body);font-style:italic}
 
 .myths{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:1.3rem 0}
 @media(min-width:760px){.myths{grid-template-columns:repeat(2,1fr)}}
-.myth{background:var(--panel);padding:1rem 1.15rem}
-/* an odd number of cards would otherwise leave a hole in the last row - the orphan
-   stretches across instead, so editing this list can never look broken */
+.myth{background:var(--panel);padding:1.05rem 1.2rem}
+/* an odd number of cards would otherwise leave a hole in the last row */
 @media(min-width:760px){
   .myth:last-child:nth-child(odd){grid-column:1 / -1}
 }
@@ -610,23 +818,18 @@ a, button, summary, .btn { cursor: pointer; }
 .myth p{font-size:.89rem;color:var(--muted);margin:0;max-width:none}
 
 /* ------------------------------------------------ touch tuning ------------ */
-/* Measured at 375px: fifteen interactive elements were under 40px tall, including
-   the FAQ rows at 28px and the demo sliders whose track is 2px. A finger is about
-   9mm; anything under roughly 44px is a coin flip on a phone. These rules only
-   apply where the pointer is coarse, so nothing changes for a mouse. */
+/* Measured at 375px: anything under roughly 44px is a coin flip for a finger.
+   These rules only apply where the pointer is coarse, so nothing changes for a
+   mouse. */
 @media (pointer: coarse) {
-  details summary{min-height:46px;display:flex;align-items:center}
+  details summary{min-height:50px;align-items:center}
   .nav-cta{padding:.7rem 1rem}
   .brand{min-height:44px;display:flex;align-items:center}
   .nav-links a{min-height:40px;display:flex;align-items:center}
   .reset{min-height:40px;padding:.5rem .9rem}
   .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center}
-
-  /* the footer links were the last set outside the tuned areas above - at 28px
-     they were the smallest touch target left on the page. The phase switch hides
-     with !important, so it still wins over this display. */
+  /* the phase switch hides with !important, so it still wins over this display */
   .foot-links a,.foot-links span{min-height:40px;display:inline-flex;align-items:center}
-
   /* the demo probe is the one thing people will actually poke on a phone, and a
      2px track with a 14px thumb is not something you can drag accurately */
   .ctl input[type=range]{height:34px;background:transparent;padding:16px 0;margin:-16px 0}
@@ -638,30 +841,31 @@ a, button, summary, .btn { cursor: pointer; }
 }
 
 @media (max-width:560px) {
-  /* nothing under 13px in running text - it is a strain on a phone held at arm's
-     length, and this page is read on the way to class */
-  /* .82rem is 13.1px at the default root size - .78rem computed to 12.5px and
-     was under the floor this rule exists to enforce */
-  .fine, .probe-note, footer .fine{font-size:.82rem;line-height:1.7}
+  /* nothing under 13px in running text - .82rem is 13.1px at the default root */
+  .fine, .faq-side .fine, .probe-note, footer .fine{font-size:.82rem;line-height:1.7}
   .ben p, .myth p, .round .rd2 p{font-size:.92rem}
   .stditem{padding:.75rem .9rem}
-  /* the standards row reads better as two columns than four squeezed ones */
   .std{grid-template-columns:repeat(2,1fr)}
   .foot-grid{gap:1.6rem}
   /* inline links in running text cannot be 44px without breaking the line, so give
-     them room vertically instead - the standard exception, handled rather than ignored */
+     them room vertically instead */
   footer a, .lede a, .fine a{padding:.25rem 0;display:inline-block;line-height:1.5}
   .daytag{font-size:.82rem}
   h2{font-size:1.5rem}
+}
+@media(max-width:520px){
+  .daymark{width:140px;margin:0 auto;justify-self:center}
+  .dayrow{text-align:center}
+  .daytag{border-left:none;padding-left:0}
 }
 </style>
 </head>
 <body>
 
-<a class="skip" href="#premise">Skip to content</a>
-<nav>
+<a class="skip" href="#main">Skip to content</a>
+<nav aria-label="Sections">
   <div class="nav-in">
-    <a class="brand" href="#top"><img src="assets/mark.png" alt="" width="500" height="500">BLACKBOX AI 1.0</a>
+    <a class="brand" href="#top"><img src="assets/mark-64.png" alt="" width="26" height="26">BLACKBOX AI 1.0</a>
     <div class="nav-links">
       <a href="#premise">Premise</a>
       <a href="#rounds">Rounds</a>
@@ -669,20 +873,26 @@ a, button, summary, .btn { cursor: pointer; }
       <a href="#prizes">Prizes</a>
       <a href="#faq">FAQ</a>
       <a href="#about-ieee">IEEE</a>
+      <a class="when-live" href="leaderboard.html">Standings</a>
+      <a class="when-ended" href="leaderboard.html">Standings</a>
+    </div>
+    <div class="nav-act">
       <a class="nav-cta when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register</a>
       <span class="nav-cta closed when-live">Live now</span>
       <span class="nav-cta closed when-ended">Ended</span>
     </div>
   </div>
+  <div class="nav-prog" aria-hidden="true"></div>
 </nav>
 
+<main id="main">
 <header class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
       <span class="lbl">IEEE Student Branch · GCET · 6–7 October 2026</span>
-      <h1>BLACKBOX<span class="two">AI 1.0</span></h1>
+      <h1>BLACKBOX <span class="two">AI 1.0</span></h1>
       <p class="tagline">Reverse Engineer the Intelligence</p>
-      <div class="cdown when-before" id="cdown">
+      <div class="cdown when-before" id="cdown" role="timer" aria-label="Time until the event opens">
         <div><span class="n">--</span><span class="u">days</span></div>
         <div><span class="n">--</span><span class="u">hrs</span></div>
         <div><span class="n">--</span><span class="u">min</span></div>
@@ -692,7 +902,7 @@ a, button, summary, .btn { cursor: pointer; }
       <div class="livepill over when-ended"><span class="dot"></span>Concluded · 6–7 October 2026</div>
       <p class="pitch">You are not given a dataset. You are given a <b>system that answers questions</b> — and a limited number of questions to ask it. Everything else about it is hidden: the data, the features, the pipeline, the model, the thresholds. Your job is to work out what is inside.</p>
       <div class="btnrow">
-        <a class="btn when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
+        <a class="btn when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team<span class="arr" aria-hidden="true">→</span></a>
         <span class="btn closed when-live">Registration closed</span>
         <span class="btn closed when-ended">Registration closed</span>
         <a class="btn ghost" href="#premise">How it works</a>
@@ -704,18 +914,23 @@ a, button, summary, .btn { cursor: pointer; }
 
     <div class="probe" id="probe">
       <div class="probe-top">
-        <span class="id">Demo instance · DX-00</span>
+        <span class="id"><span class="led" aria-hidden="true"></span>Demo instance · DX-00</span>
         <span class="q"><span id="qleft">24</span> queries left</span>
       </div>
       <div class="probe-body">
         <p class="probe-note">A toy black box. Move an input, spend a query, read the output.<br>You are not told what it computes. Working that out is the entire competition.</p>
-        <div class="ctl"><label for="x1">x₁</label><input type="range" id="x1" min="0" max="100" value="50"><output id="o1">0.50</output></div>
-        <div class="ctl"><label for="x2">x₂</label><input type="range" id="x2" min="0" max="100" value="50"><output id="o2">0.50</output></div>
-        <div class="ctl"><label for="x3">x₃</label><input type="range" id="x3" min="0" max="100" value="50"><output id="o3">0.50</output></div>
+        <div class="ctl"><label for="x1">x₁</label><input type="range" id="x1" min="0" max="100" value="50"><output id="o1" for="x1">0.50</output></div>
+        <div class="ctl"><label for="x2">x₂</label><input type="range" id="x2" min="0" max="100" value="50"><output id="o2" for="x2">0.50</output></div>
+        <div class="ctl"><label for="x3">x₃</label><input type="range" id="x3" min="0" max="100" value="50"><output id="o3" for="x3">0.50</output></div>
         <div class="boxgap">■ hidden pipeline ■</div>
         <div class="readout">
-          <div class="rd"><span class="k">Score</span><span class="v" id="score">0.401</span></div>
+          <div class="rd"><span class="k">Score</span><span class="v" id="score">0.401</span><span class="d" id="delta"></span></div>
           <div class="rd"><span class="k">Decision</span><span class="v dec decline" id="decision">DECLINE</span></div>
+        </div>
+        <p class="sr" id="announce" aria-live="polite"></p>
+        <div class="qlog">
+          <div class="qlog-h"><span>Query log</span><span id="qcount">0 / 24 spent</span></div>
+          <div class="qbars" id="qbars" aria-hidden="true"></div>
         </div>
       </div>
       <div class="probe-foot">
@@ -724,11 +939,20 @@ a, button, summary, .btn { cursor: pointer; }
       </div>
     </div>
   </div>
+
+  <div class="facts">
+    <div class="wrap facts-grid" role="list">
+      <div class="fact" role="listitem"><span class="v">6–7 Oct</span><span class="k">2026 · GCET campus</span></div>
+      <div class="fact" role="listitem"><span class="v">6 stages</span><span class="k">Round 0 → the Final</span></div>
+      <div class="fact" role="listitem"><span class="v">₹25,000</span><span class="k">prize pool</span></div>
+      <div class="fact" role="listitem"><span class="v">Free</span><span class="k">teams of 2–3</span></div>
+    </div>
+  </div>
 </header>
 
 <section id="premise">
   <div class="wrap">
-    <span class="lbl">The premise</span>
+    <span class="lbl"><span class="idx">01</span>The premise</span>
     <div class="split">
       <div>
         <h2>Most ML contests hand you the data. This one hides it.</h2>
@@ -761,41 +985,50 @@ a, button, summary, .btn { cursor: pointer; }
 
 <section id="rounds">
   <div class="wrap">
-    <span class="lbl">Two days · six stages</span>
+    <span class="lbl"><span class="idx">02</span>Two days · six stages</span>
     <h2>The competition</h2>
-    <p class="lede" style="margin-bottom:2.2rem">Each stage hands you a hidden system and a query budget, and each one goes deeper than the last. Full rules and timings are given at the event briefing.</p>
+    <p class="lede" style="margin-bottom:2.2rem">After a short baseline round, each stage hands you a hidden system and a query budget, and each one goes deeper than the last. Full rules and timings are given at the event briefing.</p>
 
-    <div class="rounds">
-      <div class="round reveal">
+    <div class="timeline" id="timeline">
+      <div class="tl-day"><span class="dn">Day 1</span><span class="dd">Tuesday 6 October · IEEE Day</span></div>
+      <article class="round spot reveal">
+        <span class="tick" aria-hidden="true"></span>
         <div class="rn">ROUND 0</div>
         <div class="rt"><h3>Baseline</h3><span class="gate open">No elimination</span></div>
         <div class="rd2"><p>A short round on ML fundamentals and experiment selection, to see where everyone is starting from. Nobody is cut.</p></div>
-      </div>
-      <div class="round reveal">
+      </article>
+      <article class="round spot reveal">
+        <span class="tick" aria-hidden="true"></span>
         <div class="rn">ROUND 1</div>
         <div class="rt"><h3>Observe</h3><span class="gate elim">First cut</span></div>
         <div class="rd2"><p>Your first real black box. Work out which features matter, where the thresholds sit, what is stable and what is not. Prove what you claim.</p></div>
-      </div>
-      <div class="round reveal">
+      </article>
+
+      <div class="tl-day"><span class="dn">Day 2</span><span class="dd">Wednesday 7 October</span></div>
+      <article class="round spot reveal">
+        <span class="tick" aria-hidden="true"></span>
         <div class="rn">ROUND 2</div>
-        <div class="rt"><h3>Investigate</h3><span class="gate open">Day 2</span></div>
+        <div class="rt"><h3>Investigate</h3><span class="gate open">Qualifiers</span></div>
         <div class="rd2"><p>Past surface behaviour into hidden preprocessing and feature interactions. By now several explanations fit what you have seen — find the experiment that tells them apart.</p></div>
-      </div>
-      <div class="round reveal">
+      </article>
+      <article class="round spot reveal">
+        <span class="tick" aria-hidden="true"></span>
         <div class="rn">ROUND 3</div>
-        <div class="rt"><h3>Break</h3><span class="gate open">Day 2</span></div>
+        <div class="rt"><h3>Break</h3><span class="gate open">Qualifiers</span></div>
         <div class="rd2"><p>Find where the system fails. Edge cases, unstable boundaries, systematic failure modes — with reproducible evidence for every weakness you claim.</p></div>
-      </div>
-      <div class="round reveal">
+      </article>
+      <article class="round spot reveal">
+        <span class="tick" aria-hidden="true"></span>
         <div class="rn">ROUND 4</div>
-        <div class="rt"><h3>Reconstruct</h3><span class="gate open">Day 2</span></div>
-        <div class="rd2"><p>Build your own model that reproduces the hidden system's behaviour. Your queries are your training set. Scored against data you never see.</p></div>
-      </div>
-      <div class="round final reveal">
+        <div class="rt"><h3>Reconstruct</h3><span class="gate elim">Final cut</span></div>
+        <div class="rd2"><p>Build your own model that reproduces the hidden system's behaviour. Your queries are your training set. Judged on what your model captures, and how honestly you tested it.</p></div>
+      </article>
+      <article class="round final spot reveal">
+        <span class="tick" aria-hidden="true"></span>
         <div class="rn">FINAL</div>
         <div class="rt"><h3>The Unknown</h3><span class="gate fin">Finalists</span></div>
         <div class="rd2"><p>A fresh hidden system, identical for every finalist. Everything at once — then you explain your reasoning to the judging panel. Understanding has to back up the leaderboard.</p></div>
-      </div>
+      </article>
     </div>
   </div>
 </section>
@@ -804,11 +1037,13 @@ a, button, summary, .btn { cursor: pointer; }
 <section id="ieee-day">
   <div class="wrap dayrow">
     <div class="daymark">
-      <img src="assets/ieee-day.png" alt="IEEE Day 2026" loading="lazy"
-           width="500" height="500">
+      <picture>
+        <source srcset="assets/ieee-day-400.webp" type="image/webp">
+        <img src="assets/ieee-day.png" alt="IEEE Day 2026" loading="lazy" width="500" height="500">
+      </picture>
     </div>
     <div class="daytext">
-      <span class="lbl">IEEE Day 2026 · Tuesday 6 October</span>
+      <span class="lbl"><span class="idx">03</span>IEEE Day 2026 · Tuesday 6 October</span>
       <h2>The event opens on IEEE Day</h2>
       <p class="lede">IEEE Day marks the first time engineers worldwide gathered to
          share their ideas, in 1884. It falls on the first Tuesday of October — which
@@ -827,13 +1062,29 @@ a, button, summary, .btn { cursor: pointer; }
 
 <section id="prizes">
   <div class="wrap">
-    <span class="lbl">₹25,000 prize pool</span>
+    <span class="lbl"><span class="idx">04</span>₹25,000 prize pool</span>
     <h2>Prizes</h2>
     <div class="prizes">
-      <div class="prize first"><span class="p">1st place</span><span class="amt">₹12,000</span></div>
-      <div class="prize"><span class="p">2nd place</span><span class="amt">₹7,000</span></div>
-      <div class="prize"><span class="p">3rd place</span><span class="amt">₹4,000</span></div>
-      <div class="prize inv"><span class="p">Best ML Investigator</span><span class="amt">₹2,000</span></div>
+      <div class="prize first spot reveal" style="--w:48%">
+        <span class="rk">01</span>
+        <span class="p">1st place</span><span class="amt">₹12,000</span>
+        <div class="share"><div class="bar"><i></i></div><span class="pc">48% of the pool</span></div>
+      </div>
+      <div class="prize spot reveal" style="--w:28%">
+        <span class="rk">02</span>
+        <span class="p">2nd place</span><span class="amt">₹7,000</span>
+        <div class="share"><div class="bar"><i></i></div><span class="pc">28% of the pool</span></div>
+      </div>
+      <div class="prize spot reveal" style="--w:16%">
+        <span class="rk">03</span>
+        <span class="p">3rd place</span><span class="amt">₹4,000</span>
+        <div class="share"><div class="bar"><i></i></div><span class="pc">16% of the pool</span></div>
+      </div>
+      <div class="prize inv spot reveal" style="--w:8%">
+        <span class="rk"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="6.8" cy="6.8" r="4.6" stroke="currentColor" stroke-width="1.4"/><path d="m10.3 10.3 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Special award</span>
+        <span class="p">Best ML Investigator</span><span class="amt">₹2,000</span>
+        <div class="share"><div class="bar"><i></i></div><span class="pc">8% of the pool</span></div>
+      </div>
     </div>
     <p class="lede">Certificates for all participants. <b>Best ML Investigator</b> recognises the clearest experimental reasoning of the event — the team whose investigation best shows <em>how they thought</em>, independent of where they finished.</p>
   </div>
@@ -842,47 +1093,55 @@ a, button, summary, .btn { cursor: pointer; }
 <section id="attendance">
   <div class="wrap">
     <div class="notice">
-      <span class="lbl">Important — attendance</span>
-      <p>College policy requires students to obtain prior permission from their HOD before participating in or organising events. <strong>Students who participate without prior HOD permission will not be granted attendance.</strong> Please arrange this before 6 October.</p>
+      <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 2.8 19.5h18.4L12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1" fill="currentColor"/></svg>
+      <div>
+        <span class="lbl">Important — attendance</span>
+        <p>College policy requires students to obtain prior permission from their HOD before participating in or organising events. <strong>Students who participate without prior HOD permission will not be granted attendance.</strong> Please arrange this before 6 October.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="faq">
-  <div class="wrap">
-    <span class="lbl">06 — Questions</span>
-    <h2>FAQ</h2>
-    <details>
-      <summary>Do I need to be an ML expert to enter?</summary>
-      <p>No, but you should be comfortable with the basics — training a model, reading a scatter plot, reasoning about features. Round 0 is deliberately a baseline round that nobody is eliminated on. The later rounds reward careful thinking more than they reward knowing an exotic algorithm.</p>
-    </details>
-    <details>
-      <summary>Are AI tools really allowed?</summary>
-      <p>Yes, genuinely. We are not trying to run an AI-free competition — that is neither realistic nor useful. The difficulty comes from somewhere an assistant cannot reach: the hidden systems are private, built by us, and never exposed. An AI can help you analyse what the black box told you. It cannot tell you what the black box will say.</p>
-    </details>
-    <details>
-      <summary>How big is a team?</summary>
-      <p>Two or three students. One account per team, which all members can be logged into at once. The query budget is shared across the team, so coordinate — two people running the same sweep spends it twice.</p>
-    </details>
-    <details>
-      <summary>What do I need to bring?</summary>
-      <p>A laptop with Python and your usual ML libraries already installed and working — set this up before you arrive, not on the morning. Bring your charger. Details on connecting to the competition network are given in the Day 1 briefing and in the WhatsApp group.</p>
-    </details>
-    <details>
-      <summary>What happens if I do not qualify after Round 1?</summary>
-      <p>Round 1 results are published on the evening of Day 1 precisely so that you know before Day 2 begins. If your team does not qualify you are still welcome to attend, and you keep your participation certificate.</p>
-    </details>
-    <details>
-      <summary>Is registration free?</summary>
-      <p>Yes, entirely free. Sign up through the form to reserve your place and join the WhatsApp group — that group carries all official announcements. You create your actual team account at the venue on Day 1, and that is where your team name and login come from.</p>
-    </details>
+  <div class="wrap faq-grid">
+    <div class="faq-side">
+      <span class="lbl"><span class="idx">05</span>Questions</span>
+      <h2>FAQ</h2>
+      <p class="fine">Anything not answered here goes to the organisers through the WhatsApp group you join after registering.</p>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>Do I need to be an ML expert to enter?</summary>
+        <p>No, but you should be comfortable with the basics — training a model, reading a scatter plot, reasoning about features. Round 0 is deliberately a baseline round that nobody is eliminated on. The later rounds reward careful thinking more than they reward knowing an exotic algorithm.</p>
+      </details>
+      <details>
+        <summary>Are AI tools really allowed?</summary>
+        <p>Yes, genuinely. We are not trying to run an AI-free competition — that is neither realistic nor useful. The difficulty comes from somewhere an assistant cannot reach: the hidden systems are private, built by us, and never exposed. An AI can help you analyse what the black box told you. It cannot tell you what the black box will say.</p>
+      </details>
+      <details>
+        <summary>How big is a team?</summary>
+        <p>Two or three students. One account per team, which all members can be logged into at once. The query budget is shared across the team, so coordinate — two people running the same sweep spends it twice.</p>
+      </details>
+      <details>
+        <summary>What do I need to bring?</summary>
+        <p>A laptop with Python and your usual ML libraries already installed and working — set this up before you arrive, not on the morning. Bring your charger. Details on connecting to the competition network are given in the Day 1 briefing and in the WhatsApp group.</p>
+      </details>
+      <details>
+        <summary>What happens if I do not qualify after Round 1?</summary>
+        <p>Round 1 results are published on the evening of Day 1 precisely so that you know before Day 2 begins. If your team does not qualify you are still welcome to attend, and you keep your participation certificate.</p>
+      </details>
+      <details>
+        <summary>Is registration free?</summary>
+        <p>Yes, entirely free. Sign up through the form to reserve your place and join the WhatsApp group — that group carries all official announcements. You create your actual team account at the venue on Day 1, and that is where your team name and login come from.</p>
+      </details>
+    </div>
   </div>
 </section>
 
 
 <section id="about-ieee">
   <div class="wrap">
-    <span class="lbl">About IEEE</span>
+    <span class="lbl"><span class="idx">06</span>About IEEE</span>
     <h2>You already use IEEE's work every day</h2>
     <p class="lede">IEEE — the Institute of Electrical and Electronics Engineers — is the
        world's largest technical professional organisation, with hundreds of thousands of
@@ -893,10 +1152,10 @@ a, button, summary, .btn { cursor: pointer; }
        noticing:</p>
 
     <div class="std">
-      <div class="stditem"><span class="k">IEEE 802.11</span><span class="v">Wi-Fi</span></div>
-      <div class="stditem"><span class="k">IEEE 802.3</span><span class="v">Ethernet</span></div>
-      <div class="stditem"><span class="k">IEEE 754</span><span class="v">Floating-point arithmetic</span></div>
-      <div class="stditem"><span class="k">IEEE 1284</span><span class="v">Parallel interface</span></div>
+      <div class="stditem spot"><span class="k">IEEE 802.11</span><span class="v">Wi-Fi</span></div>
+      <div class="stditem spot"><span class="k">IEEE 802.3</span><span class="v">Ethernet</span></div>
+      <div class="stditem spot"><span class="k">IEEE 754</span><span class="v">Floating-point arithmetic</span></div>
+      <div class="stditem spot"><span class="k">IEEE 1284</span><span class="v">Parallel interface</span></div>
     </div>
     <p class="fine">Every float your model trains on follows IEEE 754. Every packet in
        this room follows 802.11 or 802.3.</p>
@@ -911,35 +1170,35 @@ a, button, summary, .btn { cursor: pointer; }
 
     <h3>What a student actually gets</h3>
     <div class="bens">
-      <div class="ben">
+      <div class="ben spot">
         <h4>Access to the literature</h4>
         <p>IEEE <em>Xplore</em> holds several million technical documents — papers,
            standards, conference proceedings. Being able to read the current work in your
            area, rather than a summary of it, changes how you approach a problem.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>Conferences and publishing</h4>
         <p>Student rates for conferences, and a real route to presenting or publishing
            your own work while still an undergraduate.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>A society in your field</h4>
         <p>Join the societies that match what you care about. Each brings its own
            publications, competitions and community — and they are not restricted to
            your degree title.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>Things to run, not just attend</h4>
         <p>Student branches are run by students. Organising an event like this one is
            itself the benefit — it is experience you cannot get from coursework, and it
            is visible on a CV in a way attendance is not.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>People outside your college</h4>
         <p>Local sections, regional events and a global membership. The useful part of a
            professional body is usually the person it puts you next to.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>Scholarships and competitions</h4>
         <p>Funding, awards and student competitions run at branch, section and regional
            level throughout the year.</p>
@@ -950,36 +1209,36 @@ a, button, summary, .btn { cursor: pointer; }
     <p class="lede">This is the part most students miss while they are still in college,
        and the part that ends up mattering most.</p>
     <div class="bens">
-      <div class="ben">
+      <div class="ben spot">
         <h4>The library follows you out</h4>
         <p>Your college's journal access ends the day you leave. IEEE access does not.
            For anyone who keeps reading — and in this field you have to — that gap is
            the difference between staying current and guessing.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>Sections are working engineers</h4>
         <p>A student branch is your peers. The local section is not: it is people ten
            and twenty years into the career you are starting. That is a different room
            to be in, and membership is how you get into it.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>It travels</h4>
         <p>IEEE is recognised internationally. For graduate applications abroad, or a
            first job in another country, publications and a professional grade are
            legible to people who have never heard of your college.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>There are grades above student</h4>
         <p>Member, then Senior Member, then Fellow — each earned, each meaning something
            specific to people in the field. It is a track you can actually be on rather
            than a badge you buy once.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>Conferences are where hiring happens</h4>
         <p>Not the careers page. The person who reads your poster and asks a good
            question about it is often the person who remembers you a year later.</p>
       </div>
-      <div class="ben">
+      <div class="ben spot">
         <h4>Standards are real work</h4>
         <p>The 802.11 in your laptop was written by people in working groups anyone can
            participate in. Contributing to a standard is engineering with a longer half
@@ -989,7 +1248,7 @@ a, button, summary, .btn { cursor: pointer; }
 
     <h3>What people get wrong about it</h3>
     <div class="myths">
-      <div class="myth">
+      <div class="myth spot">
         <span class="no">“It's just a subscription.”</span>
         <p>A subscription is something you pay for and then receive. This is the other
            way round: almost everything worth having from it — the society you join, the
@@ -997,30 +1256,30 @@ a, button, summary, .btn { cursor: pointer; }
            you did something, not because you paid. The fee buys you the door, not the
            room.</p>
       </div>
-      <div class="myth">
+      <div class="myth spot">
         <span class="no">“It's only for ECE and EEE.”</span>
         <p>The Computer Society is one of its largest, and its societies cover robotics,
            biomedical, aerospace, power, signal processing and more. Your branch is what
            you make of it, not what your degree is called.</p>
       </div>
-      <div class="myth">
+      <div class="myth spot">
         <span class="no">“It's only useful if you want to publish papers.”</span>
         <p>Publishing is one route. Reading the current work in your area, joining a
            society, running events, and meeting people outside your college are the parts
            most students actually use.</p>
       </div>
-      <div class="myth">
+      <div class="myth spot">
         <span class="no">“It's just a line on a CV.”</span>
         <p>It is, if you only pay the fee. What is worth something is what you did with
            it — organised, presented, competed, built. That is visible; membership alone
            is not.</p>
       </div>
-      <div class="myth">
+      <div class="myth spot">
         <span class="no">“You have to be a final-year topper.”</span>
         <p>No. First years can join, and branches usually need the people who show up
            more than they need the people with the highest marks.</p>
       </div>
-      <div class="myth">
+      <div class="myth spot">
         <span class="no">“Nothing really happens at our branch.”</span>
         <p>A branch is only as active as the students running it — there is nobody else
            to do it. This event was built by the branch, in our own college, for our own
@@ -1038,27 +1297,27 @@ a, button, summary, .btn { cursor: pointer; }
 <section id="register">
   <div class="wrap reg-grid">
     <div>
-      <span class="lbl when-before">Registration open</span>
-      <span class="lbl when-live">Registration closed</span>
-      <span class="lbl when-ended">Event concluded</span>
+      <span class="lbl when-before"><span class="idx">07</span>Registration open</span>
+      <span class="lbl when-live"><span class="idx">07</span>Registration closed</span>
+      <span class="lbl when-ended"><span class="idx">07</span>Event concluded</span>
 
       <h2 class="when-before">Bring a team. Bring a hypothesis.</h2>
       <h2 class="when-live">The boxes are open.</h2>
       <h2 class="when-ended">That is a wrap on 1.0.</h2>
 
       <p class="lede when-before" style="margin-bottom:1.6rem">Register through the Google Form, then join the WhatsApp group linked at the end of it. All official announcements go through that group.</p>
-      <p class="lede when-live" style="margin-bottom:1.6rem">Registration has closed and the competition is under way at GCET. Announcements, round timings and results go out through the WhatsApp group. Live standings are on the Standings page.</p>
+      <p class="lede when-live" style="margin-bottom:1.6rem">Registration has closed and the competition is under way at GCET. Announcements, round timings and results go out through the WhatsApp group. Standings are published on the Standings page as each round is evaluated.</p>
       <p class="lede when-ended" style="margin-bottom:1.6rem">BLACKBOX AI 1.0 ran on 6–7 October 2026. Thank you to everyone who competed, and to the judges who sat through the technical defences. Final standings are on the Standings page. A future edition, BLACKBOX AI 2.0, will introduce deep learning.</p>
 
       <div class="btnrow">
-        <a class="btn when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team</a>
-        <a class="btn when-live" href="leaderboard.html">Live standings</a>
-        <a class="btn when-ended" href="leaderboard.html">Final standings</a>
+        <a class="btn when-before" href="https://forms.gle/jHEKp6DjR2aQTuyM7" target="_blank" rel="noopener">Register your team<span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn when-live" href="leaderboard.html">Standings<span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn when-ended" href="leaderboard.html">Final standings<span class="arr" aria-hidden="true">→</span></a>
       </div>
     </div>
     <dl class="reg-meta">
       <div class="rm"><dt>Dates</dt><dd>6–7 Oct 2026</dd></div>
-      <div class="rm"><dt>Status</dt><dd><span class="when-before">Registration open</span><span class="when-live">In progress</span><span class="when-ended">Concluded</span></dd></div>
+      <div class="rm"><dt>Status</dt><dd><span class="st when-before"><span class="led" aria-hidden="true"></span>Registration open</span><span class="st when-live"><span class="led" aria-hidden="true"></span>In progress</span><span class="st closed when-ended"><span class="led" aria-hidden="true"></span>Concluded</span></dd></div>
       <div class="rm"><dt>Entry</dt><dd>Free</dd></div>
       <div class="rm"><dt>Team size</dt><dd>2–3 students</dd></div>
       <div class="rm"><dt>Prize pool</dt><dd>₹25,000</dd></div>
@@ -1071,9 +1330,11 @@ a, button, summary, .btn { cursor: pointer; }
 
 <section id="presented" class="presented">
   <div class="wrap">
-    <img class="signoff" src="assets/lockup.png"
-         alt="BLACKBOX AI 1.0 — Reverse Engineer the Intelligence"
-         width="707" height="353" loading="lazy">
+    <picture class="signoff">
+      <source srcset="assets/lockup.webp" type="image/webp">
+      <img src="assets/lockup.png" alt="BLACKBOX AI 1.0 — Reverse Engineer the Intelligence"
+           width="707" height="353" loading="lazy">
+    </picture>
     <span class="lbl">Presented by</span>
     <div class="crests">
       <a class="crest" href="https://www.ieee.org" target="_blank" rel="noopener">
@@ -1087,6 +1348,7 @@ a, button, summary, .btn { cursor: pointer; }
     <p class="byline">IEEE Student Branch · Geethanjali College of Engineering and Technology</p>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap foot-grid">
@@ -1097,8 +1359,8 @@ a, button, summary, .btn { cursor: pointer; }
     <div>
       <div class="org">Under the guidance of</div>
       <div class="advisor">
-        <img class="advisor-mark" src="assets/cs-white.png" alt="IEEE Computer Society"
-             loading="lazy" width="559" height="431">
+        <img class="advisor-mark" src="assets/cs-white-96.png" alt="IEEE Computer Society"
+             loading="lazy" width="124" height="96">
         <div class="advisor-who">
           <strong>Dr. Neha Nandal</strong>
           <span>Advisor, IEEE Computer Society, GCET</span>
@@ -1121,22 +1383,33 @@ a, button, summary, .btn { cursor: pointer; }
   <div class="wrap"><p class="fine">BLACKBOX AI 1.0 — Reverse Engineer the Intelligence · A future edition, BLACKBOX AI 2.0, will introduce deep learning. Schedule and round details are provisional and may be updated before the event.</p></div>
 </footer>
 
+<a class="totop" href="#top" aria-label="Back to top"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+
 <script>
 (function(){
   var BUDGET = 24;
   var left = BUDGET;
   var ids = ['x1','x2','x3'];
+  var probe = document.getElementById('probe');
   var qleft = document.getElementById('qleft');
+  var qcount = document.getElementById('qcount');
   var scoreEl = document.getElementById('score');
+  var deltaEl = document.getElementById('delta');
   var decEl = document.getElementById('decision');
   var hintEl = document.getElementById('hint');
-  var hinted = false;
+  var barsEl = document.getElementById('qbars');
+  var sayEl = document.getElementById('announce');
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hinted = false, prev = null, tweenId = 0, busyTimer = null;
 
   // The hidden pipeline. Deliberately not documented on the page — that is the joke.
   function blackbox(a, b, c){
     var raw = 0.9*a - 0.6*b + 1.4*(a*c) - 0.3*(c*c) - 0.55;
     return 1 / (1 + Math.exp(-3.2*raw));
   }
+
+  for (var i = 0; i < BUDGET; i++) barsEl.appendChild(document.createElement('i'));
+  var bars = barsEl.children;
 
   function readInputs(){
     return ids.map(function(id){
@@ -1154,27 +1427,76 @@ a, button, summary, .btn { cursor: pointer; }
     ids.forEach(function(id){ document.getElementById(id).disabled = state; });
   }
 
+  // the number rolls to its new value rather than jumping - short enough that it
+  // never delays reading it
+  function showScore(to){
+    var id = ++tweenId;
+    if (still) { scoreEl.textContent = to.toFixed(3); return; }
+    var from = parseFloat(scoreEl.textContent);
+    if (isNaN(from)) from = to;
+    var t0 = performance.now();
+    (function f(t){
+      if (id !== tweenId) return;
+      var k = Math.min(1, (t - t0) / 280); k = 1 - Math.pow(1 - k, 3);
+      scoreEl.textContent = (from + (to - from) * k).toFixed(3);
+      if (k < 1) requestAnimationFrame(f);
+    })(t0);
+  }
+
+  function pulse(){
+    probe.classList.remove('busy'); void probe.offsetWidth; probe.classList.add('busy');
+    clearTimeout(busyTimer);
+    busyTimer = setTimeout(function(){ probe.classList.remove('busy'); }, 520);
+  }
+
   function spend(){
     if (left <= 0) return;
     left -= 1;
+    var n = BUDGET - left;
     qleft.textContent = left;
+    qcount.textContent = n + ' / ' + BUDGET + ' spent';
 
     var v = readInputs();
     var s = blackbox(v[0], v[1], v[2]);
-    scoreEl.textContent = s.toFixed(3);
-
     var approve = s > 0.62;
-    decEl.textContent = approve ? 'APPROVE' : 'DECLINE';
-    decEl.className = 'v dec ' + (approve ? 'approve' : 'decline');
+    pulse();
+
+    var bar = bars[n - 1];
+    for (var j = 0; j < bars.length; j++) bars[j].classList.remove('last');
+    bar.className = (approve ? 'ok' : 'no') + ' last';
+    bar.style.height = Math.max(8, Math.round(s * 100)) + '%';
+    bar.title = '#' + n + '  x₁ ' + v[0].toFixed(2) + '  x₂ ' + v[1].toFixed(2) +
+                '  x₃ ' + v[2].toFixed(2) + '  →  ' + s.toFixed(3);
 
     if (left === 0){
+      tweenId++;
       setDisabled(true);
+      probe.classList.add('spent');
       scoreEl.textContent = '—';
       scoreEl.className = 'v spent';
+      deltaEl.textContent = ''; deltaEl.className = 'd';
       decEl.textContent = 'QUOTA SPENT';
       decEl.className = 'v dec spent';
       hintEl.textContent = 'Out of queries. In the real event, that is the round over.';
-    } else if (!hinted && left <= BUDGET - 4){
+      sayEl.textContent = 'Out of queries.';
+      return;
+    }
+
+    showScore(s);
+    if (prev === null) {
+      deltaEl.textContent = 'first query'; deltaEl.className = 'd';
+    } else {
+      var d = s - prev;
+      deltaEl.textContent = (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(3) + ' vs last';
+      deltaEl.className = 'd ' + (d > 0.0005 ? 'up' : d < -0.0005 ? 'down' : '');
+    }
+    prev = s;
+    decEl.textContent = approve ? 'APPROVE' : 'DECLINE';
+    decEl.className = 'v dec ' + (approve ? 'approve' : 'decline');
+    sayEl.textContent = 'Score ' + s.toFixed(3) + ', ' + (approve ? 'approve' : 'decline') +
+                        '. ' + left + (left === 1 ? ' query' : ' queries') + ' left.';
+
+    if (!hinted && left <= BUDGET - 4){
       hinted = true;
       hintEl.textContent = 'Notice x₁ and x₃ are not independent.';
     }
@@ -1187,16 +1509,21 @@ a, button, summary, .btn { cursor: pointer; }
   });
 
   document.getElementById('reset').addEventListener('click', function(){
-    left = BUDGET; hinted = false;
+    left = BUDGET; hinted = false; prev = null; tweenId++;
     qleft.textContent = left;
+    qcount.textContent = '0 / ' + BUDGET + ' spent';
     setDisabled(false);
+    probe.classList.remove('spent');
     ids.forEach(function(id){ document.getElementById(id).value = 50; });
     paintInputs();
+    for (var j = 0; j < bars.length; j++) { bars[j].className = ''; bars[j].style.height = ''; bars[j].title = ''; }
     scoreEl.className = 'v';
     scoreEl.textContent = '0.401';
+    deltaEl.textContent = ''; deltaEl.className = 'd';
     decEl.textContent = 'DECLINE';
     decEl.className = 'v dec decline';
     hintEl.textContent = 'Try changing one input at a time.';
+    sayEl.textContent = 'Reset. ' + BUDGET + ' queries left.';
   });
 
   paintInputs();
@@ -1204,15 +1531,16 @@ a, button, summary, .btn { cursor: pointer; }
 </script>
 <script>
 (function () {
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   /* ---- countdown to the first morning, and the phase it belongs to ---- */
   /* The head script resolved the phase once, before paint. This keeps it honest
      afterwards: a page left open on a projector or on somebody's second monitor
      has to close registration by itself when 09:00 passes, without anyone
      remembering to reload it. Same for the end of Day 2.
 
-     Purely local - no request is made on a tick, so the cadence costs the server
-     nothing. Paused while the tab is hidden, because a backgrounded tab has no
-     business burning a wakeup a second. */
+     Purely local - no request is made on a tick. Paused while the tab is hidden,
+     because a backgrounded tab has no business burning a wakeup a second. */
   var root  = document.documentElement;
   var start = new Date(root.getAttribute('data-event-start')).getTime();
   var box   = document.getElementById('cdown');
@@ -1247,16 +1575,15 @@ a, button, summary, .btn { cursor: pointer; }
   });
   run();
 
-  /* ---- reveal the rounds as they come into view ---- */
+  /* ---- reveal cards as they come into view ---- */
   var items = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window) ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (!('IntersectionObserver' in window) || still) {
     items.forEach(function (n) { n.classList.add('in'); });
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e, i) {
         if (!e.isIntersecting) return;
-        setTimeout(function () { e.target.classList.add('in'); }, i * 60);
+        setTimeout(function () { e.target.classList.add('in'); }, i * 70);
         io.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -12% 0px' });
@@ -1274,10 +1601,109 @@ a, button, summary, .btn { cursor: pointer; }
     var nav = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         var a = links[e.target.id];
-        if (a) a.setAttribute('aria-current', e.isIntersecting ? 'true' : 'false');
+        if (!a) return;
+        a.setAttribute('aria-current', e.isIntersecting ? 'true' : 'false');
+        /* on a phone the links scroll sideways - keep the current one in view */
+        if (e.isIntersecting && a.parentNode.scrollWidth > a.parentNode.clientWidth) {
+          var p = a.parentNode;     // both offsets are measured from <nav>
+          p.scrollTo({ left: a.offsetLeft - p.offsetLeft - p.clientWidth / 2 + a.offsetWidth / 2,
+                       behavior: still ? 'auto' : 'smooth' });
+        }
       });
     }, { rootMargin: '-45% 0px -45% 0px' });
     secs.forEach(function (s) { nav.observe(s); });
+  }
+
+  /* ---- scroll-linked: reading progress, the rounds rail, back to top ---- */
+  /* Node positions are layout offsets inside the rail, measured only when layout
+     can change (load, fonts, resize) - offsetTop ignores the reveal's transform,
+     which a per-frame getBoundingClientRect would pick up. Each frame then reads
+     one rect and only writes, so scrolling never forces a synchronous layout. */
+  var bar = document.querySelector('.nav-prog');
+  var totop = document.querySelector('.totop');
+  var rail = document.getElementById('timeline');
+  var nodes = rail ? [].slice.call(rail.querySelectorAll('.tl-day, .round')) : [];
+  var RAIL_TOP = 9, marks = [], len = 0, queued = false;
+  function measure() {
+    if (!rail) return;
+    marks = nodes.map(function (n) {
+      return n.offsetTop + (n.classList.contains('round') ? 32 : 12);
+    });
+    len = Math.max(1, marks[marks.length - 1] - RAIL_TOP);
+    rail.style.setProperty('--len', Math.round(len) + 'px');
+  }
+  function update() {
+    queued = false;
+    var y = window.scrollY, vh = window.innerHeight;
+    var max = document.documentElement.scrollHeight - vh;
+    var top = rail ? rail.getBoundingClientRect().top : 0;
+    if (bar) bar.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
+    if (totop) totop.classList.toggle('show', y > vh * 1.3);
+    if (rail) {
+      var f = Math.max(0, Math.min(1, (vh * 0.62 - top - RAIL_TOP) / len));
+      rail.style.setProperty('--fill', f.toFixed(4));
+      var reach = RAIL_TOP + len * f;
+      nodes.forEach(function (n, i) { n.classList.toggle('lit', f > 0 && marks[i] <= reach); });
+    }
+  }
+  function queue() { if (!queued) { queued = true; requestAnimationFrame(update); } }
+  function relayout() { measure(); queue(); }
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', relayout, { passive: true });
+  window.addEventListener('load', relayout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+  measure(); update();
+
+  /* ---- the loop walks itself while it is on screen ---- */
+  /* Two laps and then it rests on the static diagram: long enough to make the
+     point that the process repeats, short of being motion that needs a pause
+     control. Hovering holds it. */
+  var loop = document.querySelector('.loop');
+  var back = document.querySelector('.loop-back');
+  if (loop && !still && 'IntersectionObserver' in window) {
+    var steps = loop.children, k = -1, walked = 0, walk = null, held = false;
+    var LAPS = 2 * steps.length;
+    var finish = function (obs) {
+      clearInterval(walk); walk = null;
+      if (k >= 0) steps[k].classList.remove('on');
+      loop.classList.remove('running');
+      obs.disconnect();
+    };
+    var advance = function (obs) {
+      if (held) return;
+      if (walked === LAPS) { finish(obs); return; }
+      if (k >= 0) steps[k].classList.remove('on');
+      k = (k + 1) % steps.length;
+      steps[k].classList.add('on');
+      if (k === 0 && walked > 0 && back) {
+        back.classList.remove('spin'); void back.offsetWidth; back.classList.add('spin');
+        setTimeout(function () { back.classList.remove('spin'); }, 900);
+      }
+      walked++;
+      loop.classList.add('running');
+    };
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !walk) {
+          advance(seen);
+          walk = setInterval(function () { advance(seen); }, 1500);
+        } else if (!e.isIntersecting && walk) { clearInterval(walk); walk = null; }
+      });
+    }, { threshold: 0.4 });
+    seen.observe(loop);
+    loop.addEventListener('mouseenter', function () { held = true; });
+    loop.addEventListener('mouseleave', function () { held = false; });
+  }
+
+  /* ---- cards light up under the pointer ---- */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.addEventListener('pointermove', function (e) {
+      var c = e.target.closest && e.target.closest('.spot');
+      if (!c) return;
+      var r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }, { passive: true });
   }
 })();
 </script>
@@ -1316,6 +1742,7 @@ a, button, summary, .btn { cursor: pointer; }
     dot.classList.toggle('lock', !!lock);
     ring.classList.toggle('probe', !!probe);
     dot.classList.toggle('probe', !!probe);
+    kick();
   }, { passive: true });
 
   window.addEventListener('mousedown', function () {
@@ -1329,7 +1756,6 @@ a, button, summary, .btn { cursor: pointer; }
   document.addEventListener('mouseleave', function () {
     dot.classList.remove('on'); ring.classList.remove('on'); shown = false;
   });
-  document.addEventListener('mouseenter', function (e) { mx = e.clientX; my = e.clientY; });
 
   // rAF is paused while the tab is hidden, so rx/ry are stale on return and the
   // ring would sling across the screen catching up. Snap it instead.
@@ -1337,16 +1763,21 @@ a, button, summary, .btn { cursor: pointer; }
     if (!document.hidden) { rx = mx; ry = my; }
   });
 
-  var spin = 0;
-  (function frame() {
-    // the dot is pinned to the real coordinates; only the ring eases
+  // The loop runs only while there is something to draw: the ring still easing
+  // toward the pointer, or locked on with its ticks turning. An idle ring is a
+  // plain circle, so rotating it would be invisible work at 60 frames a second.
+  var spin = 0, running = false;
+  function frame() {
     dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
     rx += (mx - rx) * 0.18;
     ry += (my - ry) * 0.18;
-    spin += ring.classList.contains('lock') ? 1.1 : 0.25;
+    var locked = ring.classList.contains('lock');
+    spin += locked ? 1.1 : 0.25;
     ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) rotate(' + spin + 'deg)';
-    requestAnimationFrame(frame);
-  })();
+    if (locked || Math.abs(mx - rx) > 0.2 || Math.abs(my - ry) > 0.2) requestAnimationFrame(frame);
+    else running = false;
+  }
+  function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
 })();
 </script>
 </body>
