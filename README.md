@@ -22,8 +22,8 @@ Nothing sensitive belongs here — see below.
 
 | File | Purpose |
 |---|---|
-| `index.html` | Event site — premise, rounds, schedule, rules, prizes, FAQ, registration |
-| `leaderboard.html` | Round-wise standings, renders `leaderboard.json` |
+| `index.html` | Event site — premise and demo, the rounds, IEEE Day, prizes, FAQ, about IEEE, registration |
+| `leaderboard.html` | Round-wise standings, renders `leaderboard.json` and re-checks it every minute |
 | `leaderboard.json` | Publish target, overwritten by an export from the competition server |
 | `.nojekyll` | Skips Jekyll processing; the site is plain static HTML |
 
@@ -31,7 +31,9 @@ No build step, no dependencies. Edit the HTML and push.
 
 ## Publishing standings
 
-After a round is finalised, the competition server exports a `leaderboard.json`:
+After a round is frozen and published, the organiser presses **Push to public site**
+in the admin console. The competition server writes `leaderboard.json` and commits it
+here itself, using the organiser laptop's GitHub sign-in:
 
 ```json
 {
@@ -41,28 +43,33 @@ After a round is finalised, the competition server exports a `leaderboard.json`:
   "rounds": [
     { "code": "R1", "name": "Round 1 — Observe",
       "standings": [
-        { "rank": 1, "team": "BB-017", "score": 87.4, "qualified": true }
+        { "rank": 1, "team": "BB-017", "name": "Kernel Panic", "score": 87.4, "qualified": true }
       ] }
   ]
 }
 ```
 
-Commit that file and push. The page picks it up on next load; the placeholder state
-stands on its own if the file is empty, so a failed publish degrades gracefully.
+Pages rebuilds within a minute or two, and an open standings page picks the new file
+up on its own - it checks once a minute. If the laptop has no internet, **Download
+leaderboard.json** in the admin console and commit it here by hand from any machine.
+The placeholder state stands on its own while the file is empty, so a failed publish
+degrades gracefully. Team names are chosen by teams; the page escapes everything it
+renders.
 
 ## What must never be committed here
 
 This repo is public. Do not add: query budgets before a round opens, challenge families or
 instance details, team credentials, server IPs or ports, score component breakdowns, or
-anything exported from the competition database beyond the four leaderboard fields above.
+anything exported from the competition database beyond the five standings fields above
+(rank, team code, team name, score, qualified).
 
 ## Related repositories
 
 | Repo | Visibility | Contents |
 |---|---|---|
-| `blackbox-platform` | private | competition server |
-| `challenges` | private, restricted | generators, gold findings, scorers |
-| `blackbox-ai-participant-template` | private template | team repo skeleton |
+| `blackbox-platform` | private | competition server, admin console, challenge generators |
+| `blackbox-ai-participant-template` | private until the event starts, then public | team repo skeleton that teams fork |
+| `judging-guide` | private | rubric and marking notes for the judges |
 
 ---
 
