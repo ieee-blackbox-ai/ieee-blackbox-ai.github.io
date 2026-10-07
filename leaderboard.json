@@ -1,7 +1,481 @@
 {
   "event": "BLACKBOX AI 1.0",
-  "generated_at": null,
-  "published_round": null,
-  "note": "Placeholder. Replaced by an export from the competition server after each round is finalized.",
-  "rounds": []
+  "generated_at": "2026-10-07T11:50:03+05:30",
+  "published_round": "R2",
+  "rounds": [
+    {
+      "code": "R1",
+      "name": "Round 1 \u2014 Observe",
+      "standings": [
+        {
+          "rank": 1,
+          "team": "BB-001",
+          "name": "Cache if you can",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-012",
+          "name": "Team Cipher mind",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-013",
+          "name": "Localhost420",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-014",
+          "name": "DuoX",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-015",
+          "name": "Nexora",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-016",
+          "name": "Hackers",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-017",
+          "name": "RedShield",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-018",
+          "name": "Mira",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-020",
+          "name": "Ackermanns",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-022",
+          "name": "Synaptic minds",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-024",
+          "name": "Code access",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-026",
+          "name": "Electronauts",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-027",
+          "name": "Orizon",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-028",
+          "name": "Nexus",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-029",
+          "name": "Silent Hunters",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-032",
+          "name": "Team Aspire",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-033",
+          "name": "Eva",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 18,
+          "team": "BB-003",
+          "name": "Error",
+          "score": 95.0,
+          "qualified": true
+        },
+        {
+          "rank": 18,
+          "team": "BB-004",
+          "name": "Shinchan",
+          "score": 95.0,
+          "qualified": true
+        },
+        {
+          "rank": 18,
+          "team": "BB-005",
+          "name": "Code monkeys",
+          "score": 95.0,
+          "qualified": true
+        },
+        {
+          "rank": 18,
+          "team": "BB-006",
+          "name": "Quantum Paradox",
+          "score": 95.0,
+          "qualified": true
+        },
+        {
+          "rank": 18,
+          "team": "BB-007",
+          "name": "Access denied",
+          "score": 95.0,
+          "qualified": true
+        },
+        {
+          "rank": 18,
+          "team": "BB-009",
+          "name": "NULL POINTERS",
+          "score": 95.0,
+          "qualified": true
+        },
+        {
+          "rank": 18,
+          "team": "BB-030",
+          "name": "Virgo",
+          "score": 95.0,
+          "qualified": true
+        },
+        {
+          "rank": 25,
+          "team": "BB-002",
+          "name": "model forensics",
+          "score": 90.0,
+          "qualified": true
+        },
+        {
+          "rank": 25,
+          "team": "BB-021",
+          "name": "Marvels",
+          "score": 90.0,
+          "qualified": true
+        },
+        {
+          "rank": 25,
+          "team": "BB-031",
+          "name": "Chmod777AllStars",
+          "score": 90.0,
+          "qualified": true
+        },
+        {
+          "rank": 28,
+          "team": "BB-010",
+          "name": "Team right angle",
+          "score": 89.0,
+          "qualified": true
+        },
+        {
+          "rank": 29,
+          "team": "BB-008",
+          "name": "Ark",
+          "score": 85.0,
+          "qualified": true
+        },
+        {
+          "rank": 29,
+          "team": "BB-023",
+          "name": "ByteBloom",
+          "score": 85.0,
+          "qualified": true
+        },
+        {
+          "rank": 29,
+          "team": "BB-025",
+          "name": "Data Detectives",
+          "score": 85.0,
+          "qualified": true
+        },
+        {
+          "rank": 32,
+          "team": "BB-011",
+          "name": "Team Aspire",
+          "score": 75.0,
+          "qualified": true
+        },
+        {
+          "rank": 32,
+          "team": "BB-019",
+          "name": "Eva",
+          "score": 75.0,
+          "qualified": true
+        }
+      ]
+    },
+    {
+      "code": "R2",
+      "name": "Round 2 \u2014 Investigate",
+      "standings": [
+        {
+          "rank": 1,
+          "team": "BB-001",
+          "name": "Cache if you can",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-002",
+          "name": "model forensics",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-003",
+          "name": "Error",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-004",
+          "name": "Shinchan",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-005",
+          "name": "Code monkeys",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-006",
+          "name": "Quantum Paradox",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-007",
+          "name": "Access denied",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-008",
+          "name": "Ark",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-009",
+          "name": "NULL POINTERS",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-010",
+          "name": "Team right angle",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-011",
+          "name": "Team Aspire",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-012",
+          "name": "Team Cipher mind",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-013",
+          "name": "Localhost420",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-014",
+          "name": "DuoX",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-015",
+          "name": "Nexora",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-016",
+          "name": "Hackers",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-017",
+          "name": "RedShield",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-018",
+          "name": "Mira",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-019",
+          "name": "Eva",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-020",
+          "name": "Ackermanns",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-021",
+          "name": "Marvels",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-022",
+          "name": "Synaptic minds",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-024",
+          "name": "Code access",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-025",
+          "name": "Data Detectives",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-026",
+          "name": "Electronauts",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-027",
+          "name": "Orizon",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-028",
+          "name": "Nexus",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-029",
+          "name": "Silent Hunters",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-030",
+          "name": "Virgo",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-031",
+          "name": "Chmod777AllStars",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-032",
+          "name": "Team Aspire",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 1,
+          "team": "BB-033",
+          "name": "Eva",
+          "score": 100.0,
+          "qualified": true
+        },
+        {
+          "rank": 33,
+          "team": "BB-023",
+          "name": "ByteBloom",
+          "score": 99.0,
+          "qualified": true
+        }
+      ]
+    }
+  ]
 }
